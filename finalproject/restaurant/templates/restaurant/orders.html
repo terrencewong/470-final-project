@@ -1,0 +1,13 @@
+{% load static %}
+
+<h1> Current Orders </h1>
+
+{% if latest_order_list %}
+    <ul>
+    {% for order in latest_order_list %}
+        <li>Table: {{ order.Table }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No current orders.</p>
+{% endif %}

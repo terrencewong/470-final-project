@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
+from django.views import generic
 
 from .models import Order
 from .forms import OrderStartForm
@@ -35,3 +36,9 @@ def StartOrder(request):
         form = OrderStartForm()
 
     return render(request, 'restaurant/server.html', {'form': form})
+
+class OrderView(generic.ListView):
+    template_name = 'restaurant/orders.html'
+    context_object_name = 'latest_order_list'
+    def get_queryset(self):
+        return Order.objects.all().order_by('Table')
