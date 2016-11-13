@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views import generic
+from django.utils import timezone
 
-from .models import Order
+from .models import Order, MenuItem
 from .forms import OrderStartForm
 
 def index(request):
@@ -28,7 +29,7 @@ def StartOrder(request):
             # redirect to a new URL:
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
-            order = Order.objects.create(Code=Code, Table=Table)
+            order = Order.objects.create(Code=Code, Table=Table, Completed=0, StartTime=timezone.now())
             return HttpResponseRedirect('/index/server/')
 
     # if a GET (or any other method) we'll create a blank form
@@ -41,4 +42,10 @@ class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
     def get_queryset(self):
-        return Order.objects.all().order_by('Table')
+        return Order.objects.filter(Completed=0).order_by('Table')
+
+class OrderDetailView(generic.DetailView):
+    model = Order
+    template_name = 'restaurant/orderdetail.html'
+    #def get_queryset(self):
+    #    return Order.objects.get(pk=Order.id)
