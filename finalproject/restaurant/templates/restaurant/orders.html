@@ -1,0 +1,13 @@
+{% load static %}
+
+<h1> Current Orders </h1>
+
+{% if latest_order_list %}
+    <ul>
+    {% for order in latest_order_list %}
+        <li><a href="{% url 'restaurant:orderdetails' order.id %}">Table: {{ order.Table }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No current orders.</p>
+{% endif %}
