@@ -19,4 +19,3 @@ class TableIDForm(forms.ModelForm):
 		),
 		
 	}
-	

@@ -27,21 +27,27 @@ def TableIDVerification(request):
 		if form.is_valid():
 		
 			code_id = form.data['Code']
-		
+			request.session['Code'] = code_id
+			
 			try:
 				p = Order.objects.get(Code=code_id)
 				
 				#order = form.save(commit=False)
+				
 				#order.save()
 				
-				#reverse_url = reverse('OrderNow', args=[code_id])				
-				#return HttpResponseRedirect(reverse_url)
+				#return redirect('order-now.html', code='code_id')
 				
-				return HttpResponse("This exists.")
+				#return render_to_response('order-now.html', {'code_id': code})
+				
+				reverse_url = reverse('OrderNow')				
+				return HttpResponseRedirect(reverse_url)
+				
+				#return HttpResponse("This exists.")
 				
 			except Order.DoesNotExist:
 			
-				return HttpResponse("This DOESNT exists.")				
+				return HttpResponse("This code does not exist. Please try again.")				
 	
 	else:
 		form = TableIDForm()		
@@ -59,19 +65,9 @@ def TableIDVerification(request):
 	return render(request, template, variables)	
 	
 	
-def ordernow(request, code):
-	
-	#contact = Contact.objects.get(code=contact_id)
-	#form = TableIDForm(request.POST)
-	#code = form.data['Code']
-	
+def ordernow(request):
+	code = request.session['Code']
 	#menu_items = MenuItem.objects.all()
-	#output = ', '.join([q.Name for q in menu_items])
-	#return HttpResponse(output)
-	
-	menu_items = MenuItem.objects.all()
-	context = {'menu_items': menu_items}
-	return render(request, 'restaurant/order-now.html', context)
-	#code = Oder.objects.get(pk=Code)
+	#context = {'menu_items': menu_items}
+	return render(request, 'restaurant/order-now.html', {'code': code})
 	#return render(request, 'restaurant/order-now.html')
-	#return HttpResponse("Welcome to the Order Form.")

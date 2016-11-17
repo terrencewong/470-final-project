@@ -1,11 +1,11 @@
 <h1>Place Your Order</h1>
-{% url 'OrderNow' code %}
-{% if menu_items %}
-    <ul>
-    {% for MenuItem in menu_items %}
-        <li>{{ MenuItem.Item_name }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+
+<label for="">Code:</label> {{ code }} 
+<!--<input type="hidden" id="" name="code" class="width250" value="{{ code }}" readonly />-->
+
+{% csrf_token %}
+{% for MenuItem in MenuItem.objects.all %}
+	<input type="radio" name="Item_name" id="choice{{ forloop.counter }}" value="{{ MenuItem.Item_name }}" />
+	<label for="choice{{ forloop.counter }}">{{ MenuItem.Item_name }}</label><br />
+{% endfor %}
+<p><input type="submit" value="Order" /></p>

@@ -14,6 +14,7 @@ class Order(models.Model):
     #StartTime = models.DateTimeField(default=timezone.now())
 	
 class MenuItem(models.Model):
+	Code = models.CharField(max_length=20)
 	Item_id = models.CharField(max_length=20)
 	Item_name = models.CharField(max_length=50)
 	Price = models.IntegerField(default=0)
