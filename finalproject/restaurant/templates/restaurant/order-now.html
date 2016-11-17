@@ -1,0 +1,11 @@
+<h1>Place Your Order</h1>
+{% url 'OrderNow' code %}
+{% if menu_items %}
+    <ul>
+    {% for MenuItem in menu_items %}
+        <li>{{ MenuItem.Item_name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
