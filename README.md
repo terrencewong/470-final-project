@@ -21,6 +21,9 @@ To Run
 - Website is at http://55.55.55.5:8080/index/
 
 Customer Pages:
+
 http://55.55.55.5:8080/index/welcome/
+
 http://55.55.55.5:8080/index/guest-user/
+
 http://55.55.55.5:8080/index/order/
