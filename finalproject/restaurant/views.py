@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
-from django.views import generic
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.core.urlresolvers import reverse
+from django.views import generic
+from django.utils import timezone
 
 from .models import Order, MenuItem
-from .forms import OrderStartForm
-from .forms import LoginForm
+from .forms import OrderStartForm, LoginForm
+
 
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
@@ -67,7 +68,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return HttpResponseRedirect('/index/server')
+                    return HttpResponseRedirect('/index')
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
