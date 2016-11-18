@@ -16,8 +16,8 @@ class Order(models.Model):
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
 	name = models.CharField(max_length=200)
-	item_id = models.CharField(max_length=20)
-	price = models.IntegerField(default=0)
-	description = models.CharField(max_length=250)
+	#item_id = models.CharField(max_length=20)
+	#price = models.IntegerField(default=0)
+	#description = models.CharField(max_length=250)
 	def __str__(self):
 		return self.name
