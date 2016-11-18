@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
-<<<<<<< HEAD
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -77,14 +77,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/index')
-=======
-from django.views import generic
-from django.utils import timezone
-
-from .models import Order
-
-def index(request):
-   return HttpResponse("Hello Group 4: Here is the empty project site.")
 
 class KitchenView(TemplateView):
    template_name = 'restaurant/kitchen.html'
@@ -93,4 +85,3 @@ class KitchenView(TemplateView):
 class KitchenDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/kitchendetail.html'
->>>>>>> origin/terrence-kitchen
