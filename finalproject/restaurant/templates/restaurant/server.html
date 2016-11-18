@@ -1,22 +1,8 @@
 {% load static %}
 
 <h1> Server Main Page </h1>
-<script>
-function makeid()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 6; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    document.getElementById("id_Code").setAttribute("value", text);
-}
-</script>
+<script type="text/javascript" src="{% static 'restaurant/script.js' %}"></script>
 <button onclick="makeid()">Generate Client Code</button>
-<!--
-<p id="code"></p>
--->
 
 <form action="" method="post">
     {% csrf_token %}

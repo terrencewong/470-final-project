@@ -11,16 +11,11 @@ from django.utils import timezone
 from .models import Order, MenuItem
 from .forms import OrderStartForm, LoginForm
 
-
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
 
-#def server(request):
-#    return HttpResponse("Hello Server: Here is your home page")
-
 class ServerView(TemplateView):
     template_name = 'restaurant/server.html'
-
 
 def StartOrder(request):
     # if this is a POST request we need to process the form data
@@ -52,8 +47,6 @@ class OrderView(generic.ListView):
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/orderdetail.html'
-    #def get_queryset(self):
-    #    return Order.objects.get(pk=Order.id)
 
 def login_view(request):
     if request.method == 'POST':
