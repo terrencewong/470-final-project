@@ -67,7 +67,5 @@ def TableIDVerification(request):
 	
 def ordernow(request):
 	code = request.session['Code']
-	#menu_items = MenuItem.objects.all()
-	#context = {'menu_items': menu_items}
-	return render(request, 'restaurant/order-now.html', {'code': code})
-	#return render(request, 'restaurant/order-now.html')
+	menu_item_list = MenuItem.objects.all()
+	return render(request, 'restaurant/order-now.html', {'code':code, 'menu_item_list':menu_item_list})

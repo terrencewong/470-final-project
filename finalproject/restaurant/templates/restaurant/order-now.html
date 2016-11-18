@@ -3,9 +3,18 @@
 <label for="">Code:</label> {{ code }} 
 <!--<input type="hidden" id="" name="code" class="width250" value="{{ code }}" readonly />-->
 
+<style> 
+ul {
+ list-style-type: none;
+}
+</style>
+
 {% csrf_token %}
-{% for MenuItem in MenuItem.objects.all %}
-	<input type="radio" name="Item_name" id="choice{{ forloop.counter }}" value="{{ MenuItem.Item_name }}" />
-	<label for="choice{{ forloop.counter }}">{{ MenuItem.Item_name }}</label><br />
+<ul>
+{% for menuitem in menu_item_list %}
+	<li>{{ menuitem.name }} <input type="text" maxlength="2" size="1"></li>
 {% endfor %}
+<ul>
 <p><input type="submit" value="Order" /></p>
+
+
