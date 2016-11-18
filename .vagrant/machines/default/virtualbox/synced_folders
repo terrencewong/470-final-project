@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"virtualbox":{"/home/ubuntu/project":{"guestpath":"/home/ubuntu/project","hostpath":"C:/Users/Melissa/final-project/final-project","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/Melissa/final-project/final-project","disabled":false,"__vagrantfile":true},"v-csc-ad4106fc1":{"id":"v-csc-ad4106fc1","guestpath":"/tmp/vagrant-chef/dc14306e59087da0eb91783ca07660d2/cookbooks","hostpath":"C:/Users/Melissa/final-project/final-project/chef/cookbooks","disabled":false,"__vagrantfile":true}}}
+=======
+{"virtualbox":{"/home/ubuntu/project":{"guestpath":"/home/ubuntu/project","hostpath":"C:/Users/Melissa/final-project/final-project","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/Melissa/final-project/final-project","disabled":false,"__vagrantfile":true},"v-csc-cad39d1d0":{"id":"v-csc-cad39d1d0","guestpath":"/tmp/vagrant-chef/503987640c28d69f1b809cd693718ace/cookbooks","hostpath":"C:/Users/Melissa/final-project/final-project/chef/cookbooks","disabled":false,"__vagrantfile":true}}}
+>>>>>>> 4860fbf1073c19632d9f9feb153d27a8af05798c
