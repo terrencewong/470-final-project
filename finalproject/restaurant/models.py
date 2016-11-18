@@ -1,8 +1,9 @@
 from django.db import models
+from django.utils import timezone
 
 class Table (models.Model):
 	Table = models.IntegerField(default=0)
-	Code = models.CharField(max_length=20)	
+	Code = models.CharField(max_length=20)
 
 class Order(models.Model):
     Code = models.CharField(max_length=20)
@@ -11,7 +12,7 @@ class Order(models.Model):
     StartTime = models.DateTimeField(default=timezone.now())
     def __str__(self):
        return self.Table
-	
+
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
 	name = models.CharField(max_length=200)
@@ -20,4 +21,3 @@ class MenuItem(models.Model):
 	description = models.CharField(max_length=250)
 	def __str__(self):
 		return self.name
-   

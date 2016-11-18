@@ -11,10 +11,7 @@ def index(request):
 
 class KitchenView(TemplateView):
    template_name = 'restaurant/kitchen.html'
-
-def AllOrders(request):
-    order_list = Order.objects.all()
-    return render(request, 'restaurant/kitchen.html', {'order_list': order_list})
+   order_list = Order.objects.all()
 
 class KitchenDetailView(generic.DetailView):
     model = Order
