@@ -1,0 +1,11 @@
+<h1> Kitchen </h1>
+
+{% if order_list %}
+	<ul>
+	{% for order in order_list %}
+		<li><a href="/kitchen/{{ order.id }}/">Table # {{ order.id }}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>No Orders.</p>
+{% endif %}

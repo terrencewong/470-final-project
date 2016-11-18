@@ -1,2 +1,12 @@
 [
+{
+  "model": "restaurant.order",
+  "pk": 1,
+  "fields": {
+    "Code": "WcERS9",
+    "Table": 12,
+    "Completed": false,
+    "StartTime": "2016-11-18T03:42:55.116Z"
+  }
+}
 ]
