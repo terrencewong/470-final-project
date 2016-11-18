@@ -11,6 +11,7 @@ from django.utils import timezone
 from .models import Order, MenuItem
 from .forms import OrderStartForm, LoginForm
 
+
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
 
