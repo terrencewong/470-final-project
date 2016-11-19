@@ -9,17 +9,14 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from .models import menu
 
-def index(request):
-
-	latest_menu_list = menu.objects.order_by('-id')[:1000]
-   	template = loader.get_template('menu/index.html')
-   	context = {
+def viewmenu(request):
+    latest_menu_list = menu.objects.order_by('-id')[:1000]
+    template = loader.get_template('menu/index.html')
+    context = {
         'latest_menu_list': latest_menu_list,
     	}
-    	return HttpResponse(template.render(context, request))
-
-
-
+    return HttpResponse(template.render(context, request))
+    
 def detail(request, menu_id):
     question = get_object_or_404(menu, pk=menu_id)
     return render(request, 'menu/detail.html', {'question': question})
@@ -46,10 +43,10 @@ def post(request):
         if request.method == "POST":
                 form = UserForm(request.POST)
                 if form.is_valid():
-		    latest_menu_list = menu.objects.order_by('-id')[:1000]
+                    latest_menu_list = menu.objects.order_by('-id')[:1000]
                     post = form.save(commit=False)
                     post.save()
-		    context ={'latest_menu_list': latest_menu_list,}
+                    context ={'latest_menu_list': latest_menu_list,}
                     return render(request, "menu/index.html",context)
         else:
                 form = UserForm()
