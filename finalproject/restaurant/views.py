@@ -10,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
 from .forms import OrderStartForm, LoginForm
+from menu.models import menu
 
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
@@ -63,7 +64,7 @@ def TableIDVerification(request):
 	
 def ordernow(request):
 	code = request.session['Code']
-	menu_item_list = MenuItem.objects.all()
+	menu_item_list = menu.objects.all()
 	return render(request, 'restaurant/order-now.html', {'code':code, 'menu_item_list':menu_item_list})
 
 class ServerView(TemplateView):
