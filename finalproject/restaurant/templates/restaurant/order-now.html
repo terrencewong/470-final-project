@@ -11,8 +11,8 @@ ul {
 
 {% csrf_token %}
 <ul>
-{% for menuitem in menu_item_list %}
-	<li>{{ menuitem.name }} <input type="text" maxlength="2" size="1"></li>
+{% for menu in menu_item_list %}
+	<li>{{ menu.Name }} <input type="text" maxlength="2" size="1"></li>
 {% endfor %}
 <ul>
 <p><input type="submit" value="Order" /></p>
