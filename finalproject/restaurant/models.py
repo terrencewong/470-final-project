@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 
 class Table (models.Model):
 	Table = models.IntegerField(default=0)
-	Code = models.CharField(max_length=20)	
+	Code = models.CharField(max_length=20)
 
 class Order(models.Model):
     Code = models.CharField(max_length=20)
     Table = models.IntegerField(default=0)
     Completed = models.BooleanField(default=0)
     StartTime = models.DateTimeField(default=timezone.now())
-	
+
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
 	name = models.CharField(max_length=200)
@@ -23,9 +23,11 @@ class MenuItem(models.Model):
 	def __str__(self):
 		return self.name
 
-class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
-    # Override the __unicode__() method to return out something meaningful!
-    def __unicode__(self):
-        return self.user.username
+class UserType(models.Model):
+	user = models.OneToOneField(User,on_delete=models.CASCADE)
+	is_customer = models.BooleanField(default=True)
+	is_kitchen = models.BooleanField(default=False)
+	is_server = models.BooleanField(default=False)
+    # Override the __unicode__() method to return something meaningful!
+	def __unicode__(self):
+		return self.user.username
