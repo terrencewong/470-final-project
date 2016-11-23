@@ -18,25 +18,25 @@ To Run
 ------
 - Run commands:
     - vagrant up
-- Website is at http://55.55.55.5:8080/index/
+- Website is at http://55.55.55.5:8080/
 
 urls:
 
-http://55.55.55.5:8080/index/login/
+http://55.55.55.5:8080/login/
 
-http://55.55.55.5:8080/index/server/
+http://55.55.55.5:8080/server/
 
-http://55.55.55.5:8080/index/server/orders
+http://55.55.55.5:8080/server/orders
 
-http://55.55.55.5:8080/index/server/2/orderdetails
+http://55.55.55.5:8080/server/2/orderdetails
 
-http://55.55.55.5:8080/index/welcome/
+http://55.55.55.5:8080/welcome/
 
-http://55.55.55.5:8080/index/guest-user/
+http://55.55.55.5:8080/guest-user/
 
-http://55.55.55.5:8080/index/order/
+http://55.55.55.5:8080/order/
 
-http://55.55.55.5:8080/index/kitchen/
+http://55.55.55.5:8080/kitchen/
 
 http://55.55.55.5:8080/menu/
 
