@@ -13,12 +13,9 @@ from .models import Table, Order, MenuItem
 from menu.models import menu
 from restaurant.models import UserType
 
-def index(request):
-    return HttpResponse("Hello Group 4: Here is the empty project site.")
 
-def welcome(request):
-	return render(request, 'restaurant/welcome.html')
-	#return HttpResponse("Welcome.")
+def home(request):
+	return render(request, 'restaurant/home.html')
 
 #def TableIDVerification(request):
 	#return render(request, 'restaurant/TableIDVerificationForm.html')

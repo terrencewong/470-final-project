@@ -3,8 +3,7 @@ from . import views
 
 app_name = 'restaurant';
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-	url(r'^welcome/$', views.welcome, name='Welcome'),
+    url(r'^$', views.home, name='home'),
 	url(r'^guest-user/$', views.TableIDVerification, name='Guest User'),
 	url(r'^order/$', views.ordernow, name='OrderNow'),
     url(r'^logout/$', views.logout_view, name='Logout'),
