@@ -71,9 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'finalproject.wsgi.application'
 
-# Customized Auth System Installed
-# AUTH_USER_MODEL = 'restaurant.CustomUser'
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 

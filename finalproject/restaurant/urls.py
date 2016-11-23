@@ -7,7 +7,6 @@ urlpatterns = [
 	url(r'^welcome/$', views.welcome, name='Welcome'),
 	url(r'^guest-user/$', views.TableIDVerification, name='Guest User'),
 	url(r'^order/$', views.ordernow, name='OrderNow'),
-	url(r'^login/$', views.login_view, name='Login'),
     url(r'^logout/$', views.logout_view, name='Logout'),
     url(r'^server/$', views.StartOrder, name='server'),
     url(r'^server/orders$', views.OrderView.as_view(), name='orders'),

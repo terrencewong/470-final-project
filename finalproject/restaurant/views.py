@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
-from .forms import TableIDForm
-from .models import Table, Order, MenuItem
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -9,8 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
-from .forms import OrderStartForm, LoginForm
+
+from .forms import OrderStartForm, LoginForm, TableIDForm
+from .models import Table, Order, MenuItem
 from menu.models import menu
+from restaurant.models import UserType
 
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
@@ -25,43 +26,43 @@ def welcome(request):
 def TableIDVerification(request):
 
 	if request.POST:
-		
+
 		form = TableIDForm(request.POST)
-		
+
 		if form.is_valid():
-		
+
 			code_id = form.data['Code']
 			request.session['Code'] = code_id
-			
+
 			try:
 				p = Order.objects.get(Code=code_id)
-				
-				#reverse_url = reverse('OrderNow')				
+
+				#reverse_url = reverse('OrderNow')
 				#return HttpResponseRedirect(reverse_url)
-				
-				return HttpResponseRedirect('/index/order/')
-				
+
+				return HttpResponseRedirect('/order/')
+
 				#return HttpResponse("This exists.")
-				
+
 			except Order.DoesNotExist:
-			
-				return HttpResponse("This code does not exist. Please try again.")				
-	
+
+				return HttpResponse("This code does not exist. Please try again.")
+
 	else:
-		form = TableIDForm()		
-		
+		form = TableIDForm()
+
 	if request.GET.get('table', ''):
-		
-		table = Table.objects.get(id=request.GET.get('table', ''))	
-	
+
+		table = Table.objects.get(id=request.GET.get('table', ''))
+
 	variables = {
 		'form': form,
 	}
-	
+
 	template = 'restaurant/TableIDVerificationForm.html'
-	
-	return render(request, template, variables)	
-	
+
+	return render(request, template, variables)
+
 def ordernow(request):
 	code = request.session['Code']
 	menu_item_list = menu.objects.all()
@@ -83,7 +84,7 @@ def StartOrder(request):
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
             order = Order.objects.create(Code=Code, Table=Table, Completed=0, StartTime=timezone.now())
-            return HttpResponseRedirect('/index/server/')
+            return HttpResponseRedirect('/server/')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -114,7 +115,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return HttpResponseRedirect('/index')
+                    return HttpResponseRedirect('/')
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
@@ -125,10 +126,9 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'restaurant/login.html', {'form': form})
 
-
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/index')
+    return HttpResponseRedirect('/')
 
 class KitchenView(TemplateView):
    template_name = 'restaurant/kitchen.html'
@@ -137,4 +137,3 @@ class KitchenView(TemplateView):
 class KitchenDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/kitchendetail.html'
-

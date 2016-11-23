@@ -3,13 +3,13 @@ from .models import Order
 from django.contrib.admin import widgets
 
 class TableIDForm(forms.ModelForm):
-	
-	class Meta:	
+
+	class Meta:
 		model = Order
 		fields = ('Code',)
 
 	#code_id = forms.CharField(label = 'Code ID', max_length = 64)
-	
+
 	widgets = {
 		#'tableID': forms.TextInput(
 			#attrs={'placeholder': 'TableID', 'class':'form-control'}
@@ -17,7 +17,7 @@ class TableIDForm(forms.ModelForm):
 		'code_id': forms.TextInput(
 			attrs={'placeholder': 'code_id', 'class':'form-control'}
 		),
-		
+
 	}
 
 class OrderStartForm(forms.Form):
