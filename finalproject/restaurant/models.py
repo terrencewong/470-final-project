@@ -2,18 +2,29 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-# Create your models here.
-
 class Table (models.Model):
 	Table = models.IntegerField(default=0)
-	Code = models.CharField(max_length=20)	
+	Code = models.CharField(max_length=20)
 
 class Order(models.Model):
+	CREATED = 'CRE'
+	SENT_TO_KITCHEN = 'STK'
+	STARTED = 'STA'
+	READY = 'RDY'
+	SERVED = 'SER'
+	TIMESTAMP_CHOICES = (
+		(CREATED, 'Order created'),
+		(SENT_TO_KITCHEN, 'Order sent to kitchen'),
+		(STARTED, 'Order started'),
+		(READY, 'Order ready to be served'),
+		(SERVED, 'Order served'),
+	)
+
     Code = models.CharField(max_length=20)
     Table = models.IntegerField(default=0)
-    Completed = models.BooleanField(default=0)
+	Timestamp_choices = models.CharField(max_length=3, choices=Timestamp_choices, default=CREATED,)
     StartTime = models.DateTimeField(default=timezone.now())
-	
+
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
 	name = models.CharField(max_length=200)
