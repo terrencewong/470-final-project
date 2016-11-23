@@ -99,6 +99,7 @@ class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/orderdetail.html'
 
+# Authentication Views
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -112,7 +113,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/gateway')
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
@@ -127,6 +128,14 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+def gateway(request):         # gate way is added for users who has multiple roles (might be dropped later)
+    return render(request, 'restaurant/gateway.html')
+
+# Kitchen Views
 class KitchenView(TemplateView):
    template_name = 'restaurant/kitchen.html'
    order_list = Order.objects.all()

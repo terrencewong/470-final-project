@@ -2,13 +2,17 @@
 
 <h1> Server Main Page </h1>
 <script type="text/javascript" src="{% static 'restaurant/script.js' %}"></script>
-<button onclick="makeid()">Generate Client Code</button>
 
-<form action="" method="post">
-    {% csrf_token %}
-    
-    {{form.as_ul}}
+
+{% if user.is_authenticated %}      <!-- and also has a account type S which is not implemented yet-->
+  <button onclick="makeid()">Generate Client Code</button>
+  <form action="" method="post">
+      {% csrf_token %}
+      {{form.as_ul}}
     <input id="tableForm3" type="submit" value="Start Order">
-</form>
-
-<a href="{% url 'restaurant:orders' %}">View Orders</a>
+  </form>
+  <a href="{% url 'restaurant:orders' %}">View Orders</a>
+  <p><a href="/login">logout</a></p>
+{% else %}
+  <p><a href="/login">Please Login</a></p>
+{% endif %}
