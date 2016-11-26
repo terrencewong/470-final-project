@@ -128,10 +128,6 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect('/')
-
 def gateway(request):         # gate way is added for users who has multiple roles (might be dropped later)
     return render(request, 'restaurant/gateway.html')
 
