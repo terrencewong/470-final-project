@@ -1,4 +1,4 @@
-<h1>Gateway</h1>
+<h1>Gateway {{ username }}</h1>
 {% if user.is_authenticated %}      <!-- and also has a account type S which is not implemented yet-->
   <p>hi, you logged in where do you want to go next?</p>
   <p><a href="/logout">logout?</a></p>
