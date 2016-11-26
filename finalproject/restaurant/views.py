@@ -128,8 +128,11 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def gateway(request):         # gate way is added for users who has multiple roles (might be dropped later)
-    return render(request, 'restaurant/gateway.html')
+def gateway(request,username="apple"):         # gate way is added for users who has multiple roles (might be dropped later)
+	user=get_object_or_404(User.objects, username=username)
+	if user.usertype.is_customer:
+		print "HELLYA"
+	return render(request, 'restaurant/gateway.html')
 
 # Kitchen Views
 class KitchenView(TemplateView):

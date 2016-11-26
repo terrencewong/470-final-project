@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -31,3 +33,13 @@ class UserType(models.Model):
     # Override the __unicode__() method to return something meaningful!
 	def __unicode__(self):
 		return self.user.username
+
+@receiver(post_save, sender=User)
+def create_usertype(sender,instance,created, **kwargs):
+	if created:
+		UserType.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_usertype(sender,instance,created, **kwargs):
+	if created:
+		instance.usertype.save()
