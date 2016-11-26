@@ -13,8 +13,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static "/img/apple-icon.png" %}">
+	<link rel="icon" type="image/png" href="{% static "/img/favicon.png" %}">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title>Raccoon Express</title>
@@ -41,14 +41,14 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
         		</button>
-        		<a class="navbar-brand" href="../presentation.html">Raccoon Express</a>
+        		<a class="navbar-brand" href=".">Raccoon Express</a>
         	</div>
 
         	<div class="collapse navbar-collapse" id="navigation-example">
         		<ul class="nav navbar-nav navbar-right">
     				<li>
 						<a href="#">
-							<i class="material-icons">account circle</i> login
+							<i class="material-icons">account_circle</i> login
 						</a>
 					  </li>
         		</ul>
@@ -77,8 +77,14 @@
 	    	<div class="section text-center">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 class="title">Let's talk product</h2>
-                        <h5 class="description">This is the paragraph where you can write more details about your product. Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious, otherwise he wouldn't scroll to get here. Add a button if you want the user to see more.</h5>
+                        <h2 class="title">Not your typical Restaurant Ordering System</h2>
+                        <h5 class="description">
+Raccoon Express was created to provide a system that coordinates all aspects of daily restaurant management and operations.
+The activities that typically constitute a transaction at a restaurant are integrated to create seamless and efficient transfer
+of data between the different groups involved. At peak times, restaurants can often become very hectic, putting stress on staff,
+increasing risk of error, and potentially degrading customer experience. Raccoon Express alleviates much of the overhead involved
+in every transaction at a restaurant, allowing staff to focus on improving customer experience, and clients to receive the most efficient
+and pleasant experience possible. </h5>
                     </div>
                 </div>
 
@@ -87,10 +93,10 @@
 						<div class="col-md-4">
 							<div class="info">
 								<div class="icon icon-info">
-									<i class="material-icons">chat</i>
+									<i class="material-icons">payment</i>
 								</div>
-								<h4 class="info-title">Free Chat</h4>
-								<p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+								<h4 class="info-title">Payment</h4>
+								<p>Online payment is intergrated seemlessly. You can pay for your orders online or in-store without reaching for your wallet. </p>
 							</div>
 						</div>
 
@@ -100,17 +106,17 @@
 									<i class="material-icons">verified_user</i>
 								</div>
 								<h4 class="info-title">Verified Users</h4>
-								<p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+								<p>Restaurant partners are verified directly through us to prevent malicious users. You can order food from your favorite restaurant worry free. </p>
 							</div>
 						</div>
 
 						<div class="col-md-4">
 							<div class="info">
 								<div class="icon icon-danger">
-									<i class="material-icons">fingerprint</i>
+									<i class="material-icons">web</i>
 								</div>
-								<h4 class="info-title">Fingerprint</h4>
-								<p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+								<h4 class="info-title">Web Based</h4>
+								<p>No new hardware is Required. Any device with a browser would do, turn your Andriod, iOS or PC machines into ordering terminals in seconds.</p>
 							</div>
 						</div>
 	                </div>
@@ -118,7 +124,7 @@
             </div>
 
         	<div class="section text-center">
-                <h2 class="title">Here is our team</h2>
+                <h2 class="title">Here are our Components</h2>
 
 				<div class="team">
 					<div class="row">
@@ -127,24 +133,17 @@
 								<div class="col-md-5">
 									<div class="card-image">
 										<a href="#pablo">
-											<img class="img" src="../assets/img/faces/card-profile1-square.jpg" />
+											<img class="img" src="{% static "restaurant/img/client.jpg" %}" />
 										</a>
 									</div>
 								</div>
 								<div class="col-md-7">
 									<div class="content">
-										<h4 class="card-title">Alec Thompson</h4>
-										<h6 class="category text-muted">Founder</h6>
+										<h4 class="card-title">Diner</h4>
 
 										<p class="card-description">
 											Don't be scared of the truth because we need to restart the human foundation in truth...
 										</p>
-
-										<div class="footer">
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-twitter"><i class="fa fa-twitter"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-facebook"><i class="fa fa-facebook-square"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-google"><i class="fa fa-google"></i></a>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -155,25 +154,17 @@
 								<div class="col-md-5">
 									<div class="card-image">
 										<a href="#pablo">
-											<img class="img" src="../assets/img/faces/card-profile6-square.jpg" />
+											<img class="img" src="{% static "restaurant/img/client.jpg" %}"  />
 										</a>
 									</div>
 								</div>
 								<div class="col-md-7">
 									<div class="content">
-										<h4 class="card-title">Kendall Andrew</h4>
-										<h6 class="category text-muted">Graphic Designer</h6>
+										<h4 class="card-title">Waiter</h4>
 
 										<p class="card-description">
 											Don't be scared of the truth because we need to restart the human foundation in truth...
 										</p>
-
-										<div class="footer">
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-linkedin"><i class="fa fa-linkedin"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-facebook"><i class="fa fa-facebook-square"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-dribbble"><i class="fa fa-dribbble"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-google"><i class="fa fa-google"></i></a>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -184,24 +175,16 @@
 								<div class="col-md-5">
 									<div class="card-image">
 										<a href="#pablo">
-											<img class="img" src="../assets/img/faces/card-profile4-square.jpg" />
+											<img class="img" src="{% static "restaurant/img/client.jpg" %}"  />
 										</a>
 									</div>
 								</div>
 								<div class="col-md-7">
 									<div class="content">
-										<h4 class="card-title">Gina Andrew</h4>
-										<h6 class="category text-muted">Web Designer</h6>
-
+										<h4 class="card-title">Chef</h4>
 										<p class="card-description">
 											I love you like Kanye loves Kanye. Don't be scared of the truth.
 										</p>
-
-										<div class="footer">
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-youtube"><i class="fa fa-youtube-play"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-twitter"><i class="fa fa-twitter"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-instagram"><i class="fa fa-instagram"></i></a>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -212,24 +195,16 @@
 								<div class="col-md-5">
 									<div class="card-image">
 										<a href="#pablo">
-											<img class="img" src="../assets/img/faces/card-profile2-square.jpg" />
+											<img class="img" src="{% static "restaurant/img/client.jpg" %}"  />
 										</a>
 									</div>
 								</div>
 								<div class="col-md-7">
 									<div class="content">
-										<h4 class="card-title">George West</h4>
-										<h6 class="category text-muted">Backend Hacker</h6>
-
+										<h4 class="card-title">Manager</h4>
 										<p class="card-description">
 											I love you like Kanye loves Kanye. Don't be scared of the truth because we need to restart the human foundation.
 										</p>
-
-										<div class="footer">
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-linkedin"><i class="fa fa-linkedin"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-facebook"><i class="fa fa-facebook-square"></i></a>
-											<a href="#pablo" class="btn btn-just-icon btn-simple btn-google"><i class="fa fa-google"></i></a>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -244,7 +219,7 @@
         	<div class="section section-contacts">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 class="text-center title">Work with us</h2>
+                        <h2 class="text-center title">Join us Restaurant Owners</h2>
 						<h4 class="text-center description">Divide details about your product or agency work into parts. Write a few lines about each one and contact us about any further collaboration. We will responde get back to you in a couple of hours.</h4>
                         <form class="contact-form">
                             <div class="row">
@@ -288,29 +263,22 @@
             <nav class="pull-left">
                 <ul>
                     <li>
-                        <a href="http://www.creative-tim.com">
-                            Creative Tim
+                        <a href=".">
+                          To The Top
                         </a>
                     </li>
-					<li>
-                        <a href="http://presentation.creative-tim.com">
+
+					          <li>
+                        <a href="#">
                            About Us
                         </a>
                     </li>
-                    <li>
-                        <a href="http://blog.creative-tim.com">
-                           Blog
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.creative-tim.com/license">
-                            Licenses
-                        </a>
-                    </li>
+
+
                 </ul>
             </nav>
             <div class="copyright pull-right">
-                &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by Creative Tim
+                &copy; <script>document.write(new Date().getFullYear())</script>, A class project made by the awsome Group 4
             </div>
         </div>
     </footer>
