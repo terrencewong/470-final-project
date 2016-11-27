@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Table (models.Model):
 	Table = models.IntegerField(default=0)
@@ -35,15 +37,26 @@ class MenuItem(models.Model):
 	def __str__(self):
 		return self.name
 
-class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
-    # Override the __unicode__() method to return out something meaningful!
-    def __unicode__(self):
-        return self.user.username
-
 class Alert(models.Model):
     Order = models.ForeignKey(Order)
     Message = models.CharField(max_length=500)
     Resolved = models.BooleanField(default=0)
 
+class UserType(models.Model):
+	user = models.OneToOneField(User,on_delete=models.CASCADE)
+	is_customer = models.BooleanField(default=True)
+	is_kitchen = models.BooleanField(default=False)
+	is_server = models.BooleanField(default=False)
+    # Override the __unicode__() method to return something meaningful!
+	def __unicode__(self):
+		return self.user.username
+
+@receiver(post_save, sender=User)
+def create_usertype(sender,instance,created, **kwargs):
+	if created:
+		UserType.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_usertype(sender,instance,created, **kwargs):
+	if created:
+		instance.usertype.save()

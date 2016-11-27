@@ -1,5 +1,5 @@
 <h1> Kitchen </h1>
-
+{% if user.is_authenticated %}
 {% if order_list %}
 	<ul>
 	{% for order in order_list %}
@@ -7,5 +7,6 @@
 	{% endfor %}
 	</ul>
 {% else %}
-	<p>No Orders.</p>
+	<p><a href="/login">Please Login</a></p>
+{% endif %}
 {% endif %}
