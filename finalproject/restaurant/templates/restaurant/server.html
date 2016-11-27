@@ -10,7 +10,7 @@
 {% if current_alert_list %}
     <ul>
     {% for alert in current_alert_list %}
-        <li>Table #{{ alert.Order.Table }} - {{alert.Message}}</li>
+        <li><a href="{% url 'restaurant:alertdetails' alert.id %}">Table #{{ alert.Order.Table }} - {{alert.Message}}</a></li>
     {% endfor %}
     </ul>
 {% else %}

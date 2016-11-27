@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.urls import reverse
 from .forms import TableIDForm
 from .models import Table, Order, MenuItem, Alert
 from django.http import HttpResponse, HttpResponseRedirect
@@ -109,6 +110,16 @@ class OrderView(generic.ListView):
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/orderdetail.html'
+
+class AlertDetailView(generic.DetailView):
+    model = Alert
+    template_name = 'restaurant/alertdetail.html'
+
+def resolveAlert(request, alert_id):
+    alert = get_object_or_404(Alert, pk=alert_id)
+    alert.Resolved = 1
+    alert.save()
+    return HttpResponseRedirect(reverse('restaurant:server'))
 
 def login_view(request):
     if request.method == 'POST':
