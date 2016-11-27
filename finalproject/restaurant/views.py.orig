@@ -116,12 +116,23 @@ def StartOrder(request):
             # redirect to a new URL:
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
-            order = Order.objects.create(Code=Code, Table=Table, Status='CREATED', StartTime=timezone.now())
+<<<<<<< HEAD
+            order = Order.objects.create(Code=Code, Table=Table, Completed=0, StartTime=timezone.now())
             return HttpResponseRedirect('/index/server/orderstart/')
+
     # if a GET (or any other method) we'll create a blank form
     else:
         form = OrderStartForm()
+
     return render(request, 'restaurant/orderstart.html', {'form': form})
+=======
+            order = Order.objects.create(Code=Code, Table=Table, Status='CREATED', StartTime=timezone.now())
+            return HttpResponseRedirect('/index/server/')
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = OrderStartForm()
+    return render(request, 'restaurant/server.html', {'form': form})
+>>>>>>> terrence-kitchen
 
 class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'

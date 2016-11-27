@@ -16,6 +16,5 @@ urlpatterns = [
     url(r'^server/(?P<pk>[0-9]+)/alertdetails$', views.AlertDetailView.as_view(), name='alertdetails'),
     url(r'^(?P<alert_id>[0-9]+)/resolveAlert/$', views.resolveAlert, name='resolveAlert'),
     url(r'^kitchen/$', views.KitchenView.as_view(), name='kitchen'),
-    url(r'^kitchen/(?P<pk>[0-9]+)/kitchendetails$', views.KitchenDetailView.as_view(), name='kitchendetail'),
-
+    url(r'^kitchen/kitchendetail/(?P<order_id>[0-9]+)$', views.kitchendetail, name='kitchendetail'),
 ]

@@ -3,10 +3,9 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <p> Order Start Time: {{order.StartTime}}</p>
-
+<p> Order Status: {{order.Status}}</p>
 <ul>
 {% for menuitem in order.menuitem_set.all %}
     <li>{{ menuitem.name }}</li>
 {% endfor %}
 </ul>
-
