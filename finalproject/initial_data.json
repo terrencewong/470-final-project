@@ -3,112 +3,18 @@
   "model": "restaurant.order",
   "pk": 1,
   "fields": {
-    "Code": "66fyKi",
-    "Table": 2,
+    "Code": "WcERS9",
+    "Table": 12,
     "Completed": false,
-    "StartTime": "2016-11-13T20:53:18.307Z"
+    "StartTime": "2016-11-18T03:42:55.116Z"
   }
 },
 {
-  "model": "restaurant.order",
-  "pk": 2,
-  "fields": {
-    "Code": "IgXmcp",
-    "Table": 4,
-    "Completed": false,
-    "StartTime": "2016-11-13T20:53:18.307Z"
-  }
-},
-{
-  "model": "restaurant.order",
-  "pk": 3,
-  "fields": {
-    "Code": "H24QRZ",
-    "Table": 6,
-    "Completed": false,
-    "StartTime": "2016-11-13T20:53:18.307Z"
-  }
-},
-{
-  "model": "restaurant.order",
-  "pk": 4,
-  "fields": {
-    "Code": "skSGCT",
-    "Table": 10,
-    "Completed": false,
-    "StartTime": "2016-11-13T20:53:18.307Z"
-  }
-},
-{
-  "model": "restaurant.order",
-  "pk": 5,
-  "fields": {
-    "Code": "6GvlSh",
-    "Table": 15,
-    "Completed": false,
-    "StartTime": "2016-11-13T20:53:18.307Z"
-  }
-},
-{
-  "model": "restaurant.order",
-  "pk": 6,
-  "fields": {
-    "Code": "RHWZTn",
-    "Table": 13,
-    "Completed": true,
-    "StartTime": "2016-11-13T20:53:18.307Z"
-  }
-},
-{
-  "model": "restaurant.order",
-  "pk": 7,
-  "fields": {
-    "Code": "hDCnPB",
-    "Table": 14,
-    "Completed": false,
-    "StartTime": "2016-11-13T20:53:18.307Z"
-  }
-},
-{
-  "model": "restaurant.order",
-  "pk": 8,
-  "fields": {
-    "Code": "m7UAam",
-    "Table": 20,
-    "Completed": false,
-    "StartTime": "2016-11-13T20:53:47.542Z"
-  }
-},
-{
-  "model": "restaurant.menuitem",
+  "model": "restaurant.alert",
   "pk": 1,
   "fields": {
-    "order": 1,
-    "name": "Salmon"
-  }
-},
-{
-  "model": "restaurant.menuitem",
-  "pk": 2,
-  "fields": {
-    "order": 1,
-    "name": "Spaghetti"
-  }
-},
-{
-  "model": "restaurant.menuitem",
-  "pk": 3,
-  "fields": {
-    "order": 1,
-    "name": "Steak"
-  }
-},
-{
-  "model": "restaurant.menuitem",
-  "pk": 4,
-  "fields": {
-    "order": 1,
-    "name": "Ceaser Salad"
+    "Order": 1,
+    "Message": "Test Alert"
   }
 }
 ]
