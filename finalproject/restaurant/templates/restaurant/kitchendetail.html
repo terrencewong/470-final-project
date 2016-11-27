@@ -1,3 +1,12 @@
-<h1> Order for Table: {{ order.table }} </h1>
-
-
+<h1> Order for Table: {{ order.id }} </h1>
+<form method="POST">
+<div class="fieldWrapper">
+    {{ form.Timestamp.errors }}
+    <label for="{{ form.Timestamp.id_for_label }}">Timestamp:</label>
+    <div class="field">
+    {{ form.Timestamp }}
+    </div>
+</div>
+<input type="submit" value="Update Order"/>
+</form>
+Order: {{ order.Timestamp }}

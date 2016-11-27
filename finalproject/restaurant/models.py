@@ -7,11 +7,11 @@ class Table (models.Model):
 	Code = models.CharField(max_length=20)
 
 class Order(models.Model):
-	CREATED = 'CRE'
-	SENT_TO_KITCHEN = 'STK'
-	STARTED = 'STA'
-	READY = 'RDY'
-	SERVED = 'SER'
+	CREATED = 'CREATED'
+	SENT_TO_KITCHEN = 'SENT TO KITCHEN'
+	STARTED = 'STARTED'
+	READY = 'READY'
+	SERVED = 'SERVED'
 	TIMESTAMP_CHOICES = (
 		(CREATED, 'Order created'),
 		(SENT_TO_KITCHEN, 'Order sent to kitchen'),
@@ -19,11 +19,12 @@ class Order(models.Model):
 		(READY, 'Order ready to be served'),
 		(SERVED, 'Order served'),
 	)
-
-    Code = models.CharField(max_length=20)
-    Table = models.IntegerField(default=0)
-	Timestamp_choices = models.CharField(max_length=3, choices=Timestamp_choices, default=CREATED,)
-    StartTime = models.DateTimeField(default=timezone.now())
+	Code = models.CharField(max_length=20)
+	Table = models.IntegerField(default=0)
+	Timestamp = models.CharField(max_length=15, choices=TIMESTAMP_CHOICES, default=CREATED,)
+	StartTime = models.DateTimeField(default=timezone.now)
+	def __str__(self):
+		return self.Table
 
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)

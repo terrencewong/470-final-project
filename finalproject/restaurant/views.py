@@ -25,43 +25,43 @@ def welcome(request):
 def TableIDVerification(request):
 
 	if request.POST:
-		
+
 		form = TableIDForm(request.POST)
-		
+
 		if form.is_valid():
-		
+
 			code_id = form.data['Code']
 			request.session['Code'] = code_id
-			
+
 			try:
 				p = Order.objects.get(Code=code_id)
-				
-				#reverse_url = reverse('OrderNow')				
+
+				#reverse_url = reverse('OrderNow')
 				#return HttpResponseRedirect(reverse_url)
-				
+
 				return HttpResponseRedirect('/index/order/')
-				
+
 				#return HttpResponse("This exists.")
-				
+
 			except Order.DoesNotExist:
-			
-				return HttpResponse("This code does not exist. Please try again.")				
-	
+
+				return HttpResponse("This code does not exist. Please try again.")
+
 	else:
-		form = TableIDForm()		
-		
+		form = TableIDForm()
+
 	if request.GET.get('table', ''):
-		
-		table = Table.objects.get(id=request.GET.get('table', ''))	
-	
+
+		table = Table.objects.get(id=request.GET.get('table', ''))
+
 	variables = {
 		'form': form,
 	}
-	
+
 	template = 'restaurant/TableIDVerificationForm.html'
-	
-	return render(request, template, variables)	
-	
+
+	return render(request, template, variables)
+
 def ordernow(request):
 	code = request.session['Code']
 	menu_item_list = menu.objects.all()
@@ -82,7 +82,7 @@ def StartOrder(request):
             # redirect to a new URL:
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
-            order = Order.objects.create(Code=Code, Table=Table, Completed=0, StartTime=timezone.now())
+            order = Order.objects.create(Code=Code, Table=Table, Timestamp='CREATED', StartTime=timezone.now())
             return HttpResponseRedirect('/index/server/')
 
     # if a GET (or any other method) we'll create a blank form
@@ -95,7 +95,7 @@ class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
     def get_queryset(self):
-        return Order.objects.filter(Completed=0).order_by('Table')
+        return Order.objects.filter(Timestamp='CREATED').order_by('Table')
 
 class OrderDetailView(generic.DetailView):
     model = Order
@@ -130,11 +130,19 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/index')
 
-class KitchenView(TemplateView):
+class KitchenView(generic.ListView):
    template_name = 'restaurant/kitchen.html'
-   order_list = Order.objects.all()
+   context_object_name = 'order_list'
+   def get_queryset(self):
+      return Order.objects.all()
 
-class KitchenDetailView(generic.DetailView):
-    model = Order
-    template_name = 'restaurant/kitchendetail.html'
-
+def kitchendetail(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    if request.method == "POST":
+        form = KitchenForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/kitchen')
+    else:
+        form = KitchenForm(instance=order)
+    return render(request, 'restaurant/kitchen.html', {'form':form}, {'contact':contact})
