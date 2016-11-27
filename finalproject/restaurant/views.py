@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 from .forms import OrderStartForm, LoginForm, TableIDForm
 from .models import Table, Order, MenuItem
@@ -113,7 +114,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return HttpResponseRedirect('/gateway')
+                    return HttpResponseRedirect('/')
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
