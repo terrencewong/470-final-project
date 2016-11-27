@@ -77,7 +77,7 @@ class ServerView(generic.ListView):
     template_name = 'restaurant/server.html'
     context_object_name = 'current_alert_list'
     def get_queryset(self):
-        return Alert.objects.all()#.filter(Order.Completed=0).order_by('Order.Table')
+        return Alert.objects.filter(Resolved=0)#.order_by('Order_id.Table')
 
 def StartOrder(request):
     # if this is a POST request we need to process the form data

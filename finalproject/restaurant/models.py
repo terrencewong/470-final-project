@@ -33,3 +33,4 @@ class UserProfile(models.Model):
 class Alert(models.Model):
     Order = models.ForeignKey(Order)
     Message = models.CharField(max_length=500)
+    Resolved = models.BooleanField(default=0)
