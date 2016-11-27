@@ -23,7 +23,7 @@ class OrderStartForm(forms.Form):
 class KitchenForm(forms.ModelForm):
 	class Meta:
 		model = Order
-		fields = ('Timestamp', 'Code', 'Table', 'StartTime')
+		fields = ('Status',)
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='User Name', max_length=64)

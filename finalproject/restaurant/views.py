@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from .forms import TableIDForm
 from .models import Table, Order, MenuItem
@@ -66,7 +66,7 @@ def StartOrder(request):
             # redirect to a new URL:
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
-            order = Order.objects.create(Code=Code, Table=Table, Timestamp='CREATED', StartTime=timezone.now())
+            order = Order.objects.create(Code=Code, Table=Table, Status='CREATED', StartTime=timezone.now())
             return HttpResponseRedirect('/index/server/')
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -77,7 +77,7 @@ class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
     def get_queryset(self):
-        return Order.objects.filter(Timestamp='CREATED').order_by('Table')
+        return Order.objects.all().order_by('Table')
 
 class OrderDetailView(generic.DetailView):
     model = Order
@@ -113,7 +113,7 @@ class KitchenView(generic.ListView):
    template_name = 'restaurant/kitchen.html'
    context_object_name = 'order_list'
    def get_queryset(self):
-      return Order.objects.all()
+      return Order.objects.all().filter(Status='SENT TO KITCHEN').order_by('Table')
 
 def kitchendetail(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
@@ -121,7 +121,7 @@ def kitchendetail(request, order_id):
         form = KitchenForm(request.POST, instance=order)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/index/kitchen/')
+            return HttpResponseRedirect(reverse('restaurant:kitchen'))
     else:
         form = KitchenForm(instance=order)
     return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
