@@ -2,13 +2,17 @@
 
 <h1> Server Main Page </h1>
 <script type="text/javascript" src="{% static 'restaurant/script.js' %}"></script>
-<button onclick="makeid()">Generate Client Code</button>
 
-<form action="" method="post">
-    {% csrf_token %}
-    
-    {{form.as_ul}}
-    <input id="tableForm3" type="submit" value="Start Order">
-</form>
-
+<a href="{% url 'restaurant:orderstart' %}">Create New Order</a>
+</br>
 <a href="{% url 'restaurant:orders' %}">View Orders</a>
+
+{% if current_alert_list %}
+    <ul>
+    {% for alert in current_alert_list %}
+        <li><a href="{% url 'restaurant:alertdetails' alert.id %}">Table #{{ alert.Order.Table }} - {{alert.Message}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No current alerts.</p>
+{% endif %}

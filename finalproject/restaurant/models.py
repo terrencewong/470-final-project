@@ -12,8 +12,8 @@ class Order(models.Model):
     Code = models.CharField(max_length=20)
     Table = models.IntegerField(default=0)
     Completed = models.BooleanField(default=0)
-    StartTime = models.DateTimeField(default=timezone.now())
-	
+    StartTime = models.DateTimeField('time started')
+
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
 	name = models.CharField(max_length=200)
@@ -29,3 +29,9 @@ class UserProfile(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
+
+class Alert(models.Model):
+    Order = models.ForeignKey(Order)
+    Message = models.CharField(max_length=500)
+    Resolved = models.BooleanField(default=0)
+
