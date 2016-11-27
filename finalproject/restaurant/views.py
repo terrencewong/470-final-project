@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
-from .forms import OrderStartForm, LoginForm
+from .forms import OrderStartForm, LoginForm, KitchenForm
 from menu.models import menu
 
 def index(request):
@@ -23,43 +23,27 @@ def welcome(request):
 	#return render(request, 'restaurant/TableIDVerificationForm.html')
 
 def TableIDVerification(request):
-
 	if request.POST:
-
 		form = TableIDForm(request.POST)
-
 		if form.is_valid():
-
 			code_id = form.data['Code']
 			request.session['Code'] = code_id
-
 			try:
 				p = Order.objects.get(Code=code_id)
-
 				#reverse_url = reverse('OrderNow')
 				#return HttpResponseRedirect(reverse_url)
-
 				return HttpResponseRedirect('/index/order/')
-
 				#return HttpResponse("This exists.")
-
 			except Order.DoesNotExist:
-
 				return HttpResponse("This code does not exist. Please try again.")
-
 	else:
 		form = TableIDForm()
-
 	if request.GET.get('table', ''):
-
 		table = Table.objects.get(id=request.GET.get('table', ''))
-
 	variables = {
 		'form': form,
 	}
-
 	template = 'restaurant/TableIDVerificationForm.html'
-
 	return render(request, template, variables)
 
 def ordernow(request):
@@ -84,11 +68,9 @@ def StartOrder(request):
             Table=form.cleaned_data['Table']
             order = Order.objects.create(Code=Code, Table=Table, Timestamp='CREATED', StartTime=timezone.now())
             return HttpResponseRedirect('/index/server/')
-
     # if a GET (or any other method) we'll create a blank form
     else:
         form = OrderStartForm()
-
     return render(request, 'restaurant/server.html', {'form': form})
 
 class OrderView(generic.ListView):
@@ -108,7 +90,6 @@ def login_view(request):
             username=form.cleaned_data['username']
             password=form.cleaned_data['password']
             user = authenticate(username=username, password=password)
-
             if user is not None:
                 # the password verified for the user
                 if user.is_active:
@@ -120,11 +101,9 @@ def login_view(request):
             else:
                 # the authentication system was unable to verify the username and password
                 print("The username and password were incorrect.")
-
     else:
         form = LoginForm()
     return render(request, 'restaurant/login.html', {'form': form})
-
 
 def logout_view(request):
     logout(request)
@@ -142,7 +121,7 @@ def kitchendetail(request, order_id):
         form = KitchenForm(request.POST, instance=order)
         if form.is_valid():
             form.save()
-            return redirect('/kitchen')
+            return HttpResponseRedirect('/index/kitchen/')
     else:
         form = KitchenForm(instance=order)
-    return render(request, 'restaurant/kitchen.html', {'form':form}, {'contact':contact})
+    return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})

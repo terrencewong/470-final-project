@@ -1,12 +1,13 @@
-<h1> Order for Table: {{ order.id }} </h1>
+<h1> Order for Table: {{ order.Table }} </h1>
+<p>Current Order Status: {{ order.Timestamp }}</p>
 <form method="POST">
 <div class="fieldWrapper">
+    {% csrf_token %}
     {{ form.Timestamp.errors }}
-    <label for="{{ form.Timestamp.id_for_label }}">Timestamp:</label>
+    <label for="{{ form.Timestamp.id_for_label }}">Order Timestamp:</label>
     <div class="field">
     {{ form.Timestamp }}
     </div>
 </div>
-<input type="submit" value="Update Order"/>
+<p><input type="submit" value="Update Order"/></p>
 </form>
-Order: {{ order.Timestamp }}

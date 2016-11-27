@@ -12,12 +12,14 @@ class Order(models.Model):
 	STARTED = 'STARTED'
 	READY = 'READY'
 	SERVED = 'SERVED'
+	COMPLETED = 'COMPLETED'
 	TIMESTAMP_CHOICES = (
 		(CREATED, 'Order created'),
 		(SENT_TO_KITCHEN, 'Order sent to kitchen'),
 		(STARTED, 'Order started'),
 		(READY, 'Order ready to be served'),
 		(SERVED, 'Order served'),
+		(COMPLETED, 'Order completed')
 	)
 	Code = models.CharField(max_length=20)
 	Table = models.IntegerField(default=0)
