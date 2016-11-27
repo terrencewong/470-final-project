@@ -26,7 +26,7 @@ class Order(models.Model):
 	Code = models.CharField(max_length=20)
 	Table = models.IntegerField(default=0)
 	Status= models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
-    StartTime = models.DateTimeField(default=timezone.now())
+	StartTime = models.DateTimeField(default=timezone.now)
 
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
