@@ -5,7 +5,7 @@
   "fields": {
     "Code": "WcERS9",
     "Table": 12,
-    "Completed": false,
+    "Status": "CREATED",
     "StartTime": "2016-11-18T03:42:55.116Z"
   }
 },
@@ -14,7 +14,8 @@
   "pk": 1,
   "fields": {
     "Order": 1,
-    "Message": "Test Alert"
+    "Message": "Test Alert",
+    "Resolved": 0
   }
 }
 ]
