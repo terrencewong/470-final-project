@@ -6,12 +6,12 @@ Final Project
 -------
 Authors
 -------
-Xinran Zhang, xza116  
-Zeng Lee, zylee  
-Ariana Williams, arianaw  
-Zeeshaan Mehboob Manji, zmmanji  
-Terrence Wong, twa63  
 Melissa Hamer-Jackson, mhamerja  
+Zeng Yuan Lee, zylee  
+Zeeshaan Mehboob Manji, zmmanji  
+Ariana Williams, arianaw  
+Terrence Wong, twa63  
+Xinran Zhang, xza116  
 
 ------
 To Run
