@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from .models import Table, Order, MenuItem, Alert
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -9,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+
+from .models import Table, Order, MenuItem, Alert
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
 from menu.models import menu
 from restaurant.models import UserType
@@ -154,7 +155,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return (render(request, 'restaurant/redirect.html', {'username':username} ))
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
