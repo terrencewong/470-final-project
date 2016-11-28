@@ -5,10 +5,8 @@ method="post">
 {% csrf_token %}
 
 <p>Code*:	{{ form.Code }}</p>
-
 {% if form.errors %}
-	{{ form.Code.errors }}
-	
+	{{ form.Code.errors }}	
 {% endif %}
 
 <input id="code-submit" class="btn btn-primary" type="submit" value="Submit"/>

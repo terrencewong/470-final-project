@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from menu.models import menu
 
 # Create your models here.
 
@@ -29,3 +30,12 @@ class UserProfile(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
+
+class OrderedMenuItems(models.Model):
+	order_id = models.ForeignKey(Order)
+	#table_id = models.ForeignKey(Order)
+	item_name = models.ForeignKey(menu)
+	num_items = models.IntegerField(default=0)#, null=True)
+	notes = models.TextField(max_length=500)
+	def __str__(self):
+		return self.item_name

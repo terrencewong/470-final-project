@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
-from .forms import TableIDForm
-from .models import Table, Order, MenuItem
+from .forms import TableIDForm, OrderForm
+from .models import Table, Order, MenuItem, OrderedMenuItems
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -36,11 +36,10 @@ def TableIDVerification(request):
 			try:
 				p = Order.objects.get(Code=code_id)
 				
-				#reverse_url = reverse('OrderNow')				
-				#return HttpResponseRedirect(reverse_url)
-				
 				return HttpResponseRedirect('/index/order/')
 				
+				#reverse_url = reverse('OrderNow')
+				#return HttpResponseRedirect(reverse_url)
 				#return HttpResponse("This exists.")
 				
 			except Order.DoesNotExist:
@@ -62,11 +61,64 @@ def TableIDVerification(request):
 	
 	return render(request, template, variables)	
 	
-def ordernow(request):
-	code = request.session['Code']
-	menu_item_list = menu.objects.all()
-	return render(request, 'restaurant/order-now.html', {'code':code, 'menu_item_list':menu_item_list})
 
+	
+
+	
+def ordernow(request):	
+	
+	#timestamp
+	
+	form = OrderForm()
+	#code = request.session['Code']	
+	menu_item_list = menu.objects.all()		
+	#order = Order.objects.get(Code=code)	
+	
+	if request.method == "GET":
+		form = OrderForm(
+			initial = {
+				
+				'order_id' : request.session['Code'],				
+				#'table_id' : order.Table,				
+				'item_name' : menu.Name,				
+			},	
+		)
+		
+		return render(request, 'restaurant/order-now.html', {'menu_item_list':menu_item_list, 'form' : form})
+	
+	
+	elif request.method == "POST":		
+		
+		form = OrderForm(request.POST)
+		
+		if form.is_valid():			
+			
+			order_id = form.cleaned_data['order_id']
+			#table_id = form.cleaned_data['table_id']
+			#item_name = form.cleaned_data['item_name']
+			#num_items = form.cleaned_data['num_items']
+			#notes = form.cleaned_data['notes']
+			#form.save()
+			
+			placeorder = OrderedMenuItems.objects.create(order_id=order_id)#, item_name=item_name, num_items=num_items, notes=notes)
+			return HttpResponseRedirect('/index/welcome/')
+			
+		else:
+			
+			#template = 'restaurant/order_now.html'
+			#return render(request, template, variables)
+			return HttpResponse("no.")
+			#return render(request, 'restaurant/order-now.html', {'menu_item_list':menu_item_list, 'form' : form})
+			#form = OrderForm()
+		
+	#template = 'restaurant/order-now.html'
+	#return render(request, template, {'menu_item_list':menu_item_list, 'form': form})
+		#'code':code, 
+
+
+
+
+		
 class ServerView(TemplateView):
     template_name = 'restaurant/server.html'
 

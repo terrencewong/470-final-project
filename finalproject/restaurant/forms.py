@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order
+from .models import Order, OrderedMenuItems
 from django.contrib.admin import widgets
 
 class TableIDForm(forms.ModelForm):
@@ -20,6 +20,18 @@ class TableIDForm(forms.ModelForm):
 		
 	}
 
+class OrderForm(forms.Form):
+
+	class Meta:
+		model = OrderedMenuItems
+		fields = ('order_id', 'table_id', 'item_name', 'num_items', 'notes',)
+	
+	order_id = forms.CharField(label="Code", required=True, disabled=True)
+	item_name = forms.CharField(label="Menu Item")#, required=True)
+	num_items = forms.IntegerField(min_value=0, initial=0, label = 'Number of items', required=False)
+	notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
+
+	
 class OrderStartForm(forms.Form):
     Code = forms.CharField(label = 'Code', max_length=10, required=True)
     Table = forms.IntegerField(label = 'Table', required=True)
@@ -27,3 +39,4 @@ class OrderStartForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(label='User Name', max_length=64)
     password = forms.CharField(widget=forms.PasswordInput())
+

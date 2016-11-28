@@ -1,20 +1,46 @@
 <h1>Place Your Order</h1>
 
-<label for="">Code:</label> {{ code }} 
-<!--<input type="hidden" id="" name="code" class="width250" value="{{ code }}" readonly />-->
+<form id="order-form"
+action=""
+method="post">
+
+<!--<label for="">Code ID:</label> {{ form.order_id }}
 
 <style> 
 ul {
- list-style-type: none;
+	list-style-type: none;
 }
-</style>
+</style>-->
 
-{% csrf_token %}
-<ul>
-{% for menu in menu_item_list %}
-	<li>{{ menu.Name }} <input type="text" maxlength="2" size="1"></li>
-{% endfor %}
-<ul>
-<p><input type="submit" value="Order" /></p>
+	{% csrf_token %}
+	
+	<p>Code: {{ form.order_id }}</p>
+	
+	{% for menu in menu_item_list %}
+
+	<p>Item: {{ form.item_name }}</p>
+		<!--<p>{{ menu.Name }}</p>-->
+		<p>{{ menu.Description }} - ${{ menu.Price }}</p>
+	
+		<!--{{ form.as_ul }} -->
+		<p> Number of items: {{ form.num_items }}</p>
+		<p> Special Requests and Dietary Restrictions:</p>
+		<p>	{{ form.notes }}</p>
+	
+	{% endfor %}
+
+	{{ form.errors }} {{ form.non_field_errors }}
+<!--{% if form.errors %}
+	{{ form.order_id.errors }}
+	{{ form.item_name.errors }}
+	{{ form.num_items.errors }}
+	{{ form.notes.errors }}
+
+	
+{% endif %}-->
 
 
+
+	<input id="PlaceOrder" type="submit" value="Order" />
+
+</form>
