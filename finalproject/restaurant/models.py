@@ -34,8 +34,8 @@ class UserProfile(models.Model):
 class OrderedMenuItems(models.Model):
 	order_id = models.ForeignKey(Order)
 	#table_id = models.ForeignKey(Order)
-	item_name = models.ForeignKey(menu)
-	num_items = models.IntegerField(default=0)#, null=True)
-	notes = models.TextField(max_length=500)
-	def __str__(self):
-		return self.item_name
+	item_name = models.ForeignKey(menu, null=True)
+	num_items = models.IntegerField(default=0) 
+	notes = models.TextField(max_length=500, null=True)
+	#def __str__(self):
+		#return self.item_name

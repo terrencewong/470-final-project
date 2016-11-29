@@ -20,13 +20,14 @@ class TableIDForm(forms.ModelForm):
 		
 	}
 
-class OrderForm(forms.Form):
+class OrderForm(forms.ModelForm):
 
 	class Meta:
 		model = OrderedMenuItems
-		fields = ('order_id', 'table_id', 'item_name', 'num_items', 'notes',)
+		fields = ('order_id', 'item_name',)#, 'table_id', 'item_name', 'num_items', 'notes',)
 	
-	order_id = forms.CharField(label="Code", required=True, disabled=True)
+	#order_id = models.Order(Code)
+	order_id = forms.CharField(label="Code", required=True)#, readonly:True)#, disabled=True)
 	item_name = forms.CharField(label="Menu Item")#, required=True)
 	num_items = forms.IntegerField(min_value=0, initial=0, label = 'Number of items', required=False)
 	notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
