@@ -1,0 +1,19 @@
+<h1> Order for Table: {{ order.Table }} </h1>
+<p>Current Order Status: {{ order.Status }}</p>
+{{ order.StartTime }}
+{% block content %}
+<form id="kitchen_form" method="POST">
+{% csrf_token %}
+<div class="fieldWrapper">
+    {{ form.Status.errors }}
+    <label for="{{ form.Status.id_for_label }}">Order Timestamp:</label>
+    <div class="field">
+    {{ form.Status }}
+    </div>
+</div>
+{% for menuitem in order.menuitem_set.all %}
+    <li>{{ menuitem.name }}</li>
+{% endfor %}
+<p><input type="submit" value="Update Order"/></p>
+</form>
+{% endblock %}
