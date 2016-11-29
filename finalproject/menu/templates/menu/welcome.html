@@ -1,0 +1,28 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'menu/style2.css' %}" />
+<h1> MANAGER DASHBOARD </h1>
+<b><p> Welcome Manager, </p></b>
+<h2> Click on the following Buttons to help you manage the restuarant </h2>
+
+<table style="width:100%">
+  <tr>
+    <th></th>
+    <th></th> 
+    <th></th>
+  </tr>
+  <tr>
+    <td><div class=a><a href="{% url 'viewmenu' %}">View Menu Items</a></div></td>
+    <td><div class=a><a href="{% url 'update' %}">Add to  Menu Items</a></div></td> 
+    <td><div class=a><a href="{% url 'specialviewmenu' %}">View  SPECIAL Menu Items</a></div></td>
+    <td></td> 
+  </tr>
+  <tr>
+    <td><div class=a><a href="{% url 'specialupdate' %}">Add to Special Menu</a></div></t>
+    <td><div class=a><a href="http://55.55.55.5:8080/server/orders">View Orders for the Day</a></div></td> 
+    <td><div class=a><a href="http://55.55.55.5:8080/admin/login/?next=/admin/">ADMIN LOGIN</a></div></td>
+  </tr>
+</table>
+
+
+<p> Thank you for choosing Racoon Express </p>

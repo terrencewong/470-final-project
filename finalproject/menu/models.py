@@ -13,3 +13,8 @@ class menu(models.Model):
     Description = models.CharField(max_length=200)
     Nutrition = models.CharField(max_length=200)
     Price = models.IntegerField(default=170)
+class specialmenu(models.Model):
+    Name = models.CharField(max_length=200)
+    Description = models.CharField(max_length=200)
+    Nutrition = models.CharField(max_length=200)
+    Price = models.IntegerField(default=170)
