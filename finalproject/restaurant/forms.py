@@ -5,7 +5,7 @@ from django.contrib.admin import widgets
 class TableIDForm(forms.ModelForm):
 	class Meta:
 		model = Order
-		fields = ('Code',)
+		fields = ('Code', 'Status')
 	#code_id = forms.CharField(label = 'Code ID', max_length = 64)
 	widgets = {
 		#'tableID': forms.TextInput(

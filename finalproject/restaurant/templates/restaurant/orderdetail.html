@@ -2,6 +2,18 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+<form id="server_form" method="POST">
+{% csrf_token %}
+<div class="fieldWrapper">
+    {{ form.Status.errors }}
+    <label for="{{ form.Status.id_for_label }}">Order Timestamp:</label>
+    <div class="field">
+    {{ form.Status }}
+    </div>
+</div>
+<p><input type="submit" value="Update Order"/></p>
+</form>
+
 <p> Order Start Time: {{order.StartTime}}</p>
 <p> Order Status: {{order.Status}}</p>
 <ul>
