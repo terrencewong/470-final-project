@@ -27,6 +27,11 @@ urlpatterns = [
      url(r'^postnew/(?P<pk>\d+)/$', views.specialdetail, name='specialdetail'),
      url(r'^manager$', views.managerview, name='managerview'),
 
+     #SUREVEY URLS
+     url(r'^survey/$', views.viewsurvey, name='survey'),
+     url(r'^surveynew/$', views.viewpost, name='surveyupdate'),
+     url(r'^survey/(?P<question_id>[0-9]+)/$', views.viewdetail, name='surveydetail'),
+
      
 
 

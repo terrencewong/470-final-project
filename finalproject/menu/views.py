@@ -127,6 +127,61 @@ def managerview(request):
     template = loader.get_template('menu/welcome.html')
     return render(request, "menu/welcome.html", {'time' : datetime.datetime.now()})
 
+## CUSTOMER SURVEYYY##############
+
+from .models import survey
+from .forms import customersurvey
+def viewsurvey(request):
+    latest_menu_list1 = survey.objects.order_by('-id')[:1000]
+    template = loader.get_template('menu/survey.html')
+    context = {
+        'latest_menu_list1': latest_menu_list1,
+        }
+    return HttpResponse(template.render(context, request))
+    
+def viewdetail(request, menu_id):
+    question = get_object_or_404(menu, pk=menu_id)
+    return render(request, 'menu/surveydetail.html', {'question': question})
+
+
+def viewresults(request, menu_id):
+    response = "You're looking at the results of question %s."
+    return HttpResponse(response % menu_id)
+
+def viewdisplay(request):
+  return render_to_response('survey.html', {'obj': models.menu.objects.all()})
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views.generic import View
+from .models import menu as Users
+from .forms import UserForm
+from django.shortcuts import redirect
+from .models import menu
+
+
+def viewpost(request):
+        
+        if request.method == "POST":
+                form = customersurvey(request.POST)
+                if form.is_valid():
+                    latest_menu_list = survey.objects.order_by('-id')[:1000]
+                    post = form.save(commit=False)
+                    post.save()
+                    context ={'latest_menu_list1': latest_menu_list,}
+                    return render(request, "menu/survey.html",context)
+        else:
+                form = customersurvey()
+                
+        return render(request, 'menu/surveyupdate.html', {'form': form})
+        
+    
+        
+def post_delete(request, menu_id):
+        instance=get_object_or_404(menu, pk=menu_id)
+        instance.deleted()
+        messages.success(request, "succesfully deleted")
+        #return redirect('detail',pk=post.pk)
 
 
 
