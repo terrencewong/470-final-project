@@ -11,6 +11,7 @@
 # Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
 ##
 
+
 # Default server configuration
 #
 server {
@@ -33,18 +34,25 @@ server {
 	#
 	# include snippets/snakeoil.conf;
 
-	root /home/ubuntu/project/webroot/;
+	root /home/ubuntu/project/webroot;
 
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
 
-	server_name _;
+	server_name localhost;
 
-	location / {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
-	}
+		location /static {
+		    alias /home/ubuntu/project/webroot/static;
+		}
+
+        location / {
+            proxy_pass  http://localhost:8000; #The 'http://' prefix MUST be there!
+
+            # First attempt to serve request as file, then
+            # as directory, then fall back to displaying a 404.
+            #try_files $uri $uri/ =404;
+		}
+
 
 	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
 	#
