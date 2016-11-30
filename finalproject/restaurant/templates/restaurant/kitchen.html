@@ -3,7 +3,7 @@
 	{% if order_list %}
 		<ul>
 		{% for order in order_list %}
-			<li><a href="{% url 'restaurant:kitchendetail' order.id %}">Table # {{ order.Table }}</a></li>
+			<li><a href="{% url 'restaurant:kitchendetail' order.id %}">Table # {{ order.Table }} - [ {{ order.Status }} ]</a></li>
 		{% endfor %}
 		</ul>
 	{% else %}

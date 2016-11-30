@@ -139,7 +139,7 @@ class KitchenView(generic.ListView):
    template_name = 'restaurant/kitchen.html'
    context_object_name = 'order_list'
    def get_queryset(self):
-	  return Order.objects.all().filter(Status='SENT TO KITCHEN').order_by('Table')
+	  return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
 
 #Kitchen's view of each table's order
 def kitchendetail(request, order_id):
