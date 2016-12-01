@@ -12,5 +12,5 @@
 # By default this script does nothing.
 
 sleep 10 #Give the guest OS a chance to mount the host OS's shared directory.
-/usr/local/bin/uwsgi --ini /home/ubuntu/project/webroot/mysite/uwsgi.ini --daemonize /var/log/uwsgi.log
+/usr/local/bin/uwsgi --ini /home/ubuntu/project/finalproject/finalproject/uwsgi.ini --daemonize /var/log/uwsgi.log
 exit 0

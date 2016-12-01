@@ -83,20 +83,19 @@ end
 
 execute 'migrate_schema' do
   user 'ubuntu'
-  cwd '/home/ubuntu/project/webroot'
+  cwd '/home/ubuntu/project/finalproject'
   command 'python3.5 manage.py migrate'
 end
 
-#WHEN YOU ARE READY TO LOAD DATA INTO THE DATABASE, UNCOMMENT THIS BLOCK:
-#execute 'load_data_into_database' do
-#  user 'ubuntu'
-#  cwd '/home/ubuntu/project/webroot'
-#  command 'python3.5 manage.py loaddata dbdump.json'
-#end
+execute 'load_data_into_database' do
+  user 'ubuntu'
+  cwd '/home/ubuntu/project/finalproject'
+  command 'python3.5 manage.py loaddata initial_data.json'
+end
 
 execute 'collect_static_files' do
   user 'ubuntu'
-  cwd '/home/ubuntu/project/webroot'
+  cwd '/home/ubuntu/project/finalproject'
   command 'python3.5 manage.py collectstatic --noinput'
 end
 
@@ -105,17 +104,17 @@ end
 #This is only used if running the web application using the development web server:
 #execute 'run_webserver' do
 #  user 'ubuntu'
-#  cwd '/home/ubuntu/project/webroot'
+#  cwd '/home/ubuntu/project/finalproject'
 #  command 'nohup python3.5 manage.py runserver 0.0.0.0:80 &'
 #end
 
 
 
-#python3.5 ~/project/webroot/manage.py dbshell
-#select * from polls_question;
+#python3.5 ~/project/finalproject/manage.py dbshell
+#select * from <tableName>;
 
-#sudo cat /var/log/uwsgi.log  <-- uWSGI log file (name and location as chosen by you).
+#sudo cat /var/log/uwsgi.log  <-- uWSGI log file.
 
 #sudo cat /var/log/postgresql/postgresql-9.5-main.log  <-- PostgresQL log file.
 
-#curl -i http://localhost:8000  <-- run from inside virtual machine ('vagrant ssh').
+#curl -i http://localhost:8000  <-- run from inside virtual machine ('vagrant ssh' to get into virtual machine).
