@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from restaurant import views as rest_views
 
 urlpatterns = [
-    url(r'^index/', include('restaurant.urls')),
+    url(r'^', include('restaurant.urls')),
     url(r'^menu/', include('menu.urls')),
+    url(r'^login/', rest_views.login_view, name='Login'),
+    url(r'^logout/', rest_views.logout_view, name='Logout'),
     url(r'^admin/', admin.site.urls),
 ]
