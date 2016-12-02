@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from .models import Table, Order, MenuItem, Alert
+from .models import Table, Order, MenuItem, Alert, UserType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -12,6 +12,7 @@ from django.utils import timezone
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
 from menu.models import menu
 from restaurant.models import UserType
+from django.views.generic.detail import SingleObjectMixin
 
 
 def home(request):
@@ -54,6 +55,9 @@ class ServerView(generic.ListView):
 
 def StartOrder(request):
     # if this is a POST request we need to process the form data
+    current_user = request.user
+    user_id = current_user.id
+    user_type = UserType.objects.get(user_id=user_id)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = OrderStartForm(request.POST)
@@ -64,18 +68,37 @@ def StartOrder(request):
             # redirect to a new URL:
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
-            order = Order.objects.create(Code=Code, Table=Table, Status='CREATED', StartTime=timezone.now())
-            return HttpResponseRedirect('/index/server/orderstart/')
+            Restaurant=user_type.restaurant
+            order = Order.objects.create(Code=Code, Table=Table, Restaurant=Restaurant, Status='CREATED', StartTime=timezone.now())
+            return HttpResponseRedirect('/server/orderstart')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = OrderStartForm()
     return render(request, 'restaurant/orderstart.html', {'form': form})
 
-class OrderView(generic.ListView):
+class OrderView(SingleObjectMixin, generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
+    
+    def get_object(self):
+        return get_object_or_404(User, pk=request.session['user_id'])
+    
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        current_user = user
+        user_id = current_user.id
+        user_type = UserType.objects.get(user_id=user_id)
+        Restaurant=user_type.restaurant
+        self.object = Order.objects.filter(Restaurant = Restaurant)
+        return super(OrderView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        context['orders'] = self.object
+        return context
+
     def get_queryset(self):
-        return Order.objects.all().order_by('Table')
+        return self.object.all().order_by('Table')
 
 class OrderDetailView(generic.DetailView):
     model = Order
@@ -100,6 +123,7 @@ def resolveAlert(request, alert_id):
     alert = get_object_or_404(Alert, pk=alert_id)
     alert.Resolved = 1
     alert.save()
+    alert.delete()
     return HttpResponseRedirect(reverse('restaurant:server'))
 
 # Authentication Views
