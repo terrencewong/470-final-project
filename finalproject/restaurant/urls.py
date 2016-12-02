@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^(?P<alert_id>[0-9]+)/resolveAlert/$', views.resolveAlert, name='resolveAlert'),
     url(r'^kitchen/$', views.KitchenView.as_view(), name='kitchen'),
     url(r'^kitchen/kitchendetail/(?P<order_id>[0-9]+)$', views.kitchendetail, name='kitchendetail'),
+    url(r'^createaccount/$', views.createaccount),
 ]

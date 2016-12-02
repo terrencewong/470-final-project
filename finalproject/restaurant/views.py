@@ -152,3 +152,8 @@ def kitchendetail(request, order_id):
     else:
         form = KitchenForm(instance=order)
     return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
+
+#View for the account creation page:
+def createaccount(request):
+    return render(request, 'restaurant/createaccount.html')
+    
