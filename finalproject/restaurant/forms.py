@@ -1,6 +1,7 @@
 from django import forms
 from .models import Order, OrderedMenuItems
 from django.contrib.admin import widgets
+from menu.models import menu 
 
 class TableIDForm(forms.ModelForm):
 	
@@ -28,7 +29,7 @@ class OrderForm(forms.ModelForm):
 	
 	#order_id = models.Order(Code)
 	order_id = forms.CharField(label="Code", required=True)#, readonly:True)#, disabled=True)
-	item_name = forms.CharField(label="Menu Item")#, required=True)
+	item_name = forms.CharField(label="Menu Item")#, required=True) menu.objects.get(Name=item_name).values('Name') 
 	num_items = forms.IntegerField(min_value=0, initial=0, label = 'Number of items', required=False)
 	notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
 
