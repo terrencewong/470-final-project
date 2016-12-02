@@ -11,7 +11,11 @@ from django.views import generic
 from django.utils import timezone
 from .forms import OrderStartForm, LoginForm
 from menu.models import menu
-#from django.forms import formset_factory
+
+
+def home(request):
+	return render(request, 'restaurant/home.html')
+
 
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
@@ -19,9 +23,6 @@ def index(request):
 def welcome(request):
 	return render(request, 'restaurant/welcome.html')
 	#return HttpResponse("Welcome.")
-
-#def TableIDVerification(request):
-	#return render(request, 'restaurant/TableIDVerificationForm.html')
 
 def TableIDVerification(request):
 
@@ -37,10 +38,8 @@ def TableIDVerification(request):
 			try:
 				p = Order.objects.get(Code=code_id)
 				
-				return HttpResponseRedirect('/index/order/')
-				
-				#reverse_url = reverse('OrderNow')
-				#return HttpResponseRedirect(reverse_url)
+				return HttpResponseRedirect('/order/')
+
 				#return HttpResponse("This exists.")
 				
 			except Order.DoesNotExist:
@@ -63,71 +62,72 @@ def TableIDVerification(request):
 	return render(request, template, variables)	
 	
 
-	
+def ordernow(request):
 
-	
-def ordernow(request):	
-	
 	#timestamp
-	
+
 	form = OrderForm()
-	#code = request.session['Code']	
-	menu_item_list = menu.objects.all()		
-	#order = Order.objects.get(Code=code)	
-	
+	#code = request.session['Code']
+	menu_item_list = menu.objects.all()
+	#order = Order.objects.get(Code=code)
+
 	if request.method == "GET":
 		form = OrderForm(
 			initial = {
-				
-				'order_id' : request.session['Code'],				
-				#'table_id' : order.Table,				
+
+				'order_id' : request.session['Code'],
+				#'table_id' : order.Table,
 				#'item_name' : menu.Name,				
-			},	
+			},
 		)
-		
+
 		return render(request, 'restaurant/order-now.html', {'menu_item_list':menu_item_list, 'form' : form})
-	
-	
-	elif request.method == "POST":	
-		
-		#if form.is_valid():		
-		
+
+
+	elif request.method == "POST":
+
+		#if form.is_valid():
+
 		for item_name in request.POST.getlist('item_name'):
-			
+
 			itemform = OrderForm(request.POST)
-			form = OrderForm({'item_name': item_name}, instance=OrderedMenuItems())		
-			
-			code_id = itemform.data['order_id']				
-			order_code = Order.objects.get(Code=code_id)				
-			
+			form = OrderForm({'item_name': item_name}, instance=OrderedMenuItems())
+
+			code_id = itemform.data['order_id']
+			order_code = Order.objects.get(Code=code_id)
+
 			#table_id = form.cleaned_data['table_id']
 			item_name = form.data['item_name']
 			item_code = menu.objects.get(Name=item_name)
 			num_items = itemform.data['num_items']
 			notes = itemform.data['notes']
-			#form.save()		
-			
+			#form.save()
+
 			OrderedMenuItems.objects.create(order_id=order_code, item_name=item_code, num_items=num_items, notes=notes)
 			#, item_name=item_name, num_items=num_items, notes=notes)
 			#return HttpResponse("yes.")
-		
-		
-		return HttpResponseRedirect('/index/welcome/')
+
+
+		return HttpResponseRedirect('/order-placed/')
 		#return HttpResponse(order_code)
 		#else:
-			
+
 			#template = 'restaurant/order_now.html'
 			#return render(request, template, variables)
 			#return HttpResponse("no.")
 			#return render(request, 'restaurant/order-now.html', {'menu_item_list':menu_item_list, 'form' : form})
 			#form = OrderForm()
-		
+
 	#template = 'restaurant/order-now.html'
 	#return render(request, template, {'menu_item_list':menu_item_list, 'form': form})
-		#'code':code, 
+		#'code':code,
 		#return HttpResponse("you're done.")
 
-		
+def orderplaced(request):
+
+	template = 'restaurant/orderplaced.html'	
+	return render(request, template)
+				
 class ServerView(TemplateView):
     template_name = 'restaurant/server.html'
 
