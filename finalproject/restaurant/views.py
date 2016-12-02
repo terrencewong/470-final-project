@@ -16,7 +16,6 @@ from menu.models import menu
 def home(request):
 	return render(request, 'restaurant/home.html')
 
-
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
 
@@ -27,40 +26,41 @@ def welcome(request):
 def TableIDVerification(request):
 
 	if request.POST:
-		
+
 		form = TableIDForm(request.POST)
-		
+
 		if form.is_valid():
-		
+
 			code_id = form.data['Code']
 			request.session['Code'] = code_id
-			
+
 			try:
 				p = Order.objects.get(Code=code_id)
+
 				
 				return HttpResponseRedirect('/order/')
 
+				#reverse_url = reverse('OrderNow')
+				#return HttpResponseRedirect(reverse_url)
 				#return HttpResponse("This exists.")
-				
+
 			except Order.DoesNotExist:
-			
-				return HttpResponse("This code does not exist. Please try again.")				
-	
+
+				return HttpResponse("This code does not exist. Please try again.")
+
 	else:
-		form = TableIDForm()		
-		
+		form = TableIDForm()
+
 	if request.GET.get('table', ''):
-		
-		table = Table.objects.get(id=request.GET.get('table', ''))	
-	
+
+		table = Table.objects.get(id=request.GET.get('table', ''))
+
 	variables = {
 		'form': form,
 	}
-	
+
 	template = 'restaurant/TableIDVerificationForm.html'
-	
-	return render(request, template, variables)	
-	
+	return render(request, template, variables)
 
 def ordernow(request):
 
@@ -107,8 +107,8 @@ def ordernow(request):
 			#, item_name=item_name, num_items=num_items, notes=notes)
 			#return HttpResponse("yes.")
 
+	return HttpResponseRedirect('/order-placed/')
 
-		return HttpResponseRedirect('/order-placed/')
 		#return HttpResponse(order_code)
 		#else:
 
@@ -127,7 +127,7 @@ def orderplaced(request):
 
 	template = 'restaurant/orderplaced.html'	
 	return render(request, template)
-				
+
 class ServerView(TemplateView):
     template_name = 'restaurant/server.html'
 
@@ -186,7 +186,6 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'restaurant/login.html', {'form': form})
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/index')
@@ -198,4 +197,3 @@ class KitchenView(TemplateView):
 class KitchenDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/kitchendetail.html'
-
