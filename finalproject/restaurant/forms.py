@@ -1,7 +1,7 @@
 from django import forms
 from .models import Order, OrderedMenuItems
+from menu.models import menu
 from django.contrib.admin import widgets
-from menu.models import menu 
 
 class TableIDForm(forms.ModelForm):
 	
@@ -24,14 +24,37 @@ class TableIDForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
 
 	class Meta:
-		model = OrderedMenuItems
-		fields = ('order_id', 'item_name',)#, 'table_id', 'item_name', 'num_items', 'notes',)
+		model = menu
+		fields = ('Name', 'Description', 'Nutrition', 'Price')#, 'table_id', 'item_name', 'num_items', 'notes',)
 	
 	#order_id = models.Order(Code)
-	order_id = forms.CharField(label="Code", required=True)#, readonly:True)#, disabled=True)
-	item_name = forms.CharField(label="Menu Item")#, required=True) menu.objects.get(Name=item_name).values('Name') 
-	num_items = forms.IntegerField(min_value=0, initial=0, label = 'Number of items', required=False)
-	notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
+	Name = forms.CharField(label="Name", required=True)#, readonly:True)#, disabled=True)
+	Description = forms.CharField(label="Description")#, required=True)
+	Nutrition = forms.CharField(label="Nutrition")
+	Price = forms.IntegerField(label="Price")
+    
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = OrderedMenuItems
+        fields = ('num_items', 'notes')
+        exclude = ('order_id', 'item_name')
+        
+    #order_id = forms.ModelChoiceField(queryset=Order.objects.all() , label="Code", required=True)#, readonly:True)#, disabled=True)
+    #item_name = forms.ModelChoiceField(queryset=menu.objects.all(), label="Menu Item")#, required=True)
+    num_items = forms.IntegerField(min_value=0, initial=0, label = "Number of items", required=False)
+    notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
+
+#class OrderForm(forms.ModelForm):
+
+#	class Meta:
+#		model = OrderedMenuItems
+#		fields = ('order_id', 'item_name',)#, 'table_id', 'item_name', 'num_items', 'notes',)
+	
+	#order_id = models.Order(Code)
+#	order_id = forms.CharField(label="Code", required=True)#, readonly:True)#, disabled=True)
+#	item_name = forms.CharField(label="Menu Item")#, required=True)
+#	num_items = forms.IntegerField(min_value=0, initial=0, label = 'Number of items', required=False)
+#	notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
 
 	
 class OrderStartForm(forms.Form):

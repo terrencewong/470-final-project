@@ -9,12 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
-from .forms import OrderStartForm, LoginForm
+from .forms import OrderStartForm, LoginForm, ItemForm
 from menu.models import menu
-
-
-def home(request):
-	return render(request, 'restaurant/home.html')
+#from django.forms import formset_factory
 
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
@@ -22,6 +19,9 @@ def index(request):
 def welcome(request):
 	return render(request, 'restaurant/welcome.html')
 	#return HttpResponse("Welcome.")
+
+#def TableIDVerification(request):
+	#return render(request, 'restaurant/TableIDVerificationForm.html')
 
 def TableIDVerification(request):
 
@@ -37,8 +37,7 @@ def TableIDVerification(request):
 			try:
 				p = Order.objects.get(Code=code_id)
 
-				
-				return HttpResponseRedirect('/order/')
+				return HttpResponseRedirect('/index/menu/')
 
 				#reverse_url = reverse('OrderNow')
 				#return HttpResponseRedirect(reverse_url)
@@ -60,7 +59,63 @@ def TableIDVerification(request):
 	}
 
 	template = 'restaurant/TableIDVerificationForm.html'
+
 	return render(request, template, variables)
+
+
+
+class MenuView(generic.ListView):
+    template_name = 'restaurant/menu.html'
+    context_object_name = 'latest_menuitem_list'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(MenuView, self).get_context_data(*args, **kwargs)
+        code = self.request.session['Code']
+        pk = Order.objects.get(Code=code)
+        context['current_menu_items'] = OrderedMenuItems.objects.filter(order_id=pk)
+        return context
+    
+    def get_queryset(self):
+        return menu.objects.all().order_by('Name')
+
+def AddItem(request, pk):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        current_item = menu.objects.get(id=pk)
+        
+        request.session['Name']=current_item.Name
+        request.session['Description']=current_item.Description
+        request.session['Nutrition']=current_item.Nutrition
+        request.session['Price']=current_item.Price
+        
+        pre_form = OrderForm(instance=current_item)
+        form = ItemForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            
+            Code=request.session['Code']
+            order_id = Order.objects.get(Code=Code)
+            item_name=current_item
+            num_items=form.cleaned_data['num_items']
+            notes=form.cleaned_data['notes']
+            item = OrderedMenuItems.objects.create(order_id=order_id, item_name=item_name, num_items=num_items, notes=notes)
+            
+            return HttpResponseRedirect('/index/menu/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        current_item = menu.objects.get(id=pk)
+        
+        request.session['Name']=current_item.Name
+        request.session['Description']=current_item.Description
+        request.session['Nutrition']=current_item.Nutrition
+        request.session['Price']=current_item.Price
+        
+        pre_form = OrderForm(instance=current_item)
+        form = ItemForm()
+
+    return render(request, 'restaurant/additem.html', {'form': form})
 
 def ordernow(request):
 
@@ -104,11 +159,14 @@ def ordernow(request):
 			#form.save()
 
 			OrderedMenuItems.objects.create(order_id=order_code, item_name=item_code, num_items=num_items, notes=notes)
+            #OrderedMenuItems.objects.create(order_id=order_code, item_name=item_code, num_items=num_items, notes=notes)
+            
+            
 			#, item_name=item_name, num_items=num_items, notes=notes)
 			#return HttpResponse("yes.")
 
-	return HttpResponseRedirect('/order-placed/')
 
+		return HttpResponseRedirect('/index/welcome/')
 		#return HttpResponse(order_code)
 		#else:
 
@@ -123,10 +181,6 @@ def ordernow(request):
 		#'code':code,
 		#return HttpResponse("you're done.")
 
-def orderplaced(request):
-
-	template = 'restaurant/orderplaced.html'	
-	return render(request, template)
 
 class ServerView(TemplateView):
     template_name = 'restaurant/server.html'
@@ -185,6 +239,7 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'restaurant/login.html', {'form': form})
+
 
 def logout_view(request):
     logout(request)

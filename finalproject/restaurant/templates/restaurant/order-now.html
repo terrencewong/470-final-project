@@ -1,8 +1,8 @@
 <h1>Place Your Order</h1>
 
-<form id="order-form"
-action=""
-method="post">
+
+{% block content %}
+<form id="order-form" action="" method="post">
 
 <!--<label for="">Code ID:</label> {{ form.order_id }}
 
@@ -14,18 +14,33 @@ ul {
 
 	{% csrf_token %}
 
+    <div class="fieldWrapper">
+        {{ form.item_name.errors }}
+        <label for="{{ form.item_name.id_for_label }}">Order Status:</label>
+        <div class="field">
+        {{ form.item_name }}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
 	<p>Code: {{ form.order_id }}</p>
 
 	{% for menu in menu_item_list %}
 
-	<p>Item: {{ menu.Name }}</p>
+    {{form.item_name}}
+    {{form.
+	<!--<label for="item_name">Item: {{ menu.Name }}</label>-->
 		<!--<p>{{ menu.Name }}</p>-->
-		<p>{{ menu.Description }} - ${{ menu.Price }}</p>
+		<!--<p>{{ menu.Description }} - ${{ menu.Price }}</p>-->
 
 		<!--{{ form.as_ul }} -->
-		<p> Number of items: {{ form.num_items }}</p>
+		<!--<p> Number of items: {{ form.num_items }}</p>
 		<p> Special Requests and Dietary Restrictions:</p>
-		<p>	{{ form.notes }}</p>
+		<p>	{{ form.notes }}</p>-->
 
 	{% endfor %}
 
@@ -38,7 +53,6 @@ ul {
 
 
 {% endif %}-->
-
 
 
 	<input id="PlaceOrder" type="submit" value="Order" />
