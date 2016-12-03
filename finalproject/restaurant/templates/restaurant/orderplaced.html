@@ -1,0 +1,13 @@
+{% load static %}
+
+<h1> Thank You </h1>
+
+<h3> For placing your order on Raccoon Express </h3>
+
+<h4> Your order will be ready shortly. You will be notified of your order's status below. </h4>
+
+<p>Current Order Status: {{ order.Status }}</p>
+
+<!--<meta http-equiv="refresh" content="10;http://55.55.55.5:8080/order-placed/">-->
+
+<a href="{% url 'restaurant:ContactServer' %}">Contact Server</a>

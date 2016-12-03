@@ -1,6 +1,7 @@
 from django import forms
-from .models import Order
+from .models import Order, OrderedMenuItems, Alert
 from django.contrib.admin import widgets
+from menu.models import menu
 
 class TableIDForm(forms.ModelForm):
 	class Meta:
@@ -16,9 +17,34 @@ class TableIDForm(forms.ModelForm):
 		),
 	}
 
+class OrderForm(forms.ModelForm):
+
+	class Meta:
+		model = menu
+		fields = ('Name', 'Description', 'Nutrition', 'Price')#, 'table_id', 'item_name', 'num_items', 'notes',)
+	
+	#order_id = models.Order(Code)
+	Name = forms.CharField(label="Name", required=True)#, readonly:True)#, disabled=True)
+	Description = forms.CharField(label="Description")#, required=True)
+	Nutrition = forms.CharField(label="Nutrition")
+	Price = forms.IntegerField(label="Price")
+	
+	
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = OrderedMenuItems
+        fields = ('num_items', 'notes')
+        exclude = ('order_id', 'item_name')
+        
+    #order_id = forms.ModelChoiceField(queryset=Order.objects.all() , label="Code", required=True)#, readonly:True)#, disabled=True)
+    #item_name = forms.ModelChoiceField(queryset=menu.objects.all(), label="Menu Item")#, required=True)
+    num_items = forms.IntegerField(min_value=0, initial=0, label = "Number of items", required=False)
+    notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
+	
+	
 class OrderStartForm(forms.Form):
     Code = forms.CharField(label = 'Code', max_length=10, required=True)
-    Table = forms.IntegerField(label = 'Table', required=True)
+    Table = forms.IntegerField(min_value=1, initial=1, label = 'Table', required=True)
 
 class KitchenForm(forms.ModelForm):
 	class Meta:
@@ -28,3 +54,10 @@ class KitchenForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label='User Name', max_length=64)
     password = forms.CharField(widget=forms.PasswordInput())
+
+class ContactServerForm(forms.ModelForm):
+	class Meta:
+		model = Alert
+		fields = ('Message',)
+		exclude = ('Order', 'Resolved',)
+	Message = forms.CharField(label="Message", required=False, widget=forms.Textarea)
