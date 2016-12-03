@@ -1,0 +1,46 @@
+<h1>Place Your Order</h1>
+
+<form id="order-form"
+action=""
+method="post">
+
+<!--<label for="">Code ID:</label> {{ form.order_id }}
+
+<style>
+ul {
+	list-style-type: none;
+}
+</style>-->
+
+	{% csrf_token %}
+
+	<p>Code: {{ form.order_id }}</p>
+
+	{% for menu in menu_item_list %}
+
+	<p>Item: {{ menu.Name }}</p>
+		<!--<p>{{ menu.Name }}</p>-->
+		<p>{{ menu.Description }} - ${{ menu.Price }}</p>
+
+		<!--{{ form.as_ul }} -->
+		<p> Number of items: {{ form.num_items }}</p>
+		<p> Special Requests and Dietary Restrictions:</p>
+		<p>	{{ form.notes }}</p>
+
+	{% endfor %}
+
+	{{ form.errors }} {{ form.non_field_errors }}
+<!--{% if form.errors %}
+	{{ form.order_id.errors }}
+	{{ form.item_name.errors }}
+	{{ form.num_items.errors }}
+	{{ form.notes.errors }}
+
+
+{% endif %}-->
+
+
+
+	<input id="PlaceOrder" type="submit" value="Order" />
+
+</form>
