@@ -2,6 +2,12 @@
 {% load static %}
 {% block content %}
 
+<!-- based on gatewaybase.html
+    functionality:
+    1. profile page
+    2. permission grabber-->
+<body>
+{% if user.is_authenticated %}
 <div class="wrapper">
     <div class="sidebar" data-active-color="rose" data-background-color="black">
         <div class="logo">
