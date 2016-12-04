@@ -1,0 +1,21 @@
+<h1> Survey Questions with Score </h1>
+<table>
+    <tr>
+        <th>Question</th>
+	&nbsp;
+    &nbsp;
+        <th>Survey Score(1-10)</th>
+	&nbsp;
+    {% if latest_menu_list1 %}
+    {% for survey in latest_menu_list1 %}
+    </tr> 
+        <td><a href="/menu/{{ survey.id }}/">{{ survey.question}} </a> </td>
+	&nbsp;
+        <td>{{ survey.score}}</td>
+	&nbsp;
+    {% endfor %}
+    {% else %}
+    <p>No Survey Update.</p>
+{% endif %}
+</table>
+<button type="button"><a href="{% url 'managerview' %}">Go to main menu</a></button>

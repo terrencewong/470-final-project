@@ -29,7 +29,6 @@ class OrderForm(forms.ModelForm):
 	Nutrition = forms.CharField(label="Nutrition")
 	Price = forms.IntegerField(label="Price")
 	
-	
 class ItemForm(forms.ModelForm):
     class Meta:
         model = OrderedMenuItems
@@ -40,7 +39,6 @@ class ItemForm(forms.ModelForm):
     #item_name = forms.ModelChoiceField(queryset=menu.objects.all(), label="Menu Item")#, required=True)
     num_items = forms.IntegerField(min_value=0, initial=0, label = "Number of items", required=False)
     notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
-	
 	
 class OrderStartForm(forms.Form):
     Code = forms.CharField(label = 'Code', max_length=10, required=True)

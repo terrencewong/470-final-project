@@ -6,10 +6,10 @@ from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.utils import timezone
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
+from django.contrib.auth.decorators import login_required
 from menu.models import menu
 from restaurant.models import UserType
 
@@ -125,13 +125,16 @@ def ContactServer(request):
 			message = form.cleaned_data['Message']
 			alert = Alert.objects.create(Message=message, Order=order_id)
 			
-			return HttpResponseRedirect('/order-placed/')
+			return HttpResponseRedirect('/contact-server-sent/')
 			
 		else:
 			return HttpResponseRedirect('/contact-server/')
 	else:
 		form = ContactServerForm()
 		return render(request, 'restaurant/contactserver.html', {'form': form})		
+
+def ContactServerSent(request):
+	return render(request, 'restaurant/contactserversent.html')
 		
 class ServerView(generic.ListView):
     template_name = 'restaurant/server.html'
@@ -167,17 +170,6 @@ class OrderView(generic.ListView):
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/orderdetail.html'
-
-def orderdetail(request, order_id):
-	order = get_object_or_404(Order, pk=order_id)
-	if request.method == "POST":
-		form = KitchenForm(request.POST, instance=order)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(reverse('restaurant:orders'))
-	else:
-		form = KitchenForm(instance=order)
-	return render(request, 'restaurant/orderdetail.html', {'form':form, 'order':order})
 
 class AlertDetailView(generic.DetailView):
     model = Alert
@@ -221,14 +213,19 @@ def gateway(request,username):         # gate way is added for users who has mul
 	if user.usertype.is_customer:
 		return render(request, 'restaurant/gateway.html', {'username':username})
 
-#Main Kitchen View
 class KitchenView(generic.ListView):
+
+	template_name = 'restaurant/kitchen.html'
+	context_object_name = 'order_list'
+	
+	def get_queryset(self):
+		return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
+		
 	template_name = 'restaurant/kitchen.html'
 	context_object_name = 'order_list'
 	def get_queryset(self):
-		return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
+		return Order.objects.all().filter(Status='SENT TO KITCHEN').order_by('Table')
 
-#Kitchen's view of each table's order
 def kitchendetail(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
     if request.method == "POST":
