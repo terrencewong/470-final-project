@@ -108,15 +108,14 @@ def AddItem(request, pk):
 		pre_form = OrderForm(instance=current_item)
 		form = ItemForm()
 		
-		return render(request, 'restaurant/additem.html', {'form': form})	
+		return render(request, 'restaurant/additem.html', {'form': form})		
 
 # display order status and contact server option		
 def orderplaced(request):
-		
 	Code = request.session['Code']	
 	order = get_object_or_404(Order, Code=Code)	
 	return render(request, 'restaurant/orderplaced.html', {'order':order})
-
+				
 #contact server form	
 def ContactServer(request):
 
@@ -131,7 +130,7 @@ def ContactServer(request):
 			message = form.cleaned_data['Message']
 			alert = Alert.objects.create(Message=message, Order=order_id)
 			
-			return HttpResponseRedirect('/order-placed/')
+			return HttpResponseRedirect('/contact-server-sent/')
 			
 		else:
 			return HttpResponseRedirect('/contact-server/')
@@ -164,6 +163,9 @@ def StartOrder(request):
         form = OrderStartForm()
     return render(request, 'restaurant/orderstart.html', {'form': form})
 
+def ContactServerSent(request):
+	return render(request, 'restaurant/contactserversent.html')
+	
 class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
