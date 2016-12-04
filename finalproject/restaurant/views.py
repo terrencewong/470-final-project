@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from .models import Table, Order, MenuItem, Alert
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -9,9 +8,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from restaurant.models import UserType
+from .models import Table, Order, MenuItem, Alert
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
 from menu.models import menu
-from restaurant.models import UserType
 
 
 def home(request):
@@ -154,7 +154,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return (render(request, 'restaurant/redirect.html', {'username':username} ))
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
@@ -168,10 +168,29 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def gateway(request,username):         # gate way is added for users who has multiple roles (might be dropped later)
+def gateway(request,username):         # gateway is added for users who has multiple roles (might be dropped later)
 	user=get_object_or_404(User.objects, username=username)
-	if user.usertype.is_customer:
-		return render(request, 'restaurant/gateway.html', {'username':username})
+	if user.usertype.is_customer :
+		is_customer = True
+	else:
+		is_customer = False
+
+	if user.usertype.is_kitchen :
+		is_kitchen = True
+	else:
+		is_kitchen = False
+
+	if user.usertype.is_server :
+		is_server = True
+	else:
+		is_server = False
+	context = {
+		'username':username,
+		'is_customer': is_customer,
+		'is_kitchen': is_kitchen,
+		'is_server': is_server,
+	}
+	return render(request, 'restaurant/gateway.html', context)
 
 class KitchenView(generic.ListView):
    template_name = 'restaurant/kitchen.html'
