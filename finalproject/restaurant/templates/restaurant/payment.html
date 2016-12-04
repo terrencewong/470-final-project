@@ -1,8 +1,10 @@
-<form action="/kitchen" method="POST">
+<p> Your total is ${{ amount_due.total }} (CAD) </p>
+<form name="payment" method="POST">
   <script
+    var payment-amount = "{{ amount_due.total }}";
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key="pk_test_iZGLJ7cTHSk51PnGTqE4PFIW"
-    data-amount="999"
+    data-amount= payment-amount
     data-name="Raccoon Express"
     data-description="Order Payment"
     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

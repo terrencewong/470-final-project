@@ -5,8 +5,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from menu.models import menu
 
-# Create your models here.
-
 class Table (models.Model):
 	Table = models.IntegerField(default=0)
 	Code = models.CharField(max_length=20)
@@ -81,8 +79,14 @@ class OrderedMenuItems(models.Model):
 	order_id = models.ForeignKey(Order)
 	#table_id = models.ForeignKey(Order)
 	item_name = models.ForeignKey(menu, null=True)
-	num_items = models.IntegerField(default=0) 
+	num_items = models.IntegerField(default=0)
 	notes = models.TextField(max_length=500, null=True)
 	#def __str__(self):
 		#return self.item_name
 		#return self.item_name
+
+class Payment(models.Model):
+	pay_id = models.ForeignKey(Order)
+	total = models.PositiveIntegerField(default=0)
+	def __str__(self):
+		return self.pay_id
