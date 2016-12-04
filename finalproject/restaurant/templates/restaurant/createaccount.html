@@ -16,39 +16,44 @@
 
 <form name="createaccount" action="" method="post">
 {% csrf_token %}
-{% if error %}
-    <p style="color: red;">You did not fill in the following fields:</p>
-    <ul style="color: red;">
-        {% if username == '' %}
-            <li>Username</li>
-        {% endif %}
 
-        {% if emailaddress == '' %}
-            <li>E-mail address</li>
-        {% endif %}
+{% if fieldsDontExist %}
+<p style="color: red;">You did not fill in the following fields:</p>
+<ul style="color: red;">
+    {% if username == '' %}
+        <li>Username</li>
+    {% endif %}
 
-        {% if firstname == '' %}
-            <li>First name</li>
-        {% endif %}
+    {% if emailaddress == '' %}
+        <li>E-mail address</li>
+    {% endif %}
 
-        {% if surname == '' %}
-            <li>Surname</li>
-        {% endif %}
+    {% if firstname == '' %}
+        <li>First name</li>
+    {% endif %}
 
-        {% if password == '' %}
-            <li>Password</li>
-        {% endif %}
+    {% if surname == '' %}
+        <li>Surname</li>
+    {% endif %}
 
-        {% if reenterpassword == '' %}
-            <li>Re-enter password</li>
-        {% endif %}
-    </ul>
-    <p style="color: red;">Please fill them in and submit again.</p>
+    {% if password == '' %}
+        <li>Password</li>
+    {% endif %}
+
+    {% if reenterpassword == '' %}
+        <li>Re-enter password</li>
+    {% endif %}
+</ul>
+<p style="color: red;">Please fill them in and submit again.</p>
+{% endif %}
+
+{% if userNameTaken %}
+<p style="color: red;">The username you have chosen is already taken. Please select another username and submit again.</p>
 {% endif %}
 
 <p>
 <label for="username">Username:</label>
-<input type="text" name="username" id="username" value="{{ username }}">
+<input type="text" name="username" id="username" value="">
 (Required)
 </p>
 

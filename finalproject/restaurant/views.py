@@ -12,6 +12,7 @@ from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderFor
 from django.contrib.auth.decorators import login_required
 from restaurant.models import UserType
 from menu.models import menu
+from django.db import IntegrityError  #Needed for the account-creation page.
 
 
 def home(request):
@@ -56,32 +57,32 @@ def TryAgain(request):
 class MenuView(generic.ListView):
 	template_name = 'restaurant/menu.html'
 	context_object_name = 'latest_menuitem_list'
-    
+
 	def get_context_data(self, *args, **kwargs):
 		context = super(MenuView, self).get_context_data(*args, **kwargs)
 		code = self.request.session['Code']
 		pk = Order.objects.get(Code=code)
 		context['current_menu_items'] = OrderedMenuItems.objects.filter(order_id=pk)
 		return context
-    
+
 	def get_queryset(self):
-		return menu.objects.all().order_by('Name')	
-	
+		return menu.objects.all().order_by('Name')
+
 def AddItem(request, pk):
     # if this is a POST request we need to process the form data
 	if request.method == 'POST':
         # create a form instance and populate it with data from the request:
 		current_item = menu.objects.get(id=pk)
-        
+
 		request.session['Name']=current_item.Name
 		request.session['Description']=current_item.Description
 		request.session['Nutrition']=current_item.Nutrition
 		request.session['Price']=current_item.Price
-        
+
 		pre_form = OrderForm(instance=current_item)
 		form = ItemForm(request.POST)
         # check whether it's valid:
-		
+
 		if form.is_valid() and (form.cleaned_data['num_items'] >0):
 			Code=request.session['Code']
 			order_id = Order.objects.get(Code=Code)
@@ -89,58 +90,58 @@ def AddItem(request, pk):
 			num_items=form.cleaned_data['num_items']
 			notes=form.cleaned_data['notes']
 			item = OrderedMenuItems.objects.create(order_id=order_id, item_name=item_name, num_items=num_items, notes=notes)
-			
+
 			return HttpResponseRedirect('/menu/')
-		
+
 		# don't order item if num_items = 0
 		else:
 			return HttpResponseRedirect('/menu/')
 
     # if a GET (or any other method) we'll create a blank form
-	
+
 	else:
 		current_item = menu.objects.get(id=pk)
-		
+
 		request.session['Name']=current_item.Name
 		request.session['Description']=current_item.Description
 		request.session['Nutrition']=current_item.Nutrition
 		request.session['Price']=current_item.Price
 		pre_form = OrderForm(instance=current_item)
 		form = ItemForm()
-		
-		return render(request, 'restaurant/additem.html', {'form': form})		
 
-# display order status and contact server option		
+		return render(request, 'restaurant/additem.html', {'form': form})
+
+# display order status and contact server option
 def orderplaced(request):
-	Code = request.session['Code']	
-	order = get_object_or_404(Order, Code=Code)	
+	Code = request.session['Code']
+	order = get_object_or_404(Order, Code=Code)
 	return render(request, 'restaurant/orderplaced.html', {'order':order})
-				
-#contact server form	
+
+#contact server form
 def ContactServer(request):
 
 	if request.POST:
-		
+
 		form = ContactServerForm(request.POST)
-		
+
 		if form.is_valid() and form.cleaned_data['Message']:
-			
+
 			Code=request.session['Code']
-			order_id = Order.objects.get(Code=Code)			
+			order_id = Order.objects.get(Code=Code)
 			message = form.cleaned_data['Message']
 			alert = Alert.objects.create(Message=message, Order=order_id)
-			
+
 			return HttpResponseRedirect('/contact-server-sent/')
-			
+
 		else:
 			return HttpResponseRedirect('/contact-server/')
 	else:
 		form = ContactServerForm()
-		return render(request, 'restaurant/contactserver.html', {'form': form})		
+		return render(request, 'restaurant/contactserver.html', {'form': form})
 
 def ContactServerSent(request):
 	return render(request, 'restaurant/contactserversent.html')
-		
+
 class ServerView(generic.ListView):
     template_name = 'restaurant/server.html'
     context_object_name = 'current_alert_list'
@@ -165,7 +166,7 @@ def StartOrder(request):
     else:
         form = OrderStartForm()
     return render(request, 'restaurant/orderstart.html', {'form': form})
-	
+
 class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
@@ -240,10 +241,10 @@ def gateway(request,username):         # gateway is added for users who has mult
 class KitchenView(generic.ListView):
 	template_name = 'restaurant/kitchen.html'
 	context_object_name = 'order_list'
-	
+
 	def get_queryset(self):
 		return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
-		
+
 	template_name = 'restaurant/kitchen.html'
 	context_object_name = 'order_list'
 	def get_queryset(self):
@@ -266,8 +267,10 @@ class KitchenDetailView(generic.DetailView):
 
 
 #View for the account creation page:
+
 def createaccount(request):
-    error = False
+    fieldsDontExist = False
+    userNameTaken = False
     originalUserInputs = {}
 
     if (('username' in request.POST) and ('emailaddress' in request.POST) and ('firstname' in request.POST) and ('surname' in request.POST) and ('password' in request.POST) and ('reenterpassword' in request.POST)):
@@ -279,7 +282,7 @@ def createaccount(request):
         reenterpassword = request.POST['reenterpassword']
 
         if ((not username) or (not emailaddress) or (not firstname) or (not surname) or (not password) or (not reenterpassword)):
-            error = True
+            fieldsDontExist = True
 
             if (username):
                 originalUserInputs['username'] = username
@@ -311,8 +314,32 @@ def createaccount(request):
             else:
                 originalUserInputs['reenterpassword'] = ''
         else:
-            return HttpResponse("Data entered into DB")
+            try:
+                User.objects.create_user( username = username,
+                                          first_name = firstname,
+                                          last_name = surname,
+                                          email = emailaddress,
+                                          password = password,
+                                          is_staff = False,
+                                          is_active = True,
+                                          is_superuser = False
+                                        )
+            except IntegrityError:
+                userNameTaken = True
+                originalUserInputs['userNameTaken'] = userNameTaken
+                originalUserInputs['fieldsDontExist'] = fieldsDontExist
 
-    originalUserInputs['error'] = error
+                originalUserInputs['username'] = ''
+                originalUserInputs['emailaddress'] = emailaddress
+                originalUserInputs['firstname'] = firstname
+                originalUserInputs['surname'] = surname
+                originalUserInputs['password'] = password
+                originalUserInputs['reenterpassword'] = reenterpassword
 
+                return render(request, 'restaurant/createaccount.html', originalUserInputs)
+            else:
+                return render(request, 'restaurant/createaccount_successful.html')
+
+    originalUserInputs['fieldsDontExist'] = fieldsDontExist
+    originalUserInputs['userNameTaken'] = userNameTaken
     return render(request, 'restaurant/createaccount.html', originalUserInputs)
