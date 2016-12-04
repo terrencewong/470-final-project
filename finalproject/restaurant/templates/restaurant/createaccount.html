@@ -14,8 +14,8 @@
 
 <h1>Create Account</h1>
 
-<form name="createaccount" action="" method="get">
-
+<form name="createaccount" action="" method="post">
+{% csrf_token %}
 {% if error %}
     <p style="color: red;">You did not fill in the following fields:</p>
     <ul style="color: red;">

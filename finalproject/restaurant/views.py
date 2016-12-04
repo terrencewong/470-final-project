@@ -158,13 +158,13 @@ def createaccount(request):
     error = False
     originalUserInputs = {}
 
-    if (('username' in request.GET) and ('emailaddress' in request.GET) and ('firstname' in request.GET) and ('surname' in request.GET) and ('password' in request.GET) and ('reenterpassword' in request.GET)):
-        username = request.GET['username']
-        emailaddress = request.GET['emailaddress']
-        firstname = request.GET['firstname']
-        surname = request.GET['surname']
-        password = request.GET['password']
-        reenterpassword = request.GET['reenterpassword']
+    if (('username' in request.POST) and ('emailaddress' in request.POST) and ('firstname' in request.POST) and ('surname' in request.POST) and ('password' in request.POST) and ('reenterpassword' in request.POST)):
+        username = request.POST['username']
+        emailaddress = request.POST['emailaddress']
+        firstname = request.POST['firstname']
+        surname = request.POST['surname']
+        password = request.POST['password']
+        reenterpassword = request.POST['reenterpassword']
 
         if ((not username) or (not emailaddress) or (not firstname) or (not surname) or (not password) or (not reenterpassword)):
             error = True
