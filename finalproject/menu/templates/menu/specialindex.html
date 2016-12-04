@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'menu/style1.css' %}" />
 
 
-<h1> MENU </h1>
+<h1> SPECIAL MENU </h1>
 <table>
     <tr>
         <th>Item Name</th>
@@ -29,8 +29,8 @@
     </tr>
     {% endfor %}
     {% else %}
-    <p>No Menu Items are available.</p>
+    <p>No Items in menu are available :(.</p>
 {% endif %}
 </table>
-<div class=a><a href="{% url 'update' %}">+ New Menu item</a></div>
+<div class=a><a href="{% url 'specialupdate' %}">+ New Menu item</a></div>
 

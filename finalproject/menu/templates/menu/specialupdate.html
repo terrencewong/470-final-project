@@ -1,0 +1,12 @@
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'menu/style1.css' %}" />
+<h1>Add Special Menu Item</h1><br>
+	
+<form method = "post" action = ".">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type = "submit" value = "Submit" />
+</form>
+<a href="{% url 'viewmenu' %}">Go to main menu</a>
