@@ -17,8 +17,8 @@
 <form name="createaccount" action="" method="post">
 {% csrf_token %}
 
-{% if fieldsDontExist %}
-<p style="color: red;">You did not fill in the following fields:</p>
+{% if fieldsDoNotExist %}
+<p style="color: red;">You did not fill in the following required fields:</p>
 <ul style="color: red;">
     {% if username == '' %}
         <li>Username</li>
@@ -45,15 +45,22 @@
     {% endif %}
 </ul>
 <p style="color: red;">Please fill them in and submit again.</p>
+<hr>
 {% endif %}
 
 {% if userNameTaken %}
-<p style="color: red;">The username you have chosen is already taken. Please select another username and submit again.</p>
+<p style="color: red;">The username you chose is already taken. Please select another username and submit again.</p>
+<hr>
+{% endif %}
+
+{% if retypedPasswordDoesNotMatch %}
+<p style="color: red;">What you typed in the <b>Password</b> field does <em>not</em> match what you typed in the <b>Re-enter password</b> field. Please enter your chosen password into both fields again.</p>
+<hr>
 {% endif %}
 
 <p>
 <label for="username">Username:</label>
-<input type="text" name="username" id="username" value="">
+<input type="text" name="username" id="username" value="{{ username }}">
 (Required)
 </p>
 

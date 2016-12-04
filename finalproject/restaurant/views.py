@@ -12,7 +12,7 @@ from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderFor
 from django.contrib.auth.decorators import login_required
 from restaurant.models import UserType
 from menu.models import menu
-from django.db import IntegrityError  #Needed for the account-creation page.
+from django.db import IntegrityError  #Needed for the account-creation page. See the createaccount() function below.
 
 
 def home(request):
@@ -266,14 +266,23 @@ class KitchenDetailView(generic.DetailView):
     template_name = 'restaurant/kitchendetail.html'
 
 
-#View for the account creation page:
 
+#View-function for the account-creation page:
 def createaccount(request):
-    fieldsDontExist = False
+    #Template variables:
+    fieldsDoNotExist = False
     userNameTaken = False
+    retypedPasswordDoesNotMatch = False
+
+    #Dictionary to hold template variables:
     originalUserInputs = {}
 
-    if (('username' in request.POST) and ('emailaddress' in request.POST) and ('firstname' in request.POST) and ('surname' in request.POST) and ('password' in request.POST) and ('reenterpassword' in request.POST)):
+    #Check that all the expected form fields exist:
+    if (('username' in request.POST) and ('emailaddress' in request.POST) and
+        ('firstname' in request.POST) and ('surname' in request.POST) and
+        ('password' in request.POST) and ('reenterpassword' in request.POST)):
+
+        #Extract all the values from the form's fields:
         username = request.POST['username']
         emailaddress = request.POST['emailaddress']
         firstname = request.POST['firstname']
@@ -281,9 +290,17 @@ def createaccount(request):
         password = request.POST['password']
         reenterpassword = request.POST['reenterpassword']
 
-        if ((not username) or (not emailaddress) or (not firstname) or (not surname) or (not password) or (not reenterpassword)):
-            fieldsDontExist = True
+        #Check if any of the fields contain an empty value:
+        if ((not username) or (not emailaddress) or (not firstname) or
+            (not surname) or (not password) or (not reenterpassword)):
 
+            fieldsDoNotExist = True  #At least one field contains an empty value.
+
+            #We will have to present the account-creation form to the user again
+            #so that he/she can fill in just the fields that are still empty.
+            #Figure out which of the form's fields were already filled in by
+            #the user, so we can fill in those fields for the user and spare
+            #the user some extra typing:
             if (username):
                 originalUserInputs['username'] = username
             else:
@@ -313,7 +330,32 @@ def createaccount(request):
                 originalUserInputs['reenterpassword'] = reenterpassword
             else:
                 originalUserInputs['reenterpassword'] = ''
+
+        #All the fields are filled in, but we need to check if the re-typed
+        #password matches the password the user first typed:
+        elif (password != reenterpassword):
+            retypedPasswordDoesNotMatch = True  #The re-typed password does NOT match the password the user first typed.
+
+            originalUserInputs['retypedPasswordDoesNotMatch'] = retypedPasswordDoesNotMatch
+            originalUserInputs['fieldsDoNotExist'] = fieldsDoNotExist
+            originalUserInputs['userNameTaken'] = userNameTaken
+
+            originalUserInputs['username'] = username
+            originalUserInputs['emailaddress'] = emailaddress
+            originalUserInputs['firstname'] = firstname
+            originalUserInputs['surname'] = surname
+
+            #Blanking both the Password and Re-enter password fields to make
+            #the user enter the password into both fields again:
+            originalUserInputs['password'] = ''
+            originalUserInputs['reenterpassword'] = ''
+
+            return render(request, 'restaurant/createaccount.html', originalUserInputs)
+
+        #Create the user's account...
         else:
+            #Create the user's account by creating a record in the User table
+            #with all the user's information:
             try:
                 User.objects.create_user( username = username,
                                           first_name = firstname,
@@ -324,12 +366,18 @@ def createaccount(request):
                                           is_active = True,
                                           is_superuser = False
                                         )
+            #The username chosen by the user has to be unique. If it's not
+            #unique, this exception gets thrown, so we will have to ask the
+            #user to choose a different username. We will present the account-
+            #creation form to the user again, but with all the fields, except
+            #the username field, filled in with his/her original entries:
             except IntegrityError:
                 userNameTaken = True
                 originalUserInputs['userNameTaken'] = userNameTaken
-                originalUserInputs['fieldsDontExist'] = fieldsDontExist
+                originalUserInputs['fieldsDoNotExist'] = fieldsDoNotExist
+                originalUserInputs['retypedPasswordDoesNotMatch'] = retypedPasswordDoesNotMatch
 
-                originalUserInputs['username'] = ''
+                originalUserInputs['username'] = ''  #Blanking the username field.
                 originalUserInputs['emailaddress'] = emailaddress
                 originalUserInputs['firstname'] = firstname
                 originalUserInputs['surname'] = surname
@@ -337,9 +385,14 @@ def createaccount(request):
                 originalUserInputs['reenterpassword'] = reenterpassword
 
                 return render(request, 'restaurant/createaccount.html', originalUserInputs)
+            #The record representing the user's new account was successfully
+            #created and inserted into the User table:
             else:
                 return render(request, 'restaurant/createaccount_successful.html')
 
-    originalUserInputs['fieldsDontExist'] = fieldsDontExist
+    #At least one of the expected form fields does NOT exist:
+    originalUserInputs['fieldsDoNotExist'] = fieldsDoNotExist
+
     originalUserInputs['userNameTaken'] = userNameTaken
+    originalUserInputs['retypedPasswordDoesNotMatch'] = retypedPasswordDoesNotMatch
     return render(request, 'restaurant/createaccount.html', originalUserInputs)
