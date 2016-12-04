@@ -1,7 +1,8 @@
 from django import forms
-from .models import Order, OrderedMenuItems, Alert
+from .models import Order, Alert, OrderedMenuItems 
 from django.contrib.admin import widgets
 from menu.models import menu
+from django.contrib.admin import widgets
 
 class TableIDForm(forms.ModelForm):
 	class Meta:
@@ -18,18 +19,17 @@ class TableIDForm(forms.ModelForm):
 	}
 
 class OrderForm(forms.ModelForm):
-
 	class Meta:
 		model = menu
-		fields = ('Name', 'Description', 'Nutrition', 'Price')#, 'table_id', 'item_name', 'num_items', 'notes',)
+		fields = ('Name', 'Description', 'Nutrition', 'Price')
 	
-	#order_id = models.Order(Code)
-	Name = forms.CharField(label="Name", required=True)#, readonly:True)#, disabled=True)
-	Description = forms.CharField(label="Description")#, required=True)
+	Name = forms.CharField(label="Name", required=True)
+	Description = forms.CharField(label="Description")
 	Nutrition = forms.CharField(label="Nutrition")
 	Price = forms.IntegerField(label="Price")
 	
 class ItemForm(forms.ModelForm):
+
     class Meta:
         model = OrderedMenuItems
         fields = ('num_items', 'notes')

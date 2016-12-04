@@ -13,15 +13,21 @@ from django.contrib.auth.decorators import login_required
 from menu.models import menu
 from restaurant.models import UserType
 
-def index(request):
-    return HttpResponse("Hello Group 4: Here is the empty project site.")
 
 def home(request):
 	return render(request, 'restaurant/home.html')
 
+def index(request):
+    return HttpResponse("Hello Group 4: Here is the empty project site.")
+
+def welcome(request):
+	return render(request, 'restaurant/welcome.html')
+	#return HttpResponse("Welcome.")
+
 #Customer Input - verify customer's order code has been created by server
 def TableIDVerification(request):
 	if request.POST:
+
 		form = TableIDForm(request.POST)
 		if form.is_valid():
 			code_id = form.data['Code']
@@ -102,15 +108,14 @@ def AddItem(request, pk):
 		pre_form = OrderForm(instance=current_item)
 		form = ItemForm()
 		
-		return render(request, 'restaurant/additem.html', {'form': form})	
+		return render(request, 'restaurant/additem.html', {'form': form})		
 
 # display order status and contact server option		
 def orderplaced(request):
-		
 	Code = request.session['Code']	
 	order = get_object_or_404(Order, Code=Code)	
 	return render(request, 'restaurant/orderplaced.html', {'order':order})
-
+				
 #contact server form	
 def ContactServer(request):
 
@@ -155,12 +160,12 @@ def StartOrder(request):
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
             order = Order.objects.create(Code=Code, Table=Table, Status='CREATED', StartTime=timezone.now())
-            return HttpResponseRedirect('/index/server/orderstart/')
+            return HttpResponseRedirect('/server/orderstart')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = OrderStartForm()
     return render(request, 'restaurant/orderstart.html', {'form': form})
-
+	
 class OrderView(generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'

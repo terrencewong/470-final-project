@@ -10,7 +10,7 @@ urlpatterns = [
 	url(r'^guest-user/tryagain$', views.TryAgain, name='tryagain'),	
 	url(r'^order-placed/$', views.orderplaced, name='OrderPlaced'),	
 	url(r'^contact-server/$', views.ContactServer, name='ContactServer'),
-	url(r'^contact-server-sent/$', views.ContactServerSent, name='ContactServerSent'),	
+	url(r'^contact-server-sent/$', views.ContactServerSent, name='ContactServerSent'),
     url(r'^server/$', views.ServerView.as_view(), name='server'),
     url(r'^server/orderstart$', views.StartOrder, name='orderstart'),
     url(r'^gateway/(\w+)/$', views.gateway, name='gateway'),
@@ -26,5 +26,4 @@ urlpatterns = [
 	url(r'^server/$', views.StartOrder, name='server'),
 	url(r'^server/orders$', views.OrderView.as_view(), name='orders'),
 	url(r'^server/(?P<pk>[0-9]+)/orderdetails$', views.OrderDetailView.as_view(), name='orderdetails'),
-	url(r'^kitchen/(?P<pk>[0-9]+)/kitchendetails$', views.KitchenDetailView.as_view(), name='kitchendetail'),
 ]
