@@ -188,10 +188,10 @@ def StartOrder(request):
 class OrderView(SingleObjectMixin, generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
-    
+
     def get_object(self):
         return get_object_or_404(User, pk=request.session['user_id'])
-    
+
     def get(self, request, *args, **kwargs):
         user = self.request.user
         current_user = user
@@ -285,34 +285,6 @@ def gateway(request,username):         # gateway is added for users who has mult
 		'is_server': is_server,
 	}
 	return render(request, 'restaurant/gateway.html', context)
-
-class KitchenView(generic.ListView):
-	template_name = 'restaurant/kitchen.html'
-	context_object_name = 'order_list'
-
-	def get_queryset(self):
-		return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
-
-	template_name = 'restaurant/kitchen.html'
-	context_object_name = 'order_list'
-	def get_queryset(self):
-		return Order.objects.all().filter(Status='SENT TO KITCHEN').order_by('Table')
-
-def kitchendetail(request, order_id):
-    order = get_object_or_404(Order, pk=order_id)
-    if request.method == "POST":
-        form = KitchenForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('restaurant:kitchen'))
-    else:
-        form = KitchenForm(instance=order)
-    return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
-
-def gateway(request,username):         # gate way is added for users who has multiple roles (might be dropped later)
-	user=get_object_or_404(User.objects, username=username)
-	if user.usertype.is_customer:
-		return render(request, 'restaurant/gateway.html', {'username':username})
 
 #Main Kitchen View
 class KitchenView(generic.ListView):

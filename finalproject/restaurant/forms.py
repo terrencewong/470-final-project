@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order, Alert, OrderedMenuItems 
+from .models import Order, Alert, OrderedMenuItems
 from django.contrib.admin import widgets
 from menu.models import menu
 
@@ -21,32 +21,27 @@ class OrderForm(forms.ModelForm):
 	class Meta:
 		model = menu
 		fields = ('Name', 'Description', 'Nutrition', 'Price')
-	
+
 	Name = forms.CharField(label="Name", required=True)
 	Description = forms.CharField(label="Description")
 	Nutrition = forms.CharField(label="Nutrition")
 	Price = forms.IntegerField(label="Price")
-	
+
 class ItemForm(forms.ModelForm):
 
     class Meta:
         model = OrderedMenuItems
         fields = ('num_items', 'notes')
         exclude = ('order_id', 'item_name')
-        
+
     #order_id = forms.ModelChoiceField(queryset=Order.objects.all() , label="Code", required=True)#, readonly:True)#, disabled=True)
     #item_name = forms.ModelChoiceField(queryset=menu.objects.all(), label="Menu Item")#, required=True)
     num_items = forms.IntegerField(min_value=0, initial=0, label = "Number of items", required=False)
     notes = forms.CharField(label="Notes", required=False, widget=forms.Textarea)
-	
+
 class OrderStartForm(forms.Form):
     Code = forms.CharField(label = 'Code', max_length=10, required=True)
     Table = forms.IntegerField(min_value=1, initial=1, label = 'Table', required=True)
-
-class KitchenForm(forms.ModelForm):
-	class Meta:
-		model = Order
-		fields = ('Status',)
 
 class KitchenForm(forms.ModelForm):
 	class Meta:
