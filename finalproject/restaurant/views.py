@@ -129,7 +129,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/login')
 
 def gateway(request,username):         # gateway is added for users who has multiple roles (might be dropped later)
 	user=get_object_or_404(User.objects, username=username)

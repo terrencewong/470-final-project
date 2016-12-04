@@ -43,38 +43,34 @@
                 </div>
             </div>
 
-            {% if is_customer %}
             <ul class="nav">
+            {% if is_customer %}
                 <li>
                     <a href="#">
                         <i class="material-icons">free_breakfast</i>
                         <p>Dinning</p>
                     </a>
                 </li>
-            </ul>
             {% endif %}
 
             {% if is_server %}
-            <ul class="nav">
                 <li>
                     <a href="#">
                         <i class="material-icons">room_service</i>
                         <p>Waiter</p>
                     </a>
                 </li>
-            </ul>
             {% endif %}
 
             {% if is_kitchen %}
-            <ul class="nav">
                 <li>
-                    <a href="#">
+                    <a href="/kitchen">
                         <i class="material-icons">kitchen</i>
                         <p>Chef</p>
                     </a>
                 </li>
-            </ul>
             {% endif %}
+           </ul>
 
         </div>
     </div>
@@ -153,10 +149,17 @@
                 </div>
             </div>
         </nav>
+
+
+
         <div class="content">
             <div class="container-fluid">
             </div>
         </div>
+
+
+
+
         <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
