@@ -204,6 +204,5 @@ def createaccount(request):
     originalUserInputs['error'] = error
 
     return render(request, 'restaurant/createaccount.html', originalUserInputs)
-    #return HttpResponse("You Fucked Up!")
 
 
