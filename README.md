@@ -22,6 +22,8 @@ To Run
 
 URLS:
 
+http://55.55.55.5:8080/createaccount/
+
 http://55.55.55.5:8080/login/
 
 http://55.55.55.5:8080/server/
