@@ -15,7 +15,7 @@ from menu.models import menu
 
 
 def home(request):
-	return render(request, 'restaurant/home.html')
+    return render(request, 'restaurant/home.html')
 
 def index(request):
     return HttpResponse("Hello Group 4: Here is the empty project site.")
@@ -238,7 +238,6 @@ def gateway(request,username):         # gateway is added for users who has mult
 	return render(request, 'restaurant/gateway.html', context)
 
 class KitchenView(generic.ListView):
-
 	template_name = 'restaurant/kitchen.html'
 	context_object_name = 'order_list'
 	
@@ -264,3 +263,56 @@ def kitchendetail(request, order_id):
 class KitchenDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/kitchendetail.html'
+
+
+#View for the account creation page:
+def createaccount(request):
+    error = False
+    originalUserInputs = {}
+
+    if (('username' in request.POST) and ('emailaddress' in request.POST) and ('firstname' in request.POST) and ('surname' in request.POST) and ('password' in request.POST) and ('reenterpassword' in request.POST)):
+        username = request.POST['username']
+        emailaddress = request.POST['emailaddress']
+        firstname = request.POST['firstname']
+        surname = request.POST['surname']
+        password = request.POST['password']
+        reenterpassword = request.POST['reenterpassword']
+
+        if ((not username) or (not emailaddress) or (not firstname) or (not surname) or (not password) or (not reenterpassword)):
+            error = True
+
+            if (username):
+                originalUserInputs['username'] = username
+            else:
+                originalUserInputs['username'] = ''
+
+            if (emailaddress):
+                originalUserInputs['emailaddress'] = emailaddress
+            else:
+                originalUserInputs['emailaddress'] = ''
+
+            if (firstname):
+                originalUserInputs['firstname'] = firstname
+            else:
+                originalUserInputs['firstname'] = ''
+
+            if (surname):
+                originalUserInputs['surname'] = surname
+            else:
+                originalUserInputs['surname'] = ''
+
+            if (password):
+                originalUserInputs['password'] = password
+            else:
+                originalUserInputs['password'] = ''
+
+            if (reenterpassword):
+                originalUserInputs['reenterpassword'] = reenterpassword
+            else:
+                originalUserInputs['reenterpassword'] = ''
+        else:
+            return HttpResponse("Data entered into DB")
+
+    originalUserInputs['error'] = error
+
+    return render(request, 'restaurant/createaccount.html', originalUserInputs)
