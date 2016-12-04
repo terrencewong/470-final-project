@@ -14,36 +14,72 @@
 
 <h1>Create Account</h1>
 
-<form name="createaccount" action="" method="post">
+<form name="createaccount" action="" method="get">
+
+{% if error %}
+    <p style="color: red;">You did not fill in the following fields:</p>
+    <ul style="color: red;">
+        {% if username == '' %}
+            <li>Username</li>
+        {% endif %}
+
+        {% if emailaddress == '' %}
+            <li>E-mail address</li>
+        {% endif %}
+
+        {% if firstname == '' %}
+            <li>First name</li>
+        {% endif %}
+
+        {% if surname == '' %}
+            <li>Surname</li>
+        {% endif %}
+
+        {% if password == '' %}
+            <li>Password</li>
+        {% endif %}
+
+        {% if reenterpassword == '' %}
+            <li>Re-enter password</li>
+        {% endif %}
+    </ul>
+    <p style="color: red;">Please fill them in and submit again.</p>
+{% endif %}
 
 <p>
 <label for="username">Username:</label>
-<input type="text" name="username" id="username">
+<input type="text" name="username" id="username" value="{{ username }}">
+(Required)
 </p>
 
 <p>
 <label for="emailaddress">E-mail address:</label>
-<input type="text" name="emailaddress" id="emailaddress">
+<input type="text" name="emailaddress" id="emailaddress" value="{{ emailaddress }}">
+(Required)
 </p>
 
 <p>
 <label for="firstname">First name:</label>
-<input type="text" name="firstname" id="firstname">
+<input type="text" name="firstname" id="firstname" value="{{ firstname }}">
+(Required)
 </p>
 
 <p>
 <label for="surname">Surname:</label>
-<input type="text" name="surname" id="surname">
+<input type="text" name="surname" id="surname" value="{{ surname }}">
+(Required)
 </p>
 
 <p>
 <label for="password">Password:</label>
-<input type="password" name="password" id="password">
+<input type="password" name="password" id="password" value="{{ password }}">
+(Required)
 </p>
 
 <p>
 <label for="reenterpassword">Re-enter password:</label>
-<input type="password" id="reenterpassword">
+<input type="password" name="reenterpassword" id="reenterpassword" value="{{ reenterpassword }}">
+(Required)
 </p>
 
 <input type="submit" value="Submit"></p>

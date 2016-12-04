@@ -155,5 +155,55 @@ def kitchendetail(request, order_id):
 
 #View for the account creation page:
 def createaccount(request):
-    return render(request, 'restaurant/createaccount.html')
-    
+    error = False
+    originalUserInputs = {}
+
+    if (('username' in request.GET) and ('emailaddress' in request.GET) and ('firstname' in request.GET) and ('surname' in request.GET) and ('password' in request.GET) and ('reenterpassword' in request.GET)):
+        username = request.GET['username']
+        emailaddress = request.GET['emailaddress']
+        firstname = request.GET['firstname']
+        surname = request.GET['surname']
+        password = request.GET['password']
+        reenterpassword = request.GET['reenterpassword']
+
+        if ((not username) or (not emailaddress) or (not firstname) or (not surname) or (not password) or (not reenterpassword)):
+            error = True
+
+            if (username):
+                originalUserInputs['username'] = username
+            else:
+                originalUserInputs['username'] = ""
+
+            if (emailaddress):
+                originalUserInputs['emailaddress'] = emailaddress
+            else:
+                originalUserInputs['emailaddress'] = ""
+
+            if (firstname):
+                originalUserInputs['firstname'] = firstname
+            else:
+                originalUserInputs['firstname'] = ""
+
+            if (surname):
+                originalUserInputs['surname'] = surname
+            else:
+                originalUserInputs['surname'] = ""
+
+            if (password):
+                originalUserInputs['password'] = password
+            else:
+                originalUserInputs['password'] = ""
+
+            if (reenterpassword):
+                originalUserInputs['reenterpassword'] = reenterpassword
+            else:
+                originalUserInputs['reenterpassword'] = ""
+        else:
+            return HttpResponse("Data entered into DB")
+
+    originalUserInputs['error'] = error
+
+    return render(request, 'restaurant/createaccount.html', originalUserInputs)
+    #return HttpResponse("You Fucked Up!")
+
+
