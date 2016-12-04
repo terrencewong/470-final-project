@@ -333,7 +333,7 @@ def payment(request):
 			currency="cad",
 			customer=customer.id
 		)
-		return render(request, 'restaurant/home.html')
+		return HttpResponseRedirect('/')
 
 #View-function for the account-creation page:
 def createaccount(request):

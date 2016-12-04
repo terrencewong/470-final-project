@@ -26,5 +26,4 @@ urlpatterns = [
 	url(r'^server/(?P<pk>[0-9]+)/orderdetails$', views.OrderDetailView.as_view(), name='orderdetails'),
     url(r'^createaccount/$', views.createaccount),
     url(r'^payment/$', views.payment, name='payment'),
-    url(r'^paymentsuccess/$', views.paymentsuccess, name='paymentsuccess')
 ]
