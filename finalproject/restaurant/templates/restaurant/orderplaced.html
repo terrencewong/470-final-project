@@ -1,5 +1,4 @@
 {% load static %}
-
 <h1> Thank You </h1>
 
 <h3> For placing your order on Raccoon Express </h3>
@@ -11,5 +10,6 @@
 <!--<meta http-equiv="refresh" content="10;http://55.55.55.5:8080/order-placed/">-->
 
 <a href="{% url 'restaurant:ContactServer' %}">Contact Server</a>
-
-
+{% if order.Status == 'COMPLETED' %} <!--only show link to payment if order is completed-->
+  <p> <a href="{% url 'restaurant:payment' %}"> Pay for Order</a> </p>
+{% endif %}

@@ -25,4 +25,5 @@ urlpatterns = [
 	url(r'^server/orders$', views.OrderView.as_view(), name='orders'),
 	url(r'^server/(?P<pk>[0-9]+)/orderdetails$', views.OrderDetailView.as_view(), name='orderdetails'),
     url(r'^createaccount/$', views.createaccount),
+    url(r'^payment/$', views.payment, name='payment'),
 ]

@@ -122,9 +122,11 @@ def AddItem(request, pk):
 
 # display order status and contact server option
 def orderplaced(request):
-	Code = request.session['Code']
-	order = get_object_or_404(Order, Code=Code)
-	return render(request, 'restaurant/orderplaced.html', {'order':order})
+    Code = request.session['Code']
+    if Order.objects.filter(Code=Code).filter(Status='CREATED').exists():
+        Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
+    order = get_object_or_404(Order, Code=Code)
+    return render(request, 'restaurant/orderplaced.html', {'order':order})
 
 #contact server form
 def ContactServer(request):
@@ -307,6 +309,21 @@ def kitchendetail(request, order_id):
         form = KitchenForm(instance=order)
     return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
 
+def payment(request):
+    if request.method == "POST":
+        stripe.api_key = "sk_test_BIY8Qzh7rZoB1A1Bl6o8GI9Q"
+        token = request.POST['stripeToken']
+        customer = stripe.Customer.create(
+            source=token,
+            description="example"
+        )
+        stripe.Charge.create(
+            amount=1000, # in cents
+            currency="cad",
+            customer=customer.id
+        )
+        return render(request, 'restaurant/')
+    return render(request, 'restaurant/payment.html')
 
 
 #View-function for the account-creation page:
