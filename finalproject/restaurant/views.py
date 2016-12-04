@@ -1,16 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
+from .models import Table, Order, MenuItem, Alert
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.utils import timezone
-
 from django.contrib.auth.decorators import login_required
-from .models import Table, Order, MenuItem, Alert
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
 from menu.models import menu
 from restaurant.models import UserType
@@ -18,6 +16,9 @@ from restaurant.models import UserType
 
 def home(request):
 	return render(request, 'restaurant/home.html')
+
+#def TableIDVerification(request):
+	#return render(request, 'restaurant/TableIDVerificationForm.html')
 
 def TableIDVerification(request):
 	if request.POST:
@@ -41,6 +42,53 @@ def TableIDVerification(request):
 		'form': form,
 	}
 	template = 'restaurant/TableIDVerificationForm.html'
+	return render(request, template, variables)
+
+def ordernow(request):
+	code = request.session['Code']
+	menu_item_list = menu.objects.all()
+	return render(request, 'restaurant/order-now.html', {'code':code, 'menu_item_list':menu_item_list})
+
+#def TableIDVerification(request):
+	#return render(request, 'restaurant/TableIDVerificationForm.html')
+
+def TableIDVerification(request):
+	if request.POST:
+
+		form = TableIDForm(request.POST)
+
+		if form.is_valid():
+
+			code_id = form.data['Code']
+			request.session['Code'] = code_id
+
+			try:
+				p = Order.objects.get(Code=code_id)
+
+				#reverse_url = reverse('OrderNow')
+				#return HttpResponseRedirect(reverse_url)
+
+				return HttpResponseRedirect('/order/')
+
+				#return HttpResponse("This exists.")
+
+			except Order.DoesNotExist:
+
+				return HttpResponse("This code does not exist. Please try again.")
+
+	else:
+		form = TableIDForm()
+
+	if request.GET.get('table', ''):
+
+		table = Table.objects.get(id=request.GET.get('table', ''))
+
+	variables = {
+		'form': form,
+	}
+
+	template = 'restaurant/TableIDVerificationForm.html'
+
 	return render(request, template, variables)
 
 def ordernow(request):
@@ -83,17 +131,6 @@ class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/orderdetail.html'
 
-def orderdetail(request, order_id):
-	order = get_object_or_404(Order, pk=order_id)
-	if request.method == "POST":
-		form = KitchenForm(request.POST, instance=order)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(reverse('restaurant:orders'))
-	else:
-		form = KitchenForm(instance=order)
-	return render(request, 'restaurant/orderdetail.html', {'form':form, 'order':order})
-
 class AlertDetailView(generic.DetailView):
     model = Alert
     template_name = 'restaurant/alertdetail.html'
@@ -117,7 +154,7 @@ def login_view(request):
                 if user.is_active:
                     print("User is valid, active and authenticated")
                     login(request, user)
-                    return (render(request, 'restaurant/redirect.html', {'username':username} ))
+                    return HttpResponseRedirect('/')
                 else:
                     print("The password is valid, but the account has been disabled!")
             else:
@@ -129,40 +166,19 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/')
 
-def gateway(request,username):         # gateway is added for users who has multiple roles (might be dropped later)
+def gateway(request,username):         # gate way is added for users who has multiple roles (might be dropped later)
 	user=get_object_or_404(User.objects, username=username)
-	if user.usertype.is_customer :
-		is_customer = True
-	else:
-		is_customer = False
+	if user.usertype.is_customer:
+		return render(request, 'restaurant/gateway.html', {'username':username})
 
-	if user.usertype.is_kitchen :
-		is_kitchen = True
-	else:
-		is_kitchen = False
-
-	if user.usertype.is_server :
-		is_server = True
-	else:
-		is_server = False
-	context = {
-		'username':username,
-		'is_customer': is_customer,
-		'is_kitchen': is_kitchen,
-		'is_server': is_server,
-	}
-	return render(request, 'restaurant/gateway.html', context)
-
-#Main Kitchen View
 class KitchenView(generic.ListView):
    template_name = 'restaurant/kitchen.html'
    context_object_name = 'order_list'
    def get_queryset(self):
-	  return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
+      return Order.objects.all().filter(Status='SENT TO KITCHEN').order_by('Table')
 
-#Kitchen's view of each table's order
 def kitchendetail(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
     if request.method == "POST":

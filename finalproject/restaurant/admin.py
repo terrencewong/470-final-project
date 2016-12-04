@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
 from restaurant.models import UserType
+# Register your models here.
 
 '''
 Extended User model reference:
