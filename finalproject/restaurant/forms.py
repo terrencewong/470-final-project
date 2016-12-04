@@ -2,7 +2,6 @@ from django import forms
 from .models import Order, Alert, OrderedMenuItems 
 from django.contrib.admin import widgets
 from menu.models import menu
-from django.contrib.admin import widgets
 
 class TableIDForm(forms.ModelForm):
 	class Meta:
