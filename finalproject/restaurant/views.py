@@ -88,7 +88,7 @@ def AddItem(request, pk):
 			item_name=current_item
 			num_items=form.cleaned_data['num_items']
 			notes=form.cleaned_data['notes']
-			item = OrderedMenuItems.objects.create(order_id=order_id, item_name=item_name, num_items=num_items, notes=notes)
+			item = OrderedMenuItems.objects.create(order_id=order_id, item_name=item_name, num_items=num_items, notes=notes, status='CREATED', start_time=timezone.now())
 			
 			return HttpResponseRedirect('/menu/')
 		

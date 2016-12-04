@@ -72,11 +72,27 @@ class UserProfile(models.Model):
         return self.user.username
 
 class OrderedMenuItems(models.Model):
+	CREATED = 'CREATED'
+	SENT_TO_KITCHEN = 'SENT TO KITCHEN'
+	STARTED = 'STARTED'
+	READY = 'READY'
+	SERVED = 'SERVED'
+	COMPLETED = 'COMPLETED'
+	STATUS_CHOICES = (
+		(CREATED, 'Order created'),
+		(SENT_TO_KITCHEN, 'Order sent to kitchen'),
+		(STARTED, 'Order started'),
+		(READY, 'Order ready to be served'),
+		(SERVED, 'Order served'),
+		(COMPLETED, 'Order completed')
+	)
 	order_id = models.ForeignKey(Order)
 	#table_id = models.ForeignKey(Order)
 	item_name = models.ForeignKey(menu, null=True)
 	num_items = models.IntegerField(default=0) 
 	notes = models.TextField(max_length=500, null=True)
+	status= models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
+	start_time = models.DateTimeField(default=timezone.now)
 	#def __str__(self):
 		#return self.item_name
 		#return self.item_name

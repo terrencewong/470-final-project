@@ -7,7 +7,7 @@
 {% if current_menu_items %}
     <ul>
     {% for item in current_menu_items %}
-        <li>{{item.item_name.Name}} - {{item.num_items}}</a></li>
+        <p><li>{{item.item_name.Name}} - {{item.num_items}}</a></li> Current Item Status: {{ item.status }}</p>
     {% endfor %}
     </ul>
 {% else %}
