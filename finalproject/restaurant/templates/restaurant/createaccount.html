@@ -15,6 +15,7 @@
 <h1>Create Account</h1>
 
 <form name="createaccount" action="" method="post">
+<<<<<<< HEAD
 {% csrf_token %}
 {% if error %}
     <p style="color: red;">You did not fill in the following fields:</p>
@@ -56,30 +57,52 @@
 <label for="emailaddress">E-mail address:</label>
 <input type="text" name="emailaddress" id="emailaddress" value="{{ emailaddress }}">
 (Required)
+=======
+
+<p>
+<label for="emailaddress">E-mail address:</label>
+<input type="text" name="emailaddress" id="emailaddress">
+>>>>>>> ariana-servers
 </p>
 
 <p>
 <label for="firstname">First name:</label>
+<<<<<<< HEAD
 <input type="text" name="firstname" id="firstname" value="{{ firstname }}">
 (Required)
+=======
+<input type="text" name="firstname" id="firstname">
+>>>>>>> ariana-servers
 </p>
 
 <p>
 <label for="surname">Surname:</label>
+<<<<<<< HEAD
 <input type="text" name="surname" id="surname" value="{{ surname }}">
 (Required)
+=======
+<input type="text" name="surname" id="surname">
+>>>>>>> ariana-servers
 </p>
 
 <p>
 <label for="password">Password:</label>
+<<<<<<< HEAD
 <input type="password" name="password" id="password" value="{{ password }}">
 (Required)
+=======
+<input type="password" name="password" id="password">
+>>>>>>> ariana-servers
 </p>
 
 <p>
 <label for="reenterpassword">Re-enter password:</label>
+<<<<<<< HEAD
 <input type="password" name="reenterpassword" id="reenterpassword" value="{{ reenterpassword }}">
 (Required)
+=======
+<input type="password" id="reenterpassword">
+>>>>>>> ariana-servers
 </p>
 
 <input type="submit" value="Submit"></p>

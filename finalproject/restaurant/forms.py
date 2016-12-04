@@ -48,6 +48,11 @@ class KitchenForm(forms.ModelForm):
 		model = Order
 		fields = ('Status',)
 
+class KitchenForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		fields = ('Status',)
+
 class LoginForm(forms.Form):
     username = forms.CharField(label='User Name', max_length=64)
     password = forms.CharField(widget=forms.PasswordInput())
@@ -58,3 +63,8 @@ class ContactServerForm(forms.ModelForm):
 		fields = ('Message',)
 		exclude = ('Order', 'Resolved',)
 	Message = forms.CharField(label="Message", required=False, widget=forms.Textarea)
+
+class AlertForm(forms.Form):
+    Order = forms.IntegerField(label = 'Order', required=True)
+    Message = forms.CharField(label = 'Message')
+    Resolved = forms.BooleanField(label = 'Resolved')

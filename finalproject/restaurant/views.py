@@ -1,17 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from .models import Table, Order, MenuItem, Alert, OrderedMenuItems
+from .models import Table, Order, MenuItem, Alert, OrderedMenuItems, UserType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.utils import timezone
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
 from django.contrib.auth.decorators import login_required
 from restaurant.models import UserType
+from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
 from menu.models import menu
+from restaurant.models import UserType
+from django.views.generic.detail import SingleObjectMixin
 
 
 def home(request):
@@ -27,7 +31,6 @@ def welcome(request):
 #Customer Input - verify customer's order code has been created by server
 def TableIDVerification(request):
 	if request.POST:
-
 		form = TableIDForm(request.POST)
 		if form.is_valid():
 			code_id = form.data['Code']
@@ -39,6 +42,12 @@ def TableIDVerification(request):
 			except Order.DoesNotExist:
 				#return HttpResponse("This code does not exist. Please try again.")
 				return HttpResponseRedirect('/guest-user/tryagain')
+				#reverse_url = reverse('OrderNow')
+				#return HttpResponseRedirect(reverse_url)
+				return HttpResponseRedirect('/index/order/')
+				#return HttpResponse("This exists.")
+			except Order.DoesNotExist:
+				return HttpResponse("This code does not exist. Please try again.")
 	else:
 		form = TableIDForm()
 	if request.GET.get('table', ''):
@@ -141,6 +150,11 @@ def ContactServer(request):
 def ContactServerSent(request):
 	return render(request, 'restaurant/contactserversent.html')
 		
+def ordernow(request):
+	code = request.session['Code']
+	menu_item_list = menu.objects.all()
+	return render(request, 'restaurant/order-now.html', {'code':code, 'menu_item_list':menu_item_list})
+
 class ServerView(generic.ListView):
     template_name = 'restaurant/server.html'
     context_object_name = 'current_alert_list'
@@ -149,6 +163,9 @@ class ServerView(generic.ListView):
 
 def StartOrder(request):
     # if this is a POST request we need to process the form data
+    current_user = request.user
+    user_id = current_user.id
+    user_type = UserType.objects.get(user_id=user_id)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = OrderStartForm(request.POST)
@@ -159,22 +176,52 @@ def StartOrder(request):
             # redirect to a new URL:
             Code=form.cleaned_data['Code']
             Table=form.cleaned_data['Table']
-            order = Order.objects.create(Code=Code, Table=Table, Status='CREATED', StartTime=timezone.now())
+            Restaurant=user_type.restaurant
+            order = Order.objects.create(Code=Code, Table=Table, Restaurant=Restaurant, Status='CREATED', StartTime=timezone.now())
             return HttpResponseRedirect('/server/orderstart')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = OrderStartForm()
     return render(request, 'restaurant/orderstart.html', {'form': form})
-	
-class OrderView(generic.ListView):
+
+class OrderView(SingleObjectMixin, generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
+    
+    def get_object(self):
+        return get_object_or_404(User, pk=request.session['user_id'])
+    
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        current_user = user
+        user_id = current_user.id
+        user_type = UserType.objects.get(user_id=user_id)
+        Restaurant=user_type.restaurant
+        self.object = Order.objects.filter(Restaurant = Restaurant)
+        return super(OrderView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        context['orders'] = self.object
+        return context
+
     def get_queryset(self):
-        return Order.objects.all().order_by('Table')
+        return self.object.all().order_by('Table')
 
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'restaurant/orderdetail.html'
+
+def orderdetail(request, order_id):
+	order = get_object_or_404(Order, pk=order_id)
+	if request.method == "POST":
+		form = KitchenForm(request.POST, instance=order)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse('restaurant:orders'))
+	else:
+		form = KitchenForm(instance=order)
+	return render(request, 'restaurant/orderdetail.html', {'form':form, 'order':order})
 
 class AlertDetailView(generic.DetailView):
     model = Alert
@@ -184,6 +231,7 @@ def resolveAlert(request, alert_id):
     alert = get_object_or_404(Alert, pk=alert_id)
     alert.Resolved = 1
     alert.save()
+    alert.delete()
     return HttpResponseRedirect(reverse('restaurant:server'))
 
 # Authentication Views
@@ -260,9 +308,31 @@ def kitchendetail(request, order_id):
         form = KitchenForm(instance=order)
     return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
 
-class KitchenDetailView(generic.DetailView):
-    model = Order
-    template_name = 'restaurant/kitchendetail.html'
+def gateway(request,username):         # gate way is added for users who has multiple roles (might be dropped later)
+	user=get_object_or_404(User.objects, username=username)
+	if user.usertype.is_customer:
+		return render(request, 'restaurant/gateway.html', {'username':username})
+
+#Main Kitchen View
+class KitchenView(generic.ListView):
+    template_name = 'restaurant/kitchen.html'
+    context_object_name = 'order_list'
+    def get_queryset(self):
+        return Order.objects.all().exclude(Status ='CREATED').exclude(Status ='COMPLETED').exclude(Status ='SERVED').order_by('Table')
+
+#Kitchen's view of each table's order
+def kitchendetail(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    if request.method == "POST":
+        form = KitchenForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            if order.Status == 'READY':
+                alert = Alert.objects.create(Order=order, Message='Meal ready', Resolved=0)
+            return HttpResponseRedirect(reverse('restaurant:kitchen'))
+    else:
+        form = KitchenForm(instance=order)
+    return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
 
 
 #View for the account creation page:

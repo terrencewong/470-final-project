@@ -11,25 +11,30 @@ class Table (models.Model):
 	Table = models.IntegerField(default=0)
 	Code = models.CharField(max_length=20)
 
+class Restaurant (models.Model):
+    Name = models.CharField(max_length=100)
+    Location = models.CharField(max_length=100)
+
 class Order(models.Model):
-	CREATED = 'CREATED'
-	SENT_TO_KITCHEN = 'SENT TO KITCHEN'
-	STARTED = 'STARTED'
-	READY = 'READY'
-	SERVED = 'SERVED'
-	COMPLETED = 'COMPLETED'
-	STATUS_CHOICES = (
-		(CREATED, 'Order created'),
-		(SENT_TO_KITCHEN, 'Order sent to kitchen'),
-		(STARTED, 'Order started'),
-		(READY, 'Order ready to be served'),
-		(SERVED, 'Order served'),
-		(COMPLETED, 'Order completed')
-	)
-	Code = models.CharField(max_length=20)
-	Table = models.IntegerField(default=0)
-	Status= models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
-	StartTime = models.DateTimeField(default=timezone.now)
+    CREATED = 'CREATED'
+    SENT_TO_KITCHEN = 'SENT TO KITCHEN'
+    STARTED = 'STARTED'
+    READY = 'READY'
+    SERVED = 'SERVED'
+    COMPLETED = 'COMPLETED'
+    STATUS_CHOICES = (
+        (CREATED, 'Order created'),
+        (SENT_TO_KITCHEN, 'Order sent to kitchen'),
+        (STARTED, 'Order started'),
+        (READY, 'Order ready to be served'),
+        (SERVED, 'Order served'),
+        (COMPLETED, 'Order completed')
+    )
+    Code = models.CharField(max_length=20)
+    Table = models.IntegerField(default=0)
+    Restaurant = models.ForeignKey(Restaurant, default=1)
+    Status= models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
+    StartTime = models.DateTimeField(default=timezone.now)
 
 class MenuItem(models.Model):
 	order = models.ForeignKey(Order)
@@ -46,13 +51,14 @@ class Alert(models.Model):
     Resolved = models.BooleanField(default=0)
 
 class UserType(models.Model):
-	user = models.OneToOneField(User,on_delete=models.CASCADE)
-	is_customer = models.BooleanField(default=True)
-	is_kitchen = models.BooleanField(default=False)
-	is_server = models.BooleanField(default=False)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    is_customer = models.BooleanField(default=True)
+    is_kitchen = models.BooleanField(default=False)
+    is_server = models.BooleanField(default=False)
+    restaurant = models.ForeignKey(Restaurant, blank=True, null=True)
     # Override the __unicode__() method to return something meaningful!
-	def __unicode__(self):
-		return self.user.username
+    def __unicode__(self):
+        return self.user.username
 
 @receiver(post_save, sender=User)
 def create_usertype(sender,instance,created, **kwargs):
