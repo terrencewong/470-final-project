@@ -3,11 +3,10 @@ from . import views
 
 app_name = 'restaurant';
 urlpatterns = [
-	url(r'^$', views.index, name='index'),
     url(r'^$', views.home, name='home'),
 	url(r'^guest-user/$', views.TableIDVerification, name='Guest User'),
-	url(r'^guest-user/tryagain$', views.TryAgain, name='tryagain'),	
-	url(r'^order-placed/$', views.orderplaced, name='OrderPlaced'),	
+	url(r'^guest-user/tryagain$', views.TryAgain, name='tryagain'),
+	url(r'^order-placed/$', views.orderplaced, name='OrderPlaced'),
 	url(r'^contact-server/$', views.ContactServer, name='ContactServer'),
 	url(r'^contact-server-sent/$', views.ContactServerSent, name='ContactServerSent'),
     url(r'^server/$', views.ServerView.as_view(), name='server'),
