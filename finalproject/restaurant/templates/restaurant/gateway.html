@@ -43,15 +43,6 @@
                 </div>
             </div>
             <ul class="nav">
-              {% if is_staff %}
-                  <li>
-                      <a href="/menu/manager">
-                          <i class="material-icons">supervisor_account</i>
-                          <p>Manager</p>
-                      </a>
-                  </li>
-              {% endif %}
-
               {% if is_customer %}
                  <li class="active">
                      <a href="#">
@@ -79,10 +70,16 @@
                  </li>
             {% endif %}
 
-
+            {% if is_staff %}
+                <li>
+                    <a href="/menu/manager">
+                        <i class="material-icons">supervisor_account</i>
+                        <p>Manager</p>
+                    </a>
+                </li>
+            {% endif %}
 
            </ul>
-
         </div>
     </div>
     <div class="main-panel">
