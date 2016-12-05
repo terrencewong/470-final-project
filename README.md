@@ -43,4 +43,15 @@ http://55.55.55.5:8080/menu/post/
 http://55.55.55.5:8080/admin/login/?next=/admin/
 
 username: admin  
-password: pass1234
+password: pass1234  
+
+Stripe Dashboard:  
+https://dashboard.stripe.com/login  
+rexpress.stripe@gmail.com  
+password: Raccoon470!  
+
+Test payment acount  
+email: any valid email  
+card number: 4242424242424242  
+MM/YY: any valid date in the future  
+CVC: any valid numbers  

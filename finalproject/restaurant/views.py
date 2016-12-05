@@ -98,12 +98,13 @@ def AddItem(request, pk):
 			notes=form.cleaned_data['notes']
 			item = OrderedMenuItems.objects.create(order_id=order_id, item_name=item_name, num_items=num_items, notes=notes)
 
-			current_total = Payment.objects.get(pay_id=order_id)
-			add_to_total = current_total.total + (num_items * current_item.Price)
+			temp_total = num_items * current_item.Price
 			if Payment.objects.filter(pay_id=order_id).exists():
+				current_total = Payment.objects.get(pay_id=order_id)
+				add_to_total = current_total.total + temp_total
 				Payment.objects.update(pay_id=order_id, total=add_to_total)
 			else:
-				Payment.objects.create(pay_id=order_id, total=add_to_total)
+				Payment.objects.create(pay_id=order_id, total=temp_total)
 			return HttpResponseRedirect('/menu/')
 
 		# don't order item if num_items = 0
@@ -318,9 +319,14 @@ def payment(request):
 	Code=request.session['Code']
 	pay_id = Order.objects.get(Code=Code)
 	amount_due = Payment.objects.get(pay_id=pay_id)
-	amount_due_converted_to_cents = amount_due.total * 100
+
+	tax = 0.12 #set tax
+
+	real_total = amount_due.total + (amount_due.total * tax)
+	amount_due_converted_to_cents = int(real_total * 100)
+
 	if request.method == "GET":
-		return render(request, 'restaurant/payment.html', {'amount_due':amount_due})
+		return render(request, 'restaurant/payment.html', {'amount_due':amount_due, 'real_total':real_total})
 	if request.method == "POST":
 		stripe.api_key = "sk_test_BIY8Qzh7rZoB1A1Bl6o8GI9Q"
 		token = request.POST['stripeToken']
