@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from .models import Table, Order, MenuItem, Alert, OrderedMenuItems, UserType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -9,14 +8,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.utils import timezone
-from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
-from django.contrib.auth.decorators import login_required
-from restaurant.models import UserType
-from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
-from menu.models import menu
-from restaurant.models import UserType
 from django.views.generic.detail import SingleObjectMixin
 from django.db import IntegrityError  #Needed for the account-creation page. See the createaccount() function below.
+
+from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
+from restaurant.models import UserType
+from .models import Table, Order, MenuItem, Alert, OrderedMenuItems, UserType
+from menu.models import menu
 
 
 def home(request):
@@ -188,10 +186,10 @@ def StartOrder(request):
 class OrderView(SingleObjectMixin, generic.ListView):
     template_name = 'restaurant/orders.html'
     context_object_name = 'latest_order_list'
-    
+
     def get_object(self):
         return get_object_or_404(User, pk=request.session['user_id'])
-    
+
     def get(self, request, *args, **kwargs):
         user = self.request.user
         current_user = user
