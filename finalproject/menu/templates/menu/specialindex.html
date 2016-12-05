@@ -17,7 +17,7 @@
     </tr>
     {% if latest_menu_list %}
     {% for menu in latest_menu_list %}
-    <tr> 
+    <tr>
         <td><a href="/menu/{{ menu.id }}/">{{ menu.Name}} </a> </td>
 	&nbsp;
         <td>{{ menu.Description}}</td>
@@ -32,5 +32,4 @@
     <p>No Items in menu are available :(.</p>
 {% endif %}
 </table>
-<div class=a><a href="{% url 'specialupdate' %}">+ New Menu item</a></div>
-
+<div class=a><a href="{% url 'menu:specialupdate' %}">+ New Menu item</a></div>
