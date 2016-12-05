@@ -20,7 +20,7 @@ from menu.models import menu
 from django.views.generic.detail import SingleObjectMixin
 from django.db import IntegrityError  #Needed for the account-creation page. See the createaccount() function below.
 from django.views.decorators.csrf import csrf_exempt
-import stripe
+import stripe, datetime
 
 
 def home(request):
@@ -127,10 +127,14 @@ def AddItem(request, pk):
 # display order status and contact server option
 def orderplaced(request):
 	Code = request.session['Code']
+	order_id = Order.objects.get(Code=Code)
 	if Order.objects.filter(Code=Code).filter(Status='CREATED').exists():
 		Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
+
 	if Order.objects.filter(Code=Code).filter(Status='SERVED').exists(): #adding to the order
 		Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
+
+	Order.objects.filter(Code=Code).update(StartTime=timezone.now())
 	order = get_object_or_404(Order, Code=Code)
 	return render(request, 'restaurant/orderplaced.html', {'order':order})
 
@@ -314,7 +318,8 @@ def kitchendetail(request, order_id):
 	order = get_object_or_404(Order, pk=order_id)
 
 	current_menu_items = OrderedMenuItems.objects.filter(order_id=order_id)
-
+	current_time = timezone.now()
+	
 	if request.method == "POST":
 		form = KitchenForm(request.POST, instance=order)
 		if form.is_valid():
@@ -324,7 +329,7 @@ def kitchendetail(request, order_id):
 			return HttpResponseRedirect(reverse('restaurant:kitchen'))
 	else:
 		form = KitchenForm(instance=order)
-	return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order, 'current_menu_items':current_menu_items})
+	return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order, 'current_menu_items':current_menu_items, 'current_time':current_time})
 
 @csrf_exempt
 def payment(request):

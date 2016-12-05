@@ -15,8 +15,9 @@
 Order:
 <ul>
 {% for item in current_menu_items %}
-    <li>{{item.item_name.Name}} - {{item.num_items}}</a></li>
+    <li>{{item.item_name.Name}} - {{item.num_items}} - [{{order.StartTime|timesince:current_time}}] <p>{{item.notes}}</p>  </li>
 {% endfor %}
 </ul>
 </form>
+
 {% endblock %}
