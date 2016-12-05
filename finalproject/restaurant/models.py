@@ -68,13 +68,6 @@ def save_usertype(sender,instance,created, **kwargs):
 	if created:
 		instance.usertype.save()
 
-class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
-    # Override the __unicode__() method to return out something meaningful!
-    def __unicode__(self):
-        return self.user.username
-
 class OrderedMenuItems(models.Model):
 	order_id = models.ForeignKey(Order)
 	#table_id = models.ForeignKey(Order)

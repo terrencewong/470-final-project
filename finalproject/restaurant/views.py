@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from .models import Table, Order, MenuItem, Alert, OrderedMenuItems, UserType, Payment
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User
@@ -9,16 +9,19 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.utils import timezone
+from django.views.generic.detail import SingleObjectMixin
+from django.db import IntegrityError  #Needed for the account-creation page. See the createaccount() function below.
+
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
-from django.contrib.auth.decorators import login_required
 from restaurant.models import UserType
-from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm
+from .models import Table, Order, MenuItem, Alert, OrderedMenuItems, UserType, Payment
 from menu.models import menu
-from restaurant.models import UserType
+
 from django.views.generic.detail import SingleObjectMixin
 from django.db import IntegrityError  #Needed for the account-creation page. See the createaccount() function below.
 from django.views.decorators.csrf import csrf_exempt
 import stripe
+
 
 def home(request):
 	return render(request, 'restaurant/home.html')
@@ -193,6 +196,7 @@ def StartOrder(request):
 	return render(request, 'restaurant/orderstart.html', {'form': form})
 
 class OrderView(SingleObjectMixin, generic.ListView):
+
 	template_name = 'restaurant/orders.html'
 	context_object_name = 'latest_order_list'
 
