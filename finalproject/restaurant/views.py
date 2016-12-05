@@ -275,12 +275,12 @@ def gateway(request,username):         # gateway is added for users who has mult
         is_customer = True
     else:
         is_customer = False
-
+        
     if user.usertype.is_kitchen:
         is_kitchen = True
     else:
         is_kitchen = False
-
+        
     if user.usertype.is_server:
         is_server = True
     else:
@@ -290,15 +290,15 @@ def gateway(request,username):         # gateway is added for users who has mult
         is_staff = True
     else:
         is_staff = False
-
-	context = {
-		'username':username,
-		'is_customer': is_customer,
-		'is_kitchen': is_kitchen,
-		'is_server': is_server,
+        
+    context = {
+        'username':username,
+        'is_customer': is_customer,
+        'is_kitchen': is_kitchen,
+        'is_server': is_server,
         'is_staff': is_staff,
-	}
-	return render(request, 'restaurant/gateway.html', context)
+    }
+    return render(request, 'restaurant/gateway.html', context)
 
 #Main Kitchen View
 class KitchenView(generic.ListView):
