@@ -72,7 +72,8 @@
 
             {% if is_staff %}
                 <li>
-                    <a href="/menu/manager">
+
+                    <a href="{% url 'menu:managerview' %}">
                         <i class="material-icons">supervisor_account</i>
                         <p>Manager</p>
                     </a>
@@ -161,7 +162,7 @@
                                       <h1 class="text-center">You can access the system as:</h1>
                                       {% if is_server %}  <a class="btn btn-primary" href="/server">Waiter</a> {% endif %}
                                       {% if is_kitchen %}  <a class="btn btn-primary" href="/kitchen">Chef</a> {% endif %}
-
+                                      {% if is_staff %} <a class="btn btn-primary" href="{% url 'menu:managerview' %}">Manager</a> {% endif %}
                                   </div>
                                 </div>
                               </div>

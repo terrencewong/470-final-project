@@ -287,8 +287,8 @@ def gateway(request,username):         # gateway is added for users who has mult
     else:
         is_staff = False
 
-    snow = {'username':username,'is_customer': is_customer,'is_kitchen': is_kitchen,'is_server': is_server,'is_staff': is_staff}
-    return render(request, 'restaurant/gateway.html', snow)
+    context = {'username':username,'is_customer':is_customer,'is_kitchen':is_kitchen,'is_server':is_server,'is_staff':is_staff}
+    return render(request, 'restaurant/gateway.html', context)
 
 #Main Kitchen View
 class KitchenView(generic.ListView):

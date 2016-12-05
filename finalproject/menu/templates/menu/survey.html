@@ -8,7 +8,7 @@
 	&nbsp;
     {% if latest_menu_list1 %}
     {% for survey in latest_menu_list1 %}
-    </tr> 
+    </tr>
         <td><a href="/menu/{{ survey.id }}/">{{ survey.question}} </a> </td>
 	&nbsp;
         <td>{{ survey.score}}</td>
@@ -18,4 +18,4 @@
     <p>No Survey Update.</p>
 {% endif %}
 </table>
-<button type="button"><a href="{% url 'managerview' %}">Go to main menu</a></button>
+<button type="button"><a href="{% url 'menu:managerview' %}">Go to main menu</a></button>
