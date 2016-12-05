@@ -43,41 +43,44 @@
                 </div>
             </div>
             <ul class="nav">
-            {% if is_customer %}
-                <li class="active">
-                    <a href="#">
-                        <i class="material-icons">free_breakfast</i>
-                        <p>Dinning</p>
-                    </a>
-                </li>
+              {% if is_staff %}
+                  <li>
+                      <a href="/menu/manager">
+                          <i class="material-icons">supervisor_account</i>
+                          <p>Manager</p>
+                      </a>
+                  </li>
+              {% endif %}
+
+              {% if is_customer %}
+                 <li class="active">
+                     <a href="#">
+                         <i class="material-icons">free_breakfast</i>
+                         <p>Dinning</p>
+                     </a>
+                 </li>
+             {% endif %}
+
+             {% if is_server %}
+                 <li>
+                     <a href="/server">
+                         <i class="material-icons">room_service</i>
+                         <p>Waiter</p>
+                     </a>
+                 </li>
+             {% endif %}
+
+             {% if is_kitchen %}
+                 <li>
+                     <a href="/kitchen">
+                         <i class="material-icons">kitchen</i>
+                         <p>Chef</p>
+                     </a>
+                 </li>
             {% endif %}
 
-            {% if is_server %}
-                <li>
-                    <a href="/server">
-                        <i class="material-icons">room_service</i>
-                        <p>Waiter</p>
-                    </a>
-                </li>
-            {% endif %}
 
-            {% if is_kitchen %}
-                <li>
-                    <a href="/kitchen">
-                        <i class="material-icons">kitchen</i>
-                        <p>Chef</p>
-                    </a>
-                </li>
-            {% endif %}
 
-            {% if is_staff %}
-                <li>
-                    <a href="">
-                        <i class="material-icons">supervisor</i>
-                        <p>Manager</p>
-                    </a>
-                </li>
-            {% endif %}
            </ul>
 
         </div>

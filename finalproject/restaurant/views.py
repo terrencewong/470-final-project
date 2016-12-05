@@ -26,10 +26,6 @@ import stripe
 def home(request):
 	return render(request, 'restaurant/home.html')
 
-def welcome(request):
-	return render(request, 'restaurant/welcome.html')
-	#return HttpResponse("Welcome.")
-
 #Customer Input - verify customer's order code has been created by server
 def TableIDVerification(request):
 	if request.POST:
@@ -291,14 +287,8 @@ def gateway(request,username):         # gateway is added for users who has mult
     else:
         is_staff = False
 
-	context = {
-		'username':username,
-		'is_customer': is_customer,
-		'is_kitchen': is_kitchen,
-		'is_server': is_server,
-        'is_staff': is_staff,
-	}
-	return render(request, 'restaurant/gateway.html', context)
+    snow = {'username':username,'is_customer': is_customer,'is_kitchen': is_kitchen,'is_server': is_server,'is_staff': is_staff}
+    return render(request, 'restaurant/gateway.html', snow)
 
 #Main Kitchen View
 class KitchenView(generic.ListView):
