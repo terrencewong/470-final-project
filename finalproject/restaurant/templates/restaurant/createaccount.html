@@ -19,16 +19,9 @@
         	<div class="collapse navbar-collapse" id="navigation-example">
         		<ul class="nav navbar-nav navbar-right">
 
-
-							<li>
-                <a href="/guest-user">
-                  <i class="material-icons">weekend</i> Guest Access
-                </a>
-              </li>
-
               <li>
-                <a href="/login">
-                  <i class="material-icons">lock_open</i>Log in
+                <a href="#">
+                  <i class="material-icons">assignment</i> sign up
                 </a>
               </li>
 
@@ -37,14 +30,14 @@
     	</div>
     </nav>
 
-	<div class="page-header header-filter" style="background-image: url('{% static "restaurant/img/signupbg.jpg" %}'); background-size: cover; background-position: top center;">
+	<div class="page-header header-filter" style="background-image: url('{% static "restaurant/img/loginbg.jpg" %}'); background-size: cover; background-position: top center;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 					<div class="card card-signup">
 						<form class="form" method="post" action=".">
 							<div class="header header-primary text-center">
-								<h4 class="card-title">Register</h4>
+								<h4 class="card-title">Sign Up</h4>
 								<div class="social-line">
 									<a href="#pablo" class="btn btn-just-icon btn-simple">
 										<i class="fa fa-facebook-square"></i>
@@ -57,97 +50,16 @@
 									</a>
 								</div>
 							</div>
-							  <p class="description text-center">You will be registered as a customer</p>
+							  <p class="description text-center">Welcome to Raccoon Express - Please Sign Up</p>
                 <br/><br/>
               <div class="content text-center">
-
-                <form name="createaccount" action="" method="post">
-
-                {% csrf_token %}
-
-                {% if fieldsDoNotExist %}
-                <p style="color: red;">You did not fill in the following required fields:</p>
-                <ul style="color: red;">
-                    {% if username == '' %}
-                        <li>Username</li>
-                    {% endif %}
-
-                    {% if emailaddress == '' %}
-                        <li>E-mail address</li>
-                    {% endif %}
-
-                    {% if firstname == '' %}
-                        <li>First name</li>
-                    {% endif %}
-
-                    {% if surname == '' %}
-                        <li>Surname</li>
-                    {% endif %}
-
-                    {% if password == '' %}
-                        <li>Password</li>
-                    {% endif %}
-
-                    {% if reenterpassword == '' %}
-                        <li>Re-enter password</li>
-                    {% endif %}
-                </ul>
-                <p style="color: red;">Please fill them in and submit again.</p>
-                <hr>
-                {% endif %}
-
-                {% if userNameTaken %}
-                <p style="color: red;">The username you chose is already taken. Please select another username and submit again.</p>
-                <hr>
-                {% endif %}
-
-                {% if retypedPasswordDoesNotMatch %}
-                <p style="color: red;">What you typed in the <b>Password</b> field does <em>not</em> match what you typed in the <b>Re-enter password</b> field. Please enter your chosen password into both fields again.</p>
-                <hr>
-                {% endif %}
-
-                <p>
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" value="{{ username }}">
-                *
-                </p>
-
-                <p>
-                <label for="emailaddress">E-mail address:</label>
-                <input type="text" name="emailaddress" id="emailaddress" value="{{ emailaddress }}">
-                *
-                </p>
-
-                <p>
-                <label for="firstname">First name:</label>
-                <input type="text" name="firstname" id="firstname" value="{{ firstname }}">
-                *
-                </p>
-
-                <p>
-                <label for="surname">Surname:</label>
-                <input type="text" name="surname" id="surname" value="{{ surname }}">
-                *
-                </p>
-
-                <p>
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" value="{{ password }}">
-                *
-                </p>
-
-                <p>
-                <label for="reenterpassword">Re-enter password:</label>
-                <input type="password" name="reenterpassword" id="reenterpassword" value="{{ reenterpassword }}">*
-                </p>
-
-                <input class ="btn btn-primary" type="submit" value="Submit"/></p>
-
-                </form>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class="btn btn-primary " type="submit" value="Submit" />
 
 							</div>
 							<div class="footer text-center">
-								<a href="/login" class="btn btn-primary btn-simple btn-wd btn-lg">Already has an account?</a>
+								<a href="#pablo" class="btn btn-primary btn-simple btn-wd btn-lg">forgot password?</a>
 							</div>
 						</form>
 					</div>

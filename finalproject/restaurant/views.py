@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.views.generic.detail import SingleObjectMixin
 from django.db import IntegrityError  #Needed for the account-creation page. See the createaccount() function below.
 
-from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
+from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm, CreateAccountForm
 from restaurant.models import UserType
 from .models import Table, Order, Alert, OrderedMenuItems, UserType, Payment
 from menu.models import menu
@@ -22,6 +22,8 @@ from django.db import IntegrityError  #Needed for the account-creation page. See
 from django.views.decorators.csrf import csrf_exempt
 import stripe
 
+from django.contrib import auth
+from django.template.context_processors import csrf
 
 def home(request):
 	return render(request, 'restaurant/home.html')
@@ -35,7 +37,7 @@ def TableIDVerification(request):
 			request.session['Code'] = code_id
 			try:
 				p = Order.objects.get(Code=code_id)
-				return HttpResponseRedirect('/menu/')
+				return HttpResponseRedirect('/order-menu/')
 				#return HttpResponse("This exists.")
 			except Order.DoesNotExist:
 				#return HttpResponse("This code does not exist. Please try again.")
@@ -266,6 +268,7 @@ def logout_view(request):
 	return HttpResponseRedirect('/')
 
 def gateway(request,username):         # gateway is added for users who has multiple roles (might be dropped later)
+
     user=get_object_or_404(User.objects, username=username)
     if user.usertype.is_customer:
         is_customer = True
@@ -286,7 +289,7 @@ def gateway(request,username):         # gateway is added for users who has mult
         is_staff = True
     else:
         is_staff = False
-
+		
     context = {'username':username,'is_customer':is_customer,'is_kitchen':is_kitchen,'is_server':is_server,'is_staff':is_staff}
     return render(request, 'restaurant/gateway.html', context)
 
@@ -341,132 +344,21 @@ def payment(request):
 		)
 		return HttpResponseRedirect('/')
 
-#View-function for the account-creation page:
+#account-creation page
 def createaccount(request):
-	#Template variables:
-	fieldsDoNotExist = False
-	userNameTaken = False
-	retypedPasswordDoesNotMatch = False
+	args = {}
+	if request.POST:
 
-	#Dictionary to hold template variables:
-	originalUserInputs = {}
+		form = CreateAccountForm(request.POST)
 
-	#Check that all the expected form fields exist:
-	if (('username' in request.POST) and ('emailaddress' in request.POST) and
-		('firstname' in request.POST) and ('surname' in request.POST) and
-		('password' in request.POST) and ('reenterpassword' in request.POST)):
+		if form.is_valid():
+			form.save()
+			form = LoginForm()
+			return render(request, 'restaurant/login.html', {'form': form})
 
-		#Extract all the values from the form's fields:
-		username = request.POST['username']
-		emailaddress = request.POST['emailaddress']
-		firstname = request.POST['firstname']
-		surname = request.POST['surname']
-		password = request.POST['password']
-		reenterpassword = request.POST['reenterpassword']
+	else:
+		form= CreateAccountForm()
 
-		#Check if any of the fields contain an empty value:
-		if ((not username) or (not emailaddress) or (not firstname) or
-			(not surname) or (not password) or (not reenterpassword)):
-
-			fieldsDoNotExist = True  #At least one field contains an empty value.
-
-			#We will have to present the account-creation form to the user again
-			#so that he/she can fill in just the fields that are still empty.
-			#Figure out which of the form's fields were already filled in by
-			#the user, so we can fill in those fields for the user and spare
-			#the user some extra typing:
-			if (username):
-				originalUserInputs['username'] = username
-			else:
-				originalUserInputs['username'] = ''
-
-			if (emailaddress):
-				originalUserInputs['emailaddress'] = emailaddress
-			else:
-				originalUserInputs['emailaddress'] = ''
-
-			if (firstname):
-				originalUserInputs['firstname'] = firstname
-			else:
-				originalUserInputs['firstname'] = ''
-
-			if (surname):
-				originalUserInputs['surname'] = surname
-			else:
-				originalUserInputs['surname'] = ''
-
-			if (password):
-				originalUserInputs['password'] = password
-			else:
-				originalUserInputs['password'] = ''
-
-			if (reenterpassword):
-				originalUserInputs['reenterpassword'] = reenterpassword
-			else:
-				originalUserInputs['reenterpassword'] = ''
-
-		#All the fields are filled in, but we need to check if the re-typed
-		#password matches the password the user first typed:
-		elif (password != reenterpassword):
-			retypedPasswordDoesNotMatch = True  #The re-typed password does NOT match the password the user first typed.
-
-			originalUserInputs['retypedPasswordDoesNotMatch'] = retypedPasswordDoesNotMatch
-			originalUserInputs['fieldsDoNotExist'] = fieldsDoNotExist
-			originalUserInputs['userNameTaken'] = userNameTaken
-
-			originalUserInputs['username'] = username
-			originalUserInputs['emailaddress'] = emailaddress
-			originalUserInputs['firstname'] = firstname
-			originalUserInputs['surname'] = surname
-
-			#Blanking both the Password and Re-enter password fields to make
-			#the user enter the password into both fields again:
-			originalUserInputs['password'] = ''
-			originalUserInputs['reenterpassword'] = ''
-
-			return render(request, 'restaurant/createaccount.html', originalUserInputs)
-
-		#Create the user's account...
-		else:
-			#Create the user's account by creating a record in the User table
-			#with all the user's information:
-			try:
-				User.objects.create_user( username = username,
-										  first_name = firstname,
-										  last_name = surname,
-										  email = emailaddress,
-										  password = password,
-										  is_staff = False,
-										  is_active = True,
-										  is_superuser = False
-										)
-			#The username chosen by the user has to be unique. If it's not
-			#unique, this exception gets thrown, so we will have to ask the
-			#user to choose a different username. We will present the account-
-			#creation form to the user again, but with all the fields, except
-			#the username field, filled in with his/her original entries:
-			except IntegrityError:
-				userNameTaken = True
-				originalUserInputs['userNameTaken'] = userNameTaken
-				originalUserInputs['fieldsDoNotExist'] = fieldsDoNotExist
-				originalUserInputs['retypedPasswordDoesNotMatch'] = retypedPasswordDoesNotMatch
-
-				originalUserInputs['username'] = ''  #Blanking the username field.
-				originalUserInputs['emailaddress'] = emailaddress
-				originalUserInputs['firstname'] = firstname
-				originalUserInputs['surname'] = surname
-				originalUserInputs['password'] = password
-				originalUserInputs['reenterpassword'] = reenterpassword
-
-				return render(request, 'restaurant/createaccount.html', originalUserInputs)
-			#The record representing the user's new account was successfully
-			#created and inserted into the User table:
-			else:
-				return render(request, 'restaurant/createaccount_successful.html')
-
-	#At least one of the expected form fields does NOT exist:
-	originalUserInputs['fieldsDoNotExist'] = fieldsDoNotExist
-
-	originalUserInputs['userNameTaken'] = userNameTaken
-	originalUserInputs['retypedPasswordDoesNotMatch'] = retypedPasswordDoesNotMatch
-	return render(request, 'restaurant/createaccount.html', originalUserInputs)
+	args.update(csrf(request))
+	args['form'] = form
+	return render(request, 'restaurant/createaccount.html', args)
