@@ -156,8 +156,9 @@
                         <i class="material-icons">room_service</i>
                       </div>
                       <div class="card-content">
-                        <h4 class="cardtitle">Create New Order</h4>
-                        <a href="{% url 'restaurant:orderstart' %}">Create New Order</a>
+                        <h4 >Order</h4>
+                        <a class="cardtitle" href="{% url 'restaurant:orderstart' %}">Create New Order</a>
+
                         </br>
                        </div>
                     </div>
@@ -169,7 +170,7 @@
   												<i class="material-icons">notifications</i>
   											</div>
   											<div class="card-content">
-  												<h4 class="cardtitle">alerts</h4>
+  												<h4 class="cardtitle">Alerts</h4>
                             {% if current_alert_list %}
                                 <ul>
                                   {% for alert in current_alert_list %}

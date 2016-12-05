@@ -11,7 +11,7 @@
 <div class="wrapper">
     <div class="sidebar" data-active-color="rose" data-background-color="black">
         <div class="logo">
-            <a href="." class="simple-text">
+            <a href="/" class="simple-text">
                 Raccoon Express
             </a>
         </div>
@@ -43,14 +43,13 @@
                 </div>
             </div>
             <ul class="nav">
-            {% if is_customer %}
+
                 <li class="active">
                     <a href="#">
                         <i class="material-icons">free_breakfast</i>
                         <p>Dinning</p>
                     </a>
                 </li>
-            {% endif %}
 
             {% if is_server %}
                 <li>
@@ -123,13 +122,24 @@
         </nav>
 
 
+        <!--Main Content starts here -->
 
-        <div class="content">
-            <div class="container-fluid">
-            </div>
-        </div>
-
-
+                <div class="content">
+                    <div class="container-fluid">
+        							<div class="row">
+        									<div class="col-md-4">
+        										<div class="card">
+        											<div class="card-header card-header-icon" data-background-color="green">
+        												<i class="material-icons">free_breakfast</i>
+        											</div>
+        											<div class="card-content">
+                                  <a href="/guest-user" class=" cardtitle btn btn-primary btn-simple btn-wd btn-lg"> New Order</a>
+        											</div>
+        										</div>
+        									</div>
+                        </div>
+                	    </div>
+        				</div>
 
 
         <footer class="footer">
