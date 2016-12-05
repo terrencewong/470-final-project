@@ -8,20 +8,19 @@
 <table style="width:100%">
   <tr>
     <th></th>
-    <th></th> 
+    <th></th>
     <th></th>
   </tr>
   <tr>
-    <td><div class=a><a href="{% url 'viewmenu' %}">View Menu Items</a></div></td>
-    <td><div class=a><a href="{% url 'update' %}">Add to  Menu Items</a></div></td> 
-    <td><div class=a><a href="{% url 'specialviewmenu' %}">View  SPECIAL Menu Items</a></div></td>
-    <td><div class=a><a href="{% url 'surveyupdate' %}">Add Question to Survey</a></div></td>
+    <td><div class=a><a href="{% url 'menu:viewmenu' %}">View Menu Items</a></div></td>
+    <td><div class=a><a href="{% url 'menu:update' %}">Add to  Menu Items</a></div></td>
+    <td><div class=a><a href="{% url 'menu:specialviewmenu' %}">View  SPECIAL Menu Items</a></div></td>
+    <td><div class=a><a href="{% url 'menu:surveyupdate' %}">Add Question to Survey</a></div></td>
   </tr>
   <tr>
-    <td><div class=a><a href="{% url 'specialupdate' %}">Add to Special Menu</a></div></t>
-    <td><div class=a><a href="http://55.55.55.5:8080/server/orders">View Orders for the Day</a></div></td> 
-    <td><div class=a><a href="http://55.55.55.5:8080/admin/login/?next=/admin/">ADMIN LOGIN</a></div></td>
-    <td><div class=a><a href="{% url 'survey' %}">View  Survey</a></div></td>
+    <td><div class=a><a href="{% url 'menu:specialupdate' %}">Add to Special Menu</a></div></t>
+    <td><div class=a><a href="/server/orders">View Orders for the Day</a></div></td> 
+    <td><div class=a><a href="{% url 'menu:survey' %}">View  Survey</a></div></td>
 
 
   </tr>
