@@ -44,10 +44,6 @@ def TableIDVerification(request):
 			except Order.DoesNotExist:
 				#return HttpResponse("This code does not exist. Please try again.")
 				return HttpResponseRedirect('/guest-user/tryagain')
-				#reverse_url = reverse('OrderNow')
-				#return HttpResponseRedirect(reverse_url)
-				return HttpResponseRedirect('/index/order/')
-				#return HttpResponse("This exists.")
 			except Order.DoesNotExist:
 				return HttpResponse("This code does not exist. Please try again.")
 	else:
