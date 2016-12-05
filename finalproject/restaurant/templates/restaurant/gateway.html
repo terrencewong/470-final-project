@@ -210,17 +210,3 @@
   {% endif %}
 </body>
 {% endblock %}
-<<<<<<< HEAD
-=======
-
-<h1>Gateway {{ username }}</h1>
-{% if user.is_authenticated %}      <!-- and also has a account type S which is not implemented yet-->
-  <p>hi, you logged in where do you want to go next?</p>
-  <p><a href="/logout">logout?</a></p>
-  <p><a href="/server">server?</a></p>
-  <p><a href="/kitchen">kitchen?</a></p>
-{% else %}
-  <p><a href="/login">Please Login</a></p>
-{% endif %}
-
->>>>>>> cbcf05813b4bdb2bb39aacb52e5ddd72a01edbb7
