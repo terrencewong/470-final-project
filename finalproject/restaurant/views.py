@@ -41,7 +41,7 @@ def TableIDVerification(request):
 			request.session['Code'] = code_id
 			try:
 				p = Order.objects.get(Code=code_id)
-				return HttpResponseRedirect('/menu/')
+				return HttpResponseRedirect('/order-menu/')
 				#return HttpResponse("This exists.")
 			except Order.DoesNotExist:
 				#return HttpResponse("This code does not exist. Please try again.")
