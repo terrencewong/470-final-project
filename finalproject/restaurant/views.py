@@ -14,7 +14,7 @@ from django.db import IntegrityError  #Needed for the account-creation page. See
 
 from .forms import OrderStartForm, LoginForm, TableIDForm, KitchenForm, OrderForm, ItemForm, ContactServerForm
 from restaurant.models import UserType
-from .models import Table, Order, MenuItem, Alert, OrderedMenuItems, UserType, Payment
+from .models import Table, Order, Alert, OrderedMenuItems, UserType, Payment
 from menu.models import menu
 
 from django.views.generic.detail import SingleObjectMixin
@@ -307,6 +307,9 @@ class KitchenView(generic.ListView):
 #Kitchen's view of each table's order
 def kitchendetail(request, order_id):
 	order = get_object_or_404(Order, pk=order_id)
+
+	current_menu_items = OrderedMenuItems.objects.filter(order_id=order_id)
+
 	if request.method == "POST":
 		form = KitchenForm(request.POST, instance=order)
 		if form.is_valid():
@@ -316,7 +319,7 @@ def kitchendetail(request, order_id):
 			return HttpResponseRedirect(reverse('restaurant:kitchen'))
 	else:
 		form = KitchenForm(instance=order)
-	return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order})
+	return render(request, 'restaurant/kitchendetail.html', {'form':form, 'order':order, 'current_menu_items':current_menu_items})
 
 @csrf_exempt
 def payment(request):

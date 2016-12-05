@@ -34,15 +34,6 @@ class Order(models.Model):
     Status= models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
     StartTime = models.DateTimeField(default=timezone.now)
 
-class MenuItem(models.Model):
-	order = models.ForeignKey(Order)
-	name = models.CharField(max_length=200)
-	#item_id = models.CharField(max_length=20)
-	#price = models.IntegerField(default=0)
-	#description = models.CharField(max_length=250)
-	def __str__(self):
-		return self.name
-
 class Alert(models.Model):
     Order = models.ForeignKey(Order)
     Message = models.CharField(max_length=500)
