@@ -129,6 +129,8 @@ def orderplaced(request):
 	Code = request.session['Code']
 	if Order.objects.filter(Code=Code).filter(Status='CREATED').exists():
 		Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
+	if Order.objects.filter(Code=Code).filter(Status='SERVED').exists(): #adding to the order
+		Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
 	order = get_object_or_404(Order, Code=Code)
 	return render(request, 'restaurant/orderplaced.html', {'order':order})
 
@@ -270,33 +272,33 @@ def logout_view(request):
 	return HttpResponseRedirect('/')
 
 def gateway(request,username):         # gateway is added for users who has multiple roles (might be dropped later)
-    user=get_object_or_404(User.objects, username=username)
-    if user.usertype.is_customer:
-        is_customer = True
-    else:
-        is_customer = False
+	user=get_object_or_404(User.objects, username=username)
+	if user.usertype.is_customer:
+		is_customer = True
+	else:
+		is_customer = False
 
-    if user.usertype.is_kitchen:
-        is_kitchen = True
-    else:
-        is_kitchen = False
+	if user.usertype.is_kitchen:
+		is_kitchen = True
+	else:
+		is_kitchen = False
 
-    if user.usertype.is_server:
-        is_server = True
-    else:
-        is_server = False
+	if user.usertype.is_server:
+		is_server = True
+	else:
+		is_server = False
 
-    if user.is_staff:
-        is_staff = True
-    else:
-        is_staff = False
+	if user.is_staff:
+		is_staff = True
+	else:
+		is_staff = False
 
 	context = {
 		'username':username,
 		'is_customer': is_customer,
 		'is_kitchen': is_kitchen,
 		'is_server': is_server,
-        'is_staff': is_staff,
+		'is_staff': is_staff,
 	}
 	return render(request, 'restaurant/gateway.html', context)
 
@@ -349,7 +351,7 @@ def payment(request):
 			currency="cad",
 			customer=customer.id
 		)
-		return HttpResponseRedirect('/')
+		return render(request, 'restaurant/gateway.html')
 
 #View-function for the account-creation page:
 def createaccount(request):
