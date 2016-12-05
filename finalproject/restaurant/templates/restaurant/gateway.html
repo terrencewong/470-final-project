@@ -43,13 +43,14 @@
                 </div>
             </div>
             <ul class="nav">
-
+            {% if is_customer %}
                 <li class="active">
                     <a href="#">
                         <i class="material-icons">free_breakfast</i>
                         <p>Dinning</p>
                     </a>
                 </li>
+            {% endif %}
 
             {% if is_server %}
                 <li>
@@ -126,6 +127,7 @@
 
                 <div class="content">
                     <div class="container-fluid">
+                      {% if is_customer %}
         							<div class="row">
         									<div class="col-md-4">
         										<div class="card">
@@ -138,6 +140,26 @@
         										</div>
         									</div>
                         </div>
+                          {% else %}
+                          <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="card">
+                                  <div class="card-header card-header-icon" data-background-color="rose">
+                                    <i class="material-icons">free_breakfast</i>
+                                  </div>
+                                  <div class="card-content">
+                                      <h4 class="cardtitle">Welcome back Staff!</h4>
+                                      <h1 class="text-center">You can access the system as:</h1>
+                                      {% if is_server %}  <a class="btn btn-primary" href="/server">Waiter</a> {% endif %}
+                                      {% if is_kitchen %}  <a class="btn btn-primary" href="/kitchen">Chef</a> {% endif %}
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          {% endif %}
+
                 	    </div>
         				</div>
 
