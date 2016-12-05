@@ -289,7 +289,7 @@ def gateway(request,username):         # gateway is added for users who has mult
         is_staff = True
     else:
         is_staff = False
-		
+
     context = {'username':username,'is_customer':is_customer,'is_kitchen':is_kitchen,'is_server':is_server,'is_staff':is_staff}
     return render(request, 'restaurant/gateway.html', context)
 
@@ -354,7 +354,7 @@ def createaccount(request):
 		if form.is_valid():
 			form.save()
 			form = LoginForm()
-			return render(request, 'restaurant/login.html', {'form': form})
+			return HttpResponseRedirect('/login')
 
 	else:
 		form= CreateAccountForm()
