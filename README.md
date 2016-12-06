@@ -38,6 +38,8 @@ http://55.55.55.5:8080/kitchen/
 
 http://55.55.55.5:8080/menu/
 
+http://55.55.55.5:8080/menu/manager 
+
 http://55.55.55.5:8080/menu/post/
 
 http://55.55.55.5:8080/admin/login/?next=/admin/
