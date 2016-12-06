@@ -46,22 +46,27 @@ http://55.55.55.5:8080/admin/login/?next=/admin/
 
 
 Admin Account
+
 username: admin  
 password: pass1234  
 
 Manager Account
+
 username: manager 
 password: pass1234 
 
 Server Account
+
 username: server  
 password: pass1234 
 
 Kitchen Account
+
 username: kitchen  
 password: pass1234 
 
 Customer Account
+
 username: test  
 password: pass1234
 
