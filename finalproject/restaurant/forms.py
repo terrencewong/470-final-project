@@ -1,14 +1,9 @@
 from django import forms
-<<<<<<< HEAD
 from .models import Order, Alert, OrderedMenuItems
 from django.contrib.admin import widgets
 from menu.models import menu
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-=======
-from .models import Order
-from django.contrib.admin import widgets
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 
 class TableIDForm(forms.ModelForm):
 	class Meta:
@@ -24,7 +19,6 @@ class TableIDForm(forms.ModelForm):
 		),
 	}
 
-<<<<<<< HEAD
 class OrderForm(forms.ModelForm):
 	class Meta:
 		model = menu
@@ -50,11 +44,6 @@ class ItemForm(forms.ModelForm):
 class OrderStartForm(forms.Form):
     Code = forms.CharField(label = 'Code', max_length=10, required=True)
     Table = forms.IntegerField(min_value=1, initial=1, label = 'Table', required=True)
-=======
-class OrderStartForm(forms.Form):
-    Code = forms.CharField(label = 'Code', max_length=10, required=True)
-    Table = forms.IntegerField(label = 'Table', required=True)
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 
 class KitchenForm(forms.ModelForm):
 	class Meta:
@@ -64,7 +53,6 @@ class KitchenForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label='User Name', max_length=64)
     password = forms.CharField(widget=forms.PasswordInput())
-<<<<<<< HEAD
 
 class ContactServerForm(forms.ModelForm):
 	class Meta:
@@ -98,5 +86,3 @@ class CreateAccountForm(UserCreationForm):
 			user.save()
 			
 		return user
-=======
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803

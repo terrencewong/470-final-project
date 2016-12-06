@@ -41,10 +41,7 @@ execute 'django-setup' do
   command 'virtualenv ~/.virtualenvs/djangodev'
   command '. ~/.virtualenvs/djangodev/bin/activate'
   command 'pip install django'
-<<<<<<< HEAD
   command 'pip install django-stripe-payments'
-=======
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 end
 
 execute 'run-server' do

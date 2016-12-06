@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'menu/managerbase.html' %}
 {% load static %}
 {% block content %}
@@ -41,41 +40,3 @@
 </div>
 </div>
 {% endblock %}
-=======
-{% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'menu/style1.css' %}" />
-
-
-<h1> MENU </h1>
-<table>
-    <tr>
-        <th>Item Name</th>
-	&nbsp;
-        <th>Description</th>
-	&nbsp;
-	<th>Nutrition</th>
-	&nbsp;
-	<th>Price($)</th>
-	&nbsp;
-    </tr>
-    {% if latest_menu_list %}
-    {% for menu in latest_menu_list %}
-    <tr> 
-        <td><a href="/menu/{{ menu.id }}/">{{ menu.Name}} </a> </td>
-	&nbsp;
-        <td>{{ menu.Description}}</td>
-	&nbsp;
-	<td>{{ menu.Nutrition}}</td>
-	&nbsp;
-	<td>{{ menu.Price}}</td>
-	&nbsp;
-    </tr>
-    {% endfor %}
-    {% else %}
-    <p>No Menu Items are available.</p>
-{% endif %}
-</table>
-<div class=a><a href="{% url 'update' %}">+ New Menu item</a></div>
-
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803

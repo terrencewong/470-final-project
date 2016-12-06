@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'menu/managerbase.html' %}
 {% load static %}
 {% block content %}
@@ -24,17 +23,3 @@
 
 </div><!-- row 1 E-->
 {% endblock %}
-=======
-{% load static %}
-
-
-<link rel="stylesheet" type="text/css" href="{% static 'menu/style1.css' %}" />
-<h1>Add Special Menu Item</h1><br>
-	
-<form method = "post" action = ".">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type = "submit" value = "Submit" />
-</form>
-<a href="{% url 'viewmenu' %}">Go to main menu</a>
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803

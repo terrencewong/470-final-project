@@ -2,7 +2,6 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<<<<<<< HEAD
 {% block content %}
 <form id="server_form" method="POST">
 {% csrf_token %}
@@ -14,20 +13,13 @@
     </div>
 </div>
 
-=======
-<p> Order Start Time: {{order.StartTime}}</p>
-<p> Order Status: {{order.Status}}</p>
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 <ul>
 {% for menuitem in order.menuitem_set.all %}
     <li>{{ menuitem.name }}</li>
 {% endfor %}
 </ul>
-<<<<<<< HEAD
 <p><input type="submit" value="Update Order"/></p>
 </form>
 {% endblock %}
 <p> Order Start Time: {{order.StartTime}}</p>
 <p> Order Status: {{order.Status}}</p>
-=======
->>>>>>> caca943b08e3c9846d830490d7045b695ad02803
