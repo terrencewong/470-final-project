@@ -38,6 +38,8 @@ http://55.55.55.5:8080/kitchen/
 
 http://55.55.55.5:8080/menu/
 
+http://55.55.55.5:8080/menu/manager
+
 http://55.55.55.5:8080/menu/post/
 
 http://55.55.55.5:8080/admin/login/?next=/admin/
@@ -50,7 +52,7 @@ https://dashboard.stripe.com/login
 rexpress.stripe@gmail.com  
 password: Raccoon470!  
 
-Test payment acount  
+Test payment account  
 email: any valid email  
 card number: 4242424242424242  
 MM/YY: any valid date in the future  
