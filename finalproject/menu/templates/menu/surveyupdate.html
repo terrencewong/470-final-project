@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'menu/managerbase.html' %}
 {% load static %}
 {% block content %}
@@ -22,3 +23,20 @@
 
 </div><!-- row 1 E-->
 {% endblock %}
+=======
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'menu/style1.css' %}" />
+<h1>Survey Question</h1><br>
+	
+<form method = "post" action = ".">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type = "submit" value = "Submit" />
+</form>
+
+
+
+<button type="button"><a href="{% url 'managerview' %}">Go to main menu</a></button>
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803

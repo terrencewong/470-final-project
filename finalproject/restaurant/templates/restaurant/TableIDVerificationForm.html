@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'restaurant/homebase.html' %}
 {% load static %}
 {% block content %}
@@ -68,3 +69,20 @@
 			</div>
 		</div>
 {% endblock %}
+=======
+<form id="TableIDForm"
+action=""
+method="post">
+
+{% csrf_token %}
+
+<p>Code*:	{{ form.Code }}</p>
+
+{% if form.errors %}
+	{{ form.Code.errors }}
+	
+{% endif %}
+
+<input id="code-submit" class="btn btn-primary" type="submit" value="Submit"/>
+</form>
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803

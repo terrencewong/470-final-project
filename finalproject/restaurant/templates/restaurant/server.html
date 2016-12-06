@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'restaurant/gatewaybase.html' %}
 {% load static %}
 {% block content %}
@@ -214,3 +215,27 @@
     {% endif %}
   </body>
   {% endblock %}
+=======
+{% load static %}
+{% if user.is_authenticated %}
+<h1> Server Main Page </h1>
+<script type="text/javascript" src="{% static 'restaurant/script.js' %}"></script>
+
+<a href="{% url 'restaurant:orderstart' %}">Create New Order</a>
+</br>
+<a href="{% url 'restaurant:orders' %}">View Orders</a>
+
+  {% if current_alert_list %}
+      <ul>
+        {% for alert in current_alert_list %}
+          <li><a href="{% url 'restaurant:alertdetails' alert.id %}">Table #{{ alert.Order.Table }} - {{alert.Message}}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>No current alerts.</p>
+  {% endif %}
+  <p><a href="/login">logout</a></p>
+{% else %}
+    <p><a href="/login">Please Login</a></p>
+{% endif %}
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803

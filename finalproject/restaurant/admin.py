@@ -1,7 +1,14 @@
 from django.contrib import admin
+<<<<<<< HEAD
 from .models import Table, Order
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+=======
+from .models import Table, Order, MenuItem
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
+
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 from restaurant.models import UserType
 # Register your models here.
 
@@ -23,4 +30,8 @@ class UserAdmin(BaseUserAdmin):
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+<<<<<<< HEAD
+=======
+admin.site.register(MenuItem)
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 admin.site.register(Order)
