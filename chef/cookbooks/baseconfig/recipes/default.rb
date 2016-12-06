@@ -59,5 +59,17 @@ end
 execute 'database-setup' do
   user 'ubuntu'
   cwd '/home/ubuntu/project/finalproject'
+  command 'nohup python3 ./manage.py loaddata users.json'  
+end
+
+execute 'database-setup' do
+  user 'ubuntu'
+  cwd '/home/ubuntu/project/finalproject'
   command 'nohup python3 ./manage.py loaddata initial_data.json'
+end
+
+execute 'usertype-setup' do
+  user 'ubuntu'
+  cwd '/home/ubuntu/project/finalproject'
+  command 'nohup python3 ./manage.py loaddata usertype.json'
 end
