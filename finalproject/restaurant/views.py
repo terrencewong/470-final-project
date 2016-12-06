@@ -102,11 +102,11 @@ def AddItem(request, pk):
 				Payment.objects.update(pay_id=order_id, total=add_to_total)
 			else:
 				Payment.objects.create(pay_id=order_id, total=temp_total)
-			return HttpResponseRedirect('/menu/')
+			return HttpResponseRedirect('/order-menu/')
 
 		# don't order item if num_items = 0
 		else:
-			return HttpResponseRedirect('/menu/')
+			return HttpResponseRedirect('/order-menu/')
 
 	# if a GET (or any other method) we'll create a blank form
 
@@ -353,7 +353,7 @@ def createaccount(request):
 
 		if form.is_valid():
 			form.save()
-			form = LoginForm()
+
 			return HttpResponseRedirect('/login')
 
 	else:
