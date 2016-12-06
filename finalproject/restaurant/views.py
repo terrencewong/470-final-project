@@ -127,6 +127,10 @@ def orderplaced(request):
 	Code = request.session['Code']
 	if Order.objects.filter(Code=Code).filter(Status='CREATED').exists():
 		Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
+	if Order.objects.filter(Code=Code).filter(Status='SERVED').exists(): #adding to the order
+		Order.objects.filter(Code=Code).update(Status='SENT TO KITCHEN')
+
+	Order.objects.filter(Code=Code).update(StartTime=timezone.now())
 	order = get_object_or_404(Order, Code=Code)
 	return render(request, 'restaurant/orderplaced.html', {'order':order})
 
