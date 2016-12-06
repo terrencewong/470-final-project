@@ -5,8 +5,8 @@
     "fields": {
         "user": 1,
         "is_customer": true,
-        "is_kitchen": false,
-        "is_server": false,
+        "is_kitchen": true,
+        "is_server": true,
         "restaurant": null
     }
 },
@@ -48,9 +48,9 @@
     "pk": 5,
     "fields": {
         "user": 5,
-        "is_customer": false,
-        "is_kitchen": false,
-        "is_server": false,
+        "is_customer": true,
+        "is_kitchen": true,
+        "is_server": true,
         "restaurant": null
     }
 }
