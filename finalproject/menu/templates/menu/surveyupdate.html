@@ -1,15 +1,24 @@
-
+{% extends 'menu/managerbase.html' %}
 {% load static %}
+{% block content %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'menu/style1.css' %}" />
-<h1>Survey Question</h1><br>
+  <div class = "row"> <!-- row 1 S-->
 
-<form method = "post" action = ".">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type = "submit" value = "Submit" />
-</form>
+  	<div class="col-md-4 col-md-offset-4"> <!-- card 1 S-->
+    	<div class="card">
+        <div class="card-header card-header-icon" data-background-color="red">
+            <i class="material-icons">description</i>
+        </div>
+        <div class="card-content">
+						<h4 class="cardtitle">Survey Question</h4>
+						<form method = "post" action = ".">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<input class="btn btn-primary" type = "submit" value = "Submit"/>
+						</form>
+        </div>
+      </div>
+    </div> <!-- card 1 E-->
 
-
-
-<button type="button"><a href="{% url 'menu:managerview' %}">Go to main menu</a></button>
+</div><!-- row 1 E-->
+{% endblock %}
