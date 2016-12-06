@@ -56,7 +56,7 @@ execute 'create-database' do
   command 'nohup python3 ./manage.py migrate'
 end
 
-execute 'database-setup' do
+execute 'user-setup' do
   user 'ubuntu'
   cwd '/home/ubuntu/project/finalproject'
   command 'nohup python3 ./manage.py loaddata users.json'  
