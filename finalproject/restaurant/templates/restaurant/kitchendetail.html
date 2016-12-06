@@ -11,9 +11,12 @@
     {{ form.Status }}
     </div>
 </div>
-{% for menuitem in order.menuitem_set.all %}
-    <li>{{ menuitem.name }}</li>
+<ul>
+{% for item in current_menu_items %}
+    <li>{{item.item_name}} - {{item.num_items}}
+      <p>{{item.notes}}</p></li>
 {% endfor %}
+</ul>
 <p><input type="submit" value="Update Order"/></p>
 </form>
 {% endblock %}
