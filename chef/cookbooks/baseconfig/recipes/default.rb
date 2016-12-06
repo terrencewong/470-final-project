@@ -57,7 +57,7 @@ execute 'django-setup' do
   command 'virtualenv ~/.virtualenvs/djangodev'
   command '. ~/.virtualenvs/djangodev/bin/activate'
   command 'pip install django'
-  command 'pip install django-stripe-payments'
+  command 'sudo pip install django-stripe-payments'
 end
 
 execute 'server' do
@@ -105,14 +105,14 @@ execute 'user-setup' do
   command 'nohup python3 ./manage.py loaddata users.json'
 end
 
-execute 'database-setup' do
-  user 'ubuntu'
-  cwd '/home/ubuntu/project/finalproject'
-  command 'nohup python3 ./manage.py loaddata initial_data.json'
-end
-
 execute 'usertype-setup' do
   user 'ubuntu'
   cwd '/home/ubuntu/project/finalproject'
   command 'nohup python3 ./manage.py loaddata usertype.json'
+end
+
+execute 'static-setup' do
+  user 'ubuntu'
+  cwd '/home/ubuntu/project/finalproject'
+  command 'nohup python3 manage.py collectstatic --noinput'
 end
