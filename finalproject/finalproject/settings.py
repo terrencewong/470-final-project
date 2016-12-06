@@ -106,7 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+<<<<<<< HEAD
 TIME_ZONE = 'Canada/Pacific'
+=======
+TIME_ZONE = 'UTC'
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 
 USE_I18N = True
 

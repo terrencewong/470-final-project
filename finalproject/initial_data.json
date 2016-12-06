@@ -1,5 +1,6 @@
 [
 {
+<<<<<<< HEAD
   "model": "restaurant.restaurant",
   "pk": 1,
   "fields": {
@@ -8,12 +9,17 @@
   }
 },
 {
+=======
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
   "model": "restaurant.order",
   "pk": 1,
   "fields": {
     "Code": "WcERS9",
     "Table": 12,
+<<<<<<< HEAD
     "Restaurant": 1,
+=======
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
     "Status": "CREATED",
     "StartTime": "2016-11-18T03:42:55.116Z"
   }

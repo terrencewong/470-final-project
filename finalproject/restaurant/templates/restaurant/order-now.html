@@ -1,0 +1,18 @@
+<h1>Place Your Order</h1>
+
+<label for="">Code:</label> {{ code }}
+<!--<input type="hidden" id="" name="code" class="width250" value="{{ code }}" readonly />-->
+
+<style>
+ul {
+ list-style-type: none;
+}
+</style>
+
+{% csrf_token %}
+<ul>
+{% for menu in menu_item_list %}
+	<li>{{ menu.Name }} <input type="text" maxlength="2" size="1"></li>
+{% endfor %}
+<ul>
+<p><input type="submit" value="Order" /></p>

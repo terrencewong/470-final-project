@@ -19,8 +19,15 @@ from restaurant import views as rest_views
 
 urlpatterns = [
     url(r'^', include('restaurant.urls')),
+<<<<<<< HEAD
     url(r'^menu/', include('menu.urls',namespace="menu")),
     url(r'^login/', rest_views.login_view, name='Login'),
     url(r'^logout/', rest_views.logout_view, name='Logout'),
     url(r'^admin/', admin.site.urls)
+=======
+    url(r'^menu/', include('menu.urls')),
+    url(r'^login/', rest_views.login_view, name='Login'),
+    url(r'^logout/', rest_views.logout_view, name='Logout'),
+    url(r'^admin/', admin.site.urls),
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
 ]

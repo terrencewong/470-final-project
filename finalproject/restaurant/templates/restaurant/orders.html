@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'restaurant/gatewaybase.html' %}
 {% load static %}
 {% block content %}
@@ -201,3 +202,21 @@
     {% endif %}
   </body>
   {% endblock %}
+=======
+{% load static %}
+
+<h1> Current Orders </h1>
+
+{% if latest_order_list %}
+    <ul>
+    {% for order in latest_order_list %}
+        <li><a href="{% url 'restaurant:orderdetails' order.id %}">Table: {{ order.Table }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No current orders.</p>
+{% endif %}
+
+</br>
+<a href="{% url 'restaurant:server' %}">Return to Alerts</a>
+>>>>>>> caca943b08e3c9846d830490d7045b695ad02803
