@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^%#mycw783w0z7ug7@24=s4wnysyea%l4jfyh5lq%nw#o-6)n1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['55.55.55.5'] #[]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost'] #['55.55.55.5']
 
 
 # Application definition
@@ -74,23 +74,14 @@ WSGI_APPLICATION = 'finalproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mydb',
         'USER': 'ubuntu',
- #       'PASSWORD': 'mypassword',
- #       'HOST': '127.0.0.1',
- #       'PORT': '5432',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -128,5 +119,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = '/home/ubuntu/project/finalproject/static' #Does not matter if URL to the directory ends with a forward slash or not.
-STATIC_URL = '/static/' #URL to the directory MUST end with a forward slash!!!
+STATIC_ROOT = '/home/ubuntu/project/finalproject/static'
+STATIC_URL = '/static/'
